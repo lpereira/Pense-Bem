@@ -1,5 +1,5 @@
 - Not all book numbers are valid
-  Invalid book numbers: 00?, 0?0
+  Invalid book numbers: 00?, ??0
 - Last digit book number == section number?
   - Book #011 starts on question 1
   - Book #012 starts on question 31
