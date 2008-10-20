@@ -15,6 +15,9 @@ f = open('SAMPLES')
 # skip first line
 l = f.readline()
 
+correct = 0
+unknown = 0
+errors = 0
 for l in f.xreadlines():
 	l = l.rstrip()
 	if not l:
@@ -24,5 +27,14 @@ for l in f.xreadlines():
 
 	expected = answer(int(b), int(q))
 	if expected:
-		print b,q,expected
-		assert a == expected
+		if a == expected:
+			correct += 1
+		else:
+			print "ERROR: b%d, q%d. collected sample: %s. calculated answer: %s" % (b, q, a, expected)
+			errors += 1
+	else:
+		unknown += 1
+
+print "Correct answers: %d. Unknown answers: %d" % (correct, unknown)
+if errors:
+	print "%d errors. :("
