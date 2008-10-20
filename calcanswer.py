@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 
 def answer(b,q):
 	book = int(b/10)
