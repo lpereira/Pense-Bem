@@ -27,10 +27,22 @@ def check_shift(m, bs, q, a):
 	else:
 		return 1
 
+def check_16(m, bs, q, a):
+	"""Check if it is similar to the 16th book before it"""
+	o = m.get( (bs-160, q) )
+	if not o:
+		return -1
+
+	if a == o:
+		return 0
+	else:
+		return 1
+
 # list of pattern-checking functions,
 # and highlight escape code
 checkers = [
 	(check_shift,'1'),
+	(check_16,'31'),
 ]
 
 m = {}
