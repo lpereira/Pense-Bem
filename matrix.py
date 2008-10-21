@@ -47,11 +47,12 @@ checkers = [
 
 m = {}
 f = open('SAMPLES')
-# skip first line
-l = f.readline()
 
 maxbook = 0
+maxquestiosn = 0
 
+# skip first line
+l = f.readline()
 for l in f.xreadlines():
 	l = l.rstrip()
 	if not l: continue
