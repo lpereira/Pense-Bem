@@ -7,7 +7,18 @@ import sys
 #   0 for "match", > 0 for non-match
 
 def check_shift(m, bs, q, a):
-	o = m.get( (bs-10,q+1) )
+
+	# look for known answer on previous
+	# questions:
+	o = None
+	while bs > 11 and q < 30:
+		bs -= 10 # same section on previous book
+		q += 1   # next question
+		o = m.get( (bs, q) )
+		if o:
+			# found!
+			break
+
 	if not o:
 		return -1
 
