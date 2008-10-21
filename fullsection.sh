@@ -14,11 +14,29 @@ case "$sec" in
 		starts=1
 	;;
 	*)
-		read -p "Starts on question: " starts
+		read -p "Starts on question (r for random): " starts
 	;;
 esac
 
-for q in `seq $starts $[starts+30]`;do
+get_question()
+{
+	local q="$1"
 	read -p "$q: " a
 	echo -e "$bs\t$q\t$a" >> SAMPLES
-done
+}
+
+if [ "$starts" = "r" ];then
+	while :;do
+		if ! read -p "Question: " q;then
+			break
+		fi
+		if [ -z "$q" ];then
+			break
+		fi
+		get_question "$q"
+	done
+else
+	for q in `seq $starts $[starts+30]`;do
+		get_question "$q"
+	done
+fi
