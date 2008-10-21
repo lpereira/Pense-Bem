@@ -6,15 +6,15 @@ import sys
 # - will return -1 for "not applied"
 #   0 for "match", > 0 for non-match
 
-def check_shift(m, bs, q, a):
+def check_shift(m, book, q, a):
 
 	# look for known answer on previous
 	# questions:
 	o = None
-	while bs > 11 and q < 30:
-		bs -= 10 # same section on previous book
-		q += 1   # next question
-		o = m.get( (bs, q) )
+	while book > 1 and q < 30:
+		book -= 1 # same section on previous book
+		q += 1    # next question
+		o = m.get( (book, q) )
 		if o:
 			# found!
 			break
@@ -27,9 +27,9 @@ def check_shift(m, bs, q, a):
 	else:
 		return 1
 
-def check_16(m, bs, q, a):
+def check_16(m, book, q, a):
 	"""Check if it is similar to the 16th book before it"""
-	o = m.get( (bs-160, q) )
+	o = m.get( (book-16, q) )
 	if not o:
 		return -1
 
@@ -49,6 +49,7 @@ m = {}
 f = open('SAMPLES')
 
 maxbook = 0
+maxquestiosn = 0
 
 # skip first line
 l = f.readline()
@@ -59,22 +60,23 @@ for l in f.xreadlines():
 	bs,q,a = l.split()
 	bs = int(bs)
 	q = int(q)
-	m[bs,q] = a
+	book = int(bs/10)
+	m[book,q] = a
 
-	b = int(bs/10)
-	if maxbook < b:
-		maxbook = b
+	if maxbook < book:
+		maxbook = book
+	if q > maxquestiosn:
+		maxquestiosn = q
 
 for b in range(1, maxbook+1):
-	bs = b*10+1
-	sys.stdout.write('%03d ' % (bs))
-	for q in range(1,31):
-		a = m.get( (bs,q), ' ')
+	sys.stdout.write('%02d ' % (b))
+	for q in range(1,maxquestiosn+1):
+		a = m.get( (b,q), ' ')
 
 		# check for known patterns
 		if a != ' ':
 			for function,color in checkers:
-				r = function(m, bs, q, a)
+				r = function(m, b, q, a)
 
 				# doesn't match pattern?
 				if r > 0:
