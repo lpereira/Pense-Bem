@@ -41,7 +41,7 @@ def check_16(m, book, q, a):
 # list of pattern-checking functions,
 # and highlight escape code
 checkers = [
-	(check_shift,'1'),
+	(check_shift,'32'),
 	(check_16,'31'),
 ]
 
@@ -89,4 +89,6 @@ for b in range(1, maxbook+1):
 					break
 
 		sys.stdout.write(a)
+		if (q % 16) == 0:
+			sys.stdout.write(' ')
 	sys.stdout.write('\n')
