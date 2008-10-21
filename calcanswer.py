@@ -38,4 +38,4 @@ for l in f.xreadlines():
 
 print "Correct answers: %d. Unknown answers: %d" % (correct, unknown)
 if errors:
-	print "%d errors. :("
+	print "%d ERRORS. :("
