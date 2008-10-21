@@ -11,7 +11,7 @@ def check_shift(m, book, q, a):
 	# look for known answer on previous
 	# questions:
 	o = None
-	while book > 1 and q < 30:
+	while book > 1:
 		book -= 1 # same section on previous book
 		q += 1    # next question
 		o = m.get( (book, q) )
