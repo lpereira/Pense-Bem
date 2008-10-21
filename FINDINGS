@@ -6,4 +6,6 @@
   - always 30 questions per section?
 - Books # 019,018,017: rejected
 - Book #016 starts on a random question
+  - It looks like it gets a random question from
+    each page, being 5 questions per page
 - Book #015 starts on question 121 (as expected)
