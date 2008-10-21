@@ -61,7 +61,12 @@ for l in f.xreadlines():
 	bs = int(bs)
 	q = int(q)
 	book = int(bs/10)
-	m[book,q] = a
+
+	key = (book, q)
+	if m.has_key(key):
+		# if there are repeated samples, they should match
+		assert m[key] == a
+	m[key] = a
 
 	if maxbook < book:
 		maxbook = book
