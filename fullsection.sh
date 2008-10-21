@@ -1,7 +1,24 @@
 #!/bin/sh
-book="${1}1"
-echo BOOK: $book
-for q in `seq 1 30`;do
+
+book="$1"
+sec="$2"
+if [ -z "$sec" ];then
+	sec="1"
+fi
+
+bs="${book}${sec}"
+
+echo BOOK: $bs
+case "$sec" in
+	1)
+		starts=1
+	;;
+	*)
+		read -p "Starts on question: " starts
+	;;
+esac
+
+for q in `seq $starts $[starts+30]`;do
 	read -p "$q: " a
-	echo -e "$book\t$q\t$a" >> SAMPLES
+	echo -e "$bs\t$q\t$a" >> SAMPLES
 done
