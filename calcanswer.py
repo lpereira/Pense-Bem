@@ -4,9 +4,9 @@ def answer(b,q):
 	book = int(b/10)
 	sec = b % 10
 	question = (sec-1)*30 + q
-	if question == 1:
-		pattern = "ddbaadcbdaadcbbc"
-		return pattern[book%16]
+	if question <= 15:
+		pattern = "cddbaadcbdaadcbb"
+		return pattern[(book+question)%16]
 	
 	return None
 
