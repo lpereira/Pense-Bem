@@ -89,6 +89,6 @@ for b in range(1, maxbook+1):
 					break
 
 		sys.stdout.write(a)
-		if (q % 16) == 0:
+		if (q % 15) == 0:
 			sys.stdout.write(' ')
 	sys.stdout.write('\n')
