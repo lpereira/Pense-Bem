@@ -2,6 +2,7 @@
 
 book="$1"
 sec="$2"
+starts="$3"
 if [ -z "$sec" ];then
 	sec="1"
 fi
@@ -9,14 +10,16 @@ fi
 bs="${book}${sec}"
 
 echo BOOK: $bs
-case "$sec" in
-	1)
-		starts=1
-	;;
-	*)
-		read -p "Starts on question (r for random): " starts
-	;;
-esac
+if [ -z "$starts" ];then
+	case "$sec" in
+		1)
+			starts=1
+		;;
+		*)
+			read -p "Starts on question (r for random): " starts
+		;;
+	esac
+fi
 
 get_question()
 {
