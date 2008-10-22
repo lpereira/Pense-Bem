@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 
 def load():
 	f = open('SAMPLES')
@@ -15,3 +16,15 @@ def load():
 		assert a in 'abcd'
 
 		yield bs,q,a
+
+
+if __name__ == '__main__':
+	import sys
+	book = int(sys.argv[1])
+	question = int(sys.argv[2])
+	for bs,q,a in load():
+		if book == int(bs/10):
+			if q == question:
+				print a
+				sys.exit(0)
+	sys.exit(1)

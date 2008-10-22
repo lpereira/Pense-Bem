@@ -24,7 +24,14 @@ fi
 get_question()
 {
 	local q="$1"
-	read -p "$q: " a
+	local known="$(./samples.py "$book" "$q")"
+	local prompt
+	if [ -z "$known" ];then
+		prompt="$q: "
+	else
+		prompt="$q (I know: it's $known): "
+	fi
+	read -p "$prompt" a
 	echo -e "$bs\t$q\t$a" >> SAMPLES
 }
 
