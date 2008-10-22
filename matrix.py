@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import samples
 
 # functions checking for known patterns:
 # - will return -1 for "not applied"
@@ -51,15 +52,7 @@ f = open('SAMPLES')
 maxbook = 0
 maxquestiosn = 0
 
-# skip first line
-l = f.readline()
-for l in f.xreadlines():
-	l = l.rstrip()
-	if not l: continue
-
-	bs,q,a = l.split()
-	bs = int(bs)
-	q = int(q)
+for bs,q,a in samples.load():
 	book = int(bs/10)
 
 	key = (book, q)

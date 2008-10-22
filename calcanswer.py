@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import samples
+
 def answer(b,q):
 	book = int(b/10)
 	sec = b % 10
@@ -19,14 +21,8 @@ l = f.readline()
 correct = 0
 unknown = 0
 errors = 0
-for l in f.xreadlines():
-	l = l.rstrip()
-	if not l:
-		continue
-
-	b,q,a = l.split()
-
-	expected = answer(int(b), int(q))
+for b,q,a in samples.load():
+	expected = answer(b, q)
 	if expected:
 		if a == expected:
 			correct += 1
