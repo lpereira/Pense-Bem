@@ -13,11 +13,6 @@ def answer(b,q):
 	return None
 
 
-f = open('SAMPLES')
-
-# skip first line
-l = f.readline()
-
 correct = 0
 unknown = 0
 errors = 0

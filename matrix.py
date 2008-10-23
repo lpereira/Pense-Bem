@@ -47,8 +47,6 @@ checkers = [
 ]
 
 m = {}
-f = open('SAMPLES')
-
 maxbook = 0
 maxquestiosn = 0
 
