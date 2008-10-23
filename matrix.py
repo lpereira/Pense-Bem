@@ -50,15 +50,8 @@ m = {}
 maxbook = 0
 maxquestiosn = 0
 
-for bs,q,a in samples.load():
-	book = int(bs/10)
-
-	key = (book, q)
-	if m.has_key(key):
-		# if there are repeated samples, they should match
-		assert m[key] == a
-	m[key] = a
-
+m = samples.dict()
+for book,q in m.keys():
 	if maxbook < book:
 		maxbook = book
 	if q > maxquestiosn:

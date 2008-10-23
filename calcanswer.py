@@ -2,10 +2,7 @@
 
 import samples
 
-def answer(b,q):
-	book = int(b/10)
-	sec = b % 10
-	question = (sec-1)*30 + q
+def answer(book,question):
 	if question <= 15:
 		pattern = "cddbaadcbdaadcbb"
 		return pattern[(book+question)%16]
@@ -16,7 +13,9 @@ def answer(b,q):
 correct = 0
 unknown = 0
 errors = 0
-for b,q,a in samples.load():
+m = samples.dict()
+for b,q in m.keys():
+	a = m[b,q]
 	expected = answer(b, q)
 	if expected:
 		if a == expected:
