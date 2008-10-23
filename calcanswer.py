@@ -29,4 +29,4 @@ for b,q,a in samples.load():
 
 print "Correct answers: %d. Unknown answers: %d" % (correct, unknown)
 if errors:
-	print "%d ERRORS. :("
+	print "%d ERRORS. :(" % (errors)
