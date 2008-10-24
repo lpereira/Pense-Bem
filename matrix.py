@@ -82,7 +82,7 @@ def main(argv):
 
 					# doesn't match pattern?
 					if r > 0:
-						a = "\x1b[%sm%s\x1b[0m" % (color, outa)
+						outa = "\x1b[%sm%s\x1b[0m" % (color, outa)
 						break
 
 			sys.stdout.write(outa)
