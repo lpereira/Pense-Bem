@@ -46,33 +46,49 @@ checkers = [
 	(check_16,'31'),
 ]
 
-m = {}
-maxbook = 0
-maxquestiosn = 0
+def main(argv):
+	numeric = 0
 
-m = samples.dict()
-for book,q in m.keys():
-	if maxbook < book:
-		maxbook = book
-	if q > maxquestiosn:
-		maxquestiosn = q
+	# I'm too lazy too look up getopt documentation
+	if len(sys.argv) > 1:
+		if sys.argv[1] == '-n':
+			numeric = 1
 
-for b in range(1, maxbook+1):
-	sys.stdout.write('%02d ' % (b))
-	for q in range(1,maxquestiosn+1):
-		a = m.get( (b,q), ' ')
+	maxbook = 0
+	maxquestiosn = 0
 
-		# check for known patterns
-		if a != ' ':
-			for function,color in checkers:
-				r = function(m, b, q, a)
+	m = samples.dict()
+	for book,q in m.keys():
+		if maxbook < book:
+			maxbook = book
+		if q > maxquestiosn:
+			maxquestiosn = q
 
-				# doesn't match pattern?
-				if r > 0:
-					a = "\x1b[%sm%s\x1b[0m" % (color, a)
-					break
+	for b in range(1, maxbook+1):
+		sys.stdout.write('%02d ' % (b))
+		for q in range(1,maxquestiosn+1):
+			a = m.get( (b,q), ' ')
+			outa = a
 
-		sys.stdout.write(a)
-		if (q % 15) == 0:
-			sys.stdout.write(' ')
-	sys.stdout.write('\n')
+			if a != ' ':
+				if numeric:
+					outa = str(ord(a)-ord('a'))
+
+				assert len(outa) == 1
+
+				# check for known patterns
+				for function,color in checkers:
+					r = function(m, b, q, a)
+
+					# doesn't match pattern?
+					if r > 0:
+						a = "\x1b[%sm%s\x1b[0m" % (color, outa)
+						break
+
+			sys.stdout.write(outa)
+			if (q % 15) == 0:
+				sys.stdout.write(' ')
+		sys.stdout.write('\n')
+
+if __name__ == '__main__':
+	sys.exit(main(sys.argv))
