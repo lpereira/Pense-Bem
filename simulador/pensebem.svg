@@ -14,7 +14,7 @@
    height="478"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48+devel r10342 custom"
+   inkscape:version="0.48+devel r10242"
    sodipodi:docname="pensebem.svg"
    onload="PB.init(evt)">
   <script
@@ -88,73 +88,6 @@
          operator="in" />
     </filter>
     <filter
-       id="filter2488"
-       inkscape:label="Crumpled plastic"
-       inkscape:menu="Textures"
-       inkscape:menu-tooltip="Crumpled matte plastic, with melted edge"
-       color-interpolation-filters="sRGB">
-      <feTurbulence
-         id="feTurbulence2490"
-         numOctaves="2"
-         seed="0"
-         type="turbulence"
-         baseFrequency="0.08"
-         result="result91" />
-      <feDisplacementMap
-         id="feDisplacementMap2492"
-         in2="result91"
-         result="fbSourceGraphic"
-         scale="0"
-         yChannelSelector="G"
-         xChannelSelector="R"
-         in="SourceGraphic" />
-      <feGaussianBlur
-         id="feGaussianBlur2494"
-         result="result0"
-         in="fbSourceGraphic"
-         stdDeviation="0.5" />
-      <feTurbulence
-         id="feTurbulence2496"
-         baseFrequency="0.34659400544959129"
-         seed="488"
-         numOctaves="8"
-         result="result1" />
-      <feComposite
-         id="feComposite2498"
-         in2="result1"
-         result="result2"
-         operator="in"
-         in="result0" />
-      <feSpecularLighting
-         id="feSpecularLighting2500"
-         surfaceScale="1.5"
-         result="result4"
-         specularConstant="1"
-         specularExponent="30"
-         in="result2">
-        <feDistantLight
-           id="feDistantLight2502"
-           elevation="70"
-           azimuth="235" />
-      </feSpecularLighting>
-      <feComposite
-         id="feComposite2504"
-         in2="result2"
-         in="result4"
-         operator="atop"
-         result="result5" />
-      <feBlend
-         id="feBlend2506"
-         in2="result5"
-         mode="multiply"
-         result="result6" />
-      <feBlend
-         id="feBlend2508"
-         in2="result6"
-         mode="screen"
-         in="result6" />
-    </filter>
-    <filter
        id="filter2614"
        height="1"
        width="1"
@@ -199,51 +132,6 @@
          operator="in"
          result="result3" />
     </filter>
-    <filter
-       id="filter2614-6"
-       height="1"
-       width="1"
-       y="0"
-       x="0"
-       inkscape:label="Film grain"
-       inkscape:menu="Image effects"
-       inkscape:menu-tooltip="Adds a small scale graininess"
-       color-interpolation-filters="sRGB">
-      <feTurbulence
-         id="feTurbulence2616-1"
-         type="fractalNoise"
-         numOctaves="3"
-         baseFrequency="1"
-         seed="0"
-         result="result0" />
-      <feColorMatrix
-         id="feColorMatrix2618-3"
-         result="result4"
-         values="0"
-         type="saturate" />
-      <feComposite
-         k4="0"
-         id="feComposite2620-2"
-         in2="result4"
-         in="SourceGraphic"
-         operator="arithmetic"
-         k1="1.25"
-         k2="0.5"
-         k3="0.5"
-         result="result2" />
-      <feBlend
-         id="feBlend2622-1"
-         in2="SourceGraphic"
-         result="result5"
-         mode="normal"
-         in="result2" />
-      <feComposite
-         id="feComposite2624-5"
-         in2="SourceGraphic"
-         in="result5"
-         operator="in"
-         result="result3" />
-    </filter>
     <clipPath
        clipPathUnits="userSpaceOnUse"
        id="clipPath3330">
@@ -263,59 +151,6 @@
        x2="722.83624"
        y2="643.93878"
        gradientUnits="userSpaceOnUse" />
-    <filter
-       id="filter3347"
-       inkscape:label="Rubber stamp"
-       x="0"
-       y="0"
-       width="1"
-       height="1"
-       inkscape:menu="Overlays"
-       inkscape:menu-tooltip="Random whiteouts inside"
-       color-interpolation-filters="sRGB">
-      <feTurbulence
-         id="feTurbulence3349"
-         result="result1"
-         baseFrequency="0.064"
-         numOctaves="4"
-         type="fractalNoise" />
-      <feGaussianBlur
-         id="feGaussianBlur3351"
-         in="SourceAlpha"
-         stdDeviation="4.9"
-         result="result91" />
-      <feComposite
-         id="feComposite3353"
-         in2="result91"
-         operator="out"
-         in="SourceAlpha"
-         result="result92" />
-      <feComposite
-         id="feComposite3355"
-         in2="result1" />
-      <feColorMatrix
-         id="feColorMatrix3357"
-         result="result1"
-         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 20 -9" />
-      <feComposite
-         id="feComposite3359"
-         in2="result1"
-         result="result1"
-         operator="in"
-         in="SourceGraphic" />
-      <feTurbulence
-         id="feTurbulence3361"
-         baseFrequency="0.032"
-         numOctaves="1"
-         result="result92" />
-      <feDisplacementMap
-         id="feDisplacementMap3363"
-         in2="result92"
-         scale="4.1"
-         yChannelSelector="G"
-         xChannelSelector="R"
-         in="result1" />
-    </filter>
     <filter
        id="filter3801"
        x="-0.25"
@@ -370,186 +205,6 @@
          k1="0"
          k4="0" />
     </filter>
-    <filter
-       id="filter2614-4"
-       height="1"
-       width="1"
-       y="0"
-       x="0"
-       inkscape:label="Film grain"
-       inkscape:menu="Image effects"
-       inkscape:menu-tooltip="Adds a small scale graininess"
-       color-interpolation-filters="sRGB">
-      <feTurbulence
-         id="feTurbulence2616-2"
-         type="fractalNoise"
-         numOctaves="3"
-         baseFrequency="1"
-         seed="0"
-         result="result0" />
-      <feColorMatrix
-         id="feColorMatrix2618-9"
-         result="result4"
-         values="0"
-         type="saturate" />
-      <feComposite
-         k4="0"
-         id="feComposite2620-6"
-         in2="result4"
-         in="SourceGraphic"
-         operator="arithmetic"
-         k1="1.25"
-         k2="0.5"
-         k3="0.5"
-         result="result2" />
-      <feBlend
-         id="feBlend2622-10"
-         in2="SourceGraphic"
-         result="result5"
-         mode="normal"
-         in="result2" />
-      <feComposite
-         id="feComposite2624-4"
-         in2="SourceGraphic"
-         in="result5"
-         operator="in"
-         result="result3" />
-    </filter>
-    <filter
-       id="filter4075"
-       height="1"
-       width="1"
-       y="0"
-       x="0"
-       inkscape:label="Film grain"
-       inkscape:menu="Image effects"
-       inkscape:menu-tooltip="Adds a small scale graininess"
-       color-interpolation-filters="sRGB">
-      <feTurbulence
-         id="feTurbulence4077"
-         type="fractalNoise"
-         numOctaves="3"
-         baseFrequency="1"
-         seed="0"
-         result="result0" />
-      <feColorMatrix
-         id="feColorMatrix4079"
-         result="result4"
-         values="0"
-         type="saturate" />
-      <feComposite
-         k4="0"
-         id="feComposite4081"
-         in2="result4"
-         in="SourceGraphic"
-         operator="arithmetic"
-         k1="1.25"
-         k2="0.5"
-         k3="0.5"
-         result="result2" />
-      <feBlend
-         id="feBlend4083"
-         in2="SourceGraphic"
-         result="result5"
-         mode="normal"
-         in="result2" />
-      <feComposite
-         id="feComposite4085"
-         in2="SourceGraphic"
-         in="result5"
-         operator="in"
-         result="result3" />
-    </filter>
-    <filter
-       id="filter4087"
-       height="1"
-       width="1"
-       y="0"
-       x="0"
-       inkscape:label="Film grain"
-       inkscape:menu="Image effects"
-       inkscape:menu-tooltip="Adds a small scale graininess"
-       color-interpolation-filters="sRGB">
-      <feTurbulence
-         id="feTurbulence4089"
-         type="fractalNoise"
-         numOctaves="3"
-         baseFrequency="1"
-         seed="0"
-         result="result0" />
-      <feColorMatrix
-         id="feColorMatrix4091"
-         result="result4"
-         values="0"
-         type="saturate" />
-      <feComposite
-         k4="0"
-         id="feComposite4093"
-         in2="result4"
-         in="SourceGraphic"
-         operator="arithmetic"
-         k1="1.25"
-         k2="0.5"
-         k3="0.5"
-         result="result2" />
-      <feBlend
-         id="feBlend4095"
-         in2="SourceGraphic"
-         result="result5"
-         mode="normal"
-         in="result2" />
-      <feComposite
-         id="feComposite4097"
-         in2="SourceGraphic"
-         in="result5"
-         operator="in"
-         result="result3" />
-    </filter>
-    <filter
-       id="filter4099"
-       height="1"
-       width="1"
-       y="0"
-       x="0"
-       inkscape:label="Film grain"
-       inkscape:menu="Image effects"
-       inkscape:menu-tooltip="Adds a small scale graininess"
-       color-interpolation-filters="sRGB">
-      <feTurbulence
-         id="feTurbulence4101"
-         type="fractalNoise"
-         numOctaves="3"
-         baseFrequency="1"
-         seed="0"
-         result="result0" />
-      <feColorMatrix
-         id="feColorMatrix4103"
-         result="result4"
-         values="0"
-         type="saturate" />
-      <feComposite
-         k4="0"
-         id="feComposite4105"
-         in2="result4"
-         in="SourceGraphic"
-         operator="arithmetic"
-         k1="1.25"
-         k2="0.5"
-         k3="0.5"
-         result="result2" />
-      <feBlend
-         id="feBlend4107"
-         in2="SourceGraphic"
-         result="result5"
-         mode="normal"
-         in="result2" />
-      <feComposite
-         id="feComposite4109"
-         in2="SourceGraphic"
-         in="result5"
-         operator="in"
-         result="result3" />
-    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -559,10 +214,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.5837586"
-     inkscape:cx="328.60505"
+     inkscape:cx="308.39995"
      inkscape:cy="149.51977"
      inkscape:document-units="px"
-     inkscape:current-layer="g2139"
+     inkscape:current-layer="g3199"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -611,7 +266,7 @@
      transform="translate(-54.892143,-42.612206)"
      sodipodi:insensitive="true">
     <rect
-       style="opacity:0.71022728;fill:url(#linearGradient3345);fill-opacity:1;stroke:none;filter:url(#filter3801)"
+       style="opacity:0.71022728;fill:url(#linearGradient3345);fill-opacity:1;stroke:none"
        id="rect3335"
        width="803.23676"
        height="544.81256"
@@ -626,7 +281,6 @@
      transform="translate(-54.892143,-42.612206)">
     <g
        id="g2139"
-       style="filter:url(#filter2614)"
        clip-path="url(#clipPath3330)">
       <rect
          ry="0"
@@ -1429,7 +1083,7 @@
       <g
          onclick="PB.buttonPress(&quot;ENTER&quot;)"
          id="g3155"
-         style="stroke:none;display:inline;filter:url(#filter2614)"
+         style="stroke:none;display:inline;"
          transform="translate(132.09074,151.39436)">
         <rect
            style="fill:#ffff00;fill-opacity:1;stroke:none"
@@ -1461,11 +1115,11 @@
     <g
        id="g3261"
        onclick="PB.buttonPress(&quot;ADIÇÃO&quot;);"
-       style="stroke:none">
+       style="stroke:none;">
       <g
          onclick="PB.buttonPress(&quot;ENTER&quot;)"
          id="g2660-4"
-         style="stroke:none;display:inline;filter:url(#filter2614)"
+         style="stroke:none;display:inline;"
          transform="translate(-345.87312,151.39436)">
         <rect
            style="fill:#ffff00;fill-opacity:1;stroke:none"
@@ -1492,11 +1146,11 @@
     <g
        id="g3244"
        onclick="PB.buttonPress(&quot;MULTIPLICAÇÃO&quot;);"
-       style="stroke:none">
+       style="stroke:none;">
       <g
          onclick="PB.buttonPress(&quot;ENTER&quot;)"
          id="g3147"
-         style="stroke:none;display:inline;filter:url(#filter2614)"
+         style="stroke:none;display:inline;"
          transform="translate(-239.65893,151.39436)">
         <rect
            style="fill:#ffff00;fill-opacity:1;stroke:none"
@@ -1528,10 +1182,10 @@
     <g
        id="g3236"
        onclick="PB.buttonPress(&quot;DIVISÃO&quot;);"
-       style="stroke:none">
+       style="stroke:none;">
       <g
          transform="translate(-186.55184,151.39436)"
-         style="stroke:none;display:inline;filter:url(#filter2614)"
+         style="stroke:none;display:inline;"
          id="g3151"
          onclick="PB.buttonPress(&quot;ENTER&quot;)">
         <rect
@@ -1559,10 +1213,10 @@
     <g
        id="g3224"
        onclick="PB.buttonPress(&quot;ARITMÉTICA&quot;);"
-       style="stroke:none">
+       style="stroke:none;">
       <g
          transform="translate(-83.1991,151.39436)"
-         style="stroke:none;display:inline;filter:url(#filter2614)"
+         style="stroke:none;display:inline;"
          id="g3175"
          onclick="PB.buttonPress(&quot;ENTER&quot;)">
         <rect
@@ -1590,11 +1244,11 @@
     <g
        id="g3216"
        onclick="PB.buttonPress(&quot;OPERAÇÃO&quot;);"
-       style="stroke:none">
+       style="stroke:none;">
       <g
          onclick="PB.buttonPress(&quot;ENTER&quot;)"
          id="g3171"
-         style="stroke:none;display:inline;filter:url(#filter2614)"
+         style="stroke:none;display:inline;"
          transform="translate(-30.092027,151.39436)">
         <rect
            style="fill:#ffff00;fill-opacity:1;stroke:none"
@@ -1621,10 +1275,10 @@
     <g
        id="g3208"
        onclick="PB.buttonPress(&quot;SIGA-ME&quot;);"
-       style="stroke:none">
+       style="stroke:none;">
       <g
          transform="translate(23.015081,151.39436)"
-         style="stroke:none;display:inline;filter:url(#filter2614)"
+         style="stroke:none;display:inline;"
          id="g3167"
          onclick="PB.buttonPress(&quot;ENTER&quot;)">
         <rect
@@ -1652,11 +1306,11 @@
     <g
        id="g3199"
        onclick="PB.buttonPress(&quot;MEMÓRIA-SONS&quot;);"
-       style="stroke:none">
+       style="stroke:none;">
       <g
          onclick="PB.buttonPress(&quot;ENTER&quot;)"
          id="g3163"
-         style="stroke:none;display:inline;filter:url(#filter2614)"
+         style="stroke:none;display:inline;"
          transform="translate(76.12218,151.39436)">
         <rect
            style="fill:#ffff00;fill-opacity:1;stroke:none"
@@ -1688,10 +1342,10 @@
     <g
        id="g3190"
        onclick="PB.buttonPress(&quot;NÚMERO-DO-MEIO&quot;);"
-       style="stroke:none">
+       style="stroke:none;">
       <g
          transform="translate(129.22926,151.39436)"
-         style="stroke:none;display:inline;filter:url(#filter2614)"
+         style="stroke:none;display:inline;"
          id="g3159"
          onclick="PB.buttonPress(&quot;ENTER&quot;)">
         <rect
@@ -1724,10 +1378,10 @@
     <g
        id="g3253"
        onclick="PB.buttonPress(&quot;SUBTRAÇÃO&quot;);"
-       style="stroke:none">
+       style="stroke:none;">
       <g
          transform="translate(-292.76603,151.39436)"
-         style="stroke:none;display:inline;filter:url(#filter2614)"
+         style="stroke:none;display:inline;"
          id="g3143"
          onclick="PB.buttonPress(&quot;ENTER&quot;)">
         <rect
@@ -1754,28 +1408,27 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="170.48053"
-       y="191.97156"
+       style="font-size:24.53128052px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="131.95734"
+       y="258.8215"
        id="text4253"
-       sodipodi:linespacing="125%"
-       transform="translate(54.892143,42.612206)"><tspan
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4255"
-         x="170.48053"
-         y="191.97156">debug:</tspan></text>
+         x="131.95734"
+         y="258.8215">debug:</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="372.49106"
-       y="235.21518"
+       style="font-size:24.53128052px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="222.1824"
+       y="259.20874"
        id="debugText"
        sodipodi:linespacing="125%"
        inkscape:label="#text4257"><tspan
          sodipodi:role="line"
          id="debug"
-         x="372.49106"
-         y="235.21518">data</tspan></text>
+         x="222.1824"
+         y="259.20874">data</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -1785,7 +1438,7 @@
      transform="translate(-54.892143,-42.612206)"
      sodipodi:insensitive="true">
     <path
-       style="fill:#67544d;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;filter:url(#filter1931)"
+       style="fill:#67544d;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        d="m 42.1875,229 c -5.186634,0 -9.375,4.15715 -9.375,9.34375 l 0,61.0625 c 0.147676,2.6919 -1.466061,4.4375 -3.84375,4.4375 l -5.625,0 c -5.028076,0 -9.09375,4.03442 -9.09375,9.0625 l 0,47.96875 c 0,5.02808 4.065674,9.0625 9.09375,9.0625 l 4.84375,0 c 2.51263,-0.12181 4.625,1.36452 4.625,3.8125 l 0,73.65625 c 0,5.1866 4.188366,9.375 9.375,9.375 l 571.21875,0 c 5.18663,0 9.34375,-4.1884 9.34375,-9.375 l 0,-77.46875 11.6875,0 c 5.02808,0 9.09375,-4.03442 9.09375,-9.0625 l 0,-47.96875 c 0,-5.02808 -4.06567,-9.0625 -9.09375,-9.0625 l -11.6875,0 0,-65.5 C 622.75,233.15715 618.59288,229 613.40625,229 z M 89,246.46875 l 42.15625,0 c 5.18663,0 8.2799,4.0526 6.9375,9.0625 l -17.8125,66.5 c -1.3424,5.0099 -6.59462,9.03125 -11.78125,9.03125 l -42.15625,0 c -5.18663,0 -8.2799,-4.02135 -6.9375,-9.03125 l 17.8125,-66.5 c 1.3424,-5.0099 6.59462,-9.0625 11.78125,-9.0625 z m 77.125,0 42.15625,0 c 5.18663,0 8.2799,4.0526 6.9375,9.0625 l -17.84375,66.5 c -1.3424,5.0099 -6.59462,9.03125 -11.78125,9.03125 l -42.15625,0 c -5.18663,0 -8.2799,-4.02135 -6.9375,-9.03125 l 17.8125,-66.5 c 1.3424,-5.0099 6.62587,-9.0625 11.8125,-9.0625 z m 77.09375,0 42.15625,0 c 5.18664,0 8.2799,4.0526 6.9375,9.0625 l -17.8125,66.5 c -1.3424,5.0099 -6.59461,9.03125 -11.78125,9.03125 l -42.15625,0 c -5.18663,0 -8.2799,-4.02135 -6.9375,-9.03125 l 17.8125,-66.5 c 1.3424,-5.0099 6.59462,-9.0625 11.78125,-9.0625 z m 77.125,0 42.15625,0 c 5.18664,0 8.2799,4.0526 6.9375,9.0625 l -17.84375,66.5 c -1.3424,5.0099 -6.59461,9.03125 -11.78125,9.03125 l -42.15625,0 c -5.18663,0 -8.2799,-4.02135 -6.9375,-9.03125 l 17.84375,-66.5 c 1.3424,-5.0099 6.59462,-9.0625 11.78125,-9.0625 z m 89.71875,2 26.3125,0 c 3.2556,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.6194,5.875 -5.875,5.875 l -26.3125,0 c -3.25559,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.61941,-5.875 5.875,-5.875 z m 51.6875,0 26.3125,0 c 3.25559,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.3125,0 c -3.2556,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.6194,-5.875 5.875,-5.875 z m 51.71875,0 26.28125,0 c 3.25559,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.28125,0 c -3.25559,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.61941,-5.875 5.875,-5.875 z m 51.6875,0 26.3125,0 c 3.25559,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.3125,0 c -3.2556,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.6194,-5.875 5.875,-5.875 z m -180.59375,49.875 26.28125,0 c 3.2556,0 5.90625,2.65075 5.90625,5.90625 l 0,23.84375 c 0,3.2556 -2.65065,5.875 -5.90625,5.875 l -26.28125,0 c -3.25559,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.84375 c 0,-3.2555 2.61941,-5.90625 5.875,-5.90625 z m 51.6875,0 26.3125,0 c 3.25559,0 5.875,2.65075 5.875,5.90625 l 0,23.84375 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.3125,0 c -3.2556,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.84375 c 0,-3.2555 2.6194,-5.90625 5.875,-5.90625 z m 51.6875,0 26.3125,0 c 3.25559,0 5.875,2.65075 5.875,5.90625 l 0,23.84375 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.3125,0 c -3.25559,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.84375 c 0,-3.2555 2.61941,-5.90625 5.875,-5.90625 z m 51.6875,0 26.3125,0 c 3.25559,0 5.875,2.65075 5.875,5.90625 l 0,23.84375 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.3125,0 c -3.2556,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.84375 c 0,-3.2555 2.6194,-5.90625 5.875,-5.90625 z M 26.057606,323.59781 c 2.386909,0 4.3125,1.95684 4.3125,4.34375 0,2.38691 -1.925591,4.3125 -4.3125,4.3125 -2.386909,0 -4.3125,-1.92559 -4.3125,-4.3125 0,-2.38691 1.925591,-4.34375 4.3125,-4.34375 z M 629.59375,339.875 c 1.529,0.52215 2.64537,0.23629 4.03125,0 2.38691,0 4.3125,1.95684 4.3125,4.34375 0,2.38691 -1.92559,4.3125 -4.3125,4.3125 -1.5218,-0.53207 -2.64435,-0.22788 -4.03125,0 -2.38691,0 -4.3125,-1.92559 -4.3125,-4.3125 0,-2.38691 1.92559,-4.34375 4.3125,-4.34375 z M 89.5,347.09375 l 26.28125,0 c 3.25559,0 5.87499,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.28125,0 c -3.25559,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.875 c -1e-5,-3.2556 2.61941,-5.875 5.875,-5.875 z m 52.9375,0 26.3125,0 c 3.25559,0 5.87499,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.3125,0 c -3.2556,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.875 c -1e-5,-3.2556 2.6194,-5.875 5.875,-5.875 z m 52.9375,0 26.3125,0 c 3.2556,0 5.87499,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.6194,5.875 -5.875,5.875 l -26.3125,0 c -3.25559,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.875 c -1e-5,-3.2556 2.61941,-5.875 5.875,-5.875 z m 52.96875,0 26.28125,0 c 3.25559,0 5.87499,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.28125,0 c -3.2556,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.875 c -1e-5,-3.2556 2.6194,-5.875 5.875,-5.875 z m 52.9375,0 26.3125,0 c 3.25559,0 5.87499,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.3125,0 c -3.25559,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.875 c -10e-6,-3.2556 2.61941,-5.875 5.875,-5.875 z m 52.9375,0 26.3125,0 c 3.25559,0 5.87499,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.3125,0 c -3.2556,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.875 c -10e-6,-3.2556 2.6194,-5.875 5.875,-5.875 z m 52.96875,0 26.28125,0 c 3.2556,0 5.87499,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.6194,5.875 -5.875,5.875 l -26.28125,0 c -3.25559,0 -5.90625,-2.6194 -5.90625,-5.875 l 0,-23.875 c -10e-6,-3.2556 2.65066,-5.875 5.90625,-5.875 z m 52.9375,0 26.28125,0 c 3.25559,0 5.87499,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.28125,0 c -3.2556,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.875 c -10e-6,-3.2556 2.6194,-5.875 5.875,-5.875 z m 52.9375,0 26.3125,0 c 3.25559,0 5.87499,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.3125,0 c -3.25559,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.875 c -10e-6,-3.2556 2.61941,-5.875 5.875,-5.875 z m 52.9375,0 26.3125,0 c 3.25559,0 5.87499,2.6194 5.875,5.875 l 0,23.875 c 0,3.2556 -2.61941,5.875 -5.875,5.875 l -26.3125,0 c -3.2556,0 -5.875,-2.6194 -5.875,-5.875 l 0,-23.875 c -10e-6,-3.2556 2.6194,-5.875 5.875,-5.875 z M 64.25,398.375 l 26.3125,0 c 3.25559,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 1e-5,3.2556 -2.61941,5.875 -5.875,5.875 L 64.25,434 c -3.25559,0 -5.87499,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.61941,-5.875 5.875,-5.875 z m 52.96875,0 26.28125,0 c 3.25559,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 1e-5,3.2556 -2.61941,5.875 -5.875,5.875 l -26.28125,0 c -3.2556,0 -5.87499,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.6194,-5.875 5.875,-5.875 z m 52.9375,0 26.3125,0 c 3.2556,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 1e-5,3.2556 -2.6194,5.875 -5.875,5.875 l -26.3125,0 c -3.25559,0 -5.87499,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.61941,-5.875 5.875,-5.875 z m 52.9375,0 26.3125,0 c 3.25559,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 1e-5,3.2556 -2.61941,5.875 -5.875,5.875 l -26.3125,0 c -3.2556,0 -5.87499,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.6194,-5.875 5.875,-5.875 z m 52.96875,0 26.28125,0 c 3.25559,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 10e-6,3.2556 -2.61941,5.875 -5.875,5.875 l -26.28125,0 c -3.25559,0 -5.87499,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.61941,-5.875 5.875,-5.875 z m 52.9375,0 26.3125,0 c 3.25559,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 10e-6,3.2556 -2.61941,5.875 -5.875,5.875 L 329,434 c -3.2556,0 -5.87499,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.6194,-5.875 5.875,-5.875 z m 52.9375,0 26.3125,0 c 3.2556,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 10e-6,3.2556 -2.6194,5.875 -5.875,5.875 l -26.3125,0 c -3.25559,0 -5.87499,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.61941,-5.875 5.875,-5.875 z m 52.9375,0 26.3125,0 c 3.25559,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 10e-6,3.2556 -2.61941,5.875 -5.875,5.875 l -26.3125,0 c -3.2556,0 -5.87499,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.6194,-5.875 5.875,-5.875 z m 52.96875,0 26.28125,0 c 3.25559,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 10e-6,3.2556 -2.61941,5.875 -5.875,5.875 l -26.28125,0 c -3.25559,0 -5.87499,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.61941,-5.875 5.875,-5.875 z m 52.9375,0 26.3125,0 c 3.25559,0 5.875,2.6194 5.875,5.875 l 0,23.875 c 10e-6,3.2556 -2.61941,5.875 -5.875,5.875 l -26.3125,0 c -3.2556,0 -5.87499,-2.6194 -5.875,-5.875 l 0,-23.875 c 0,-3.2556 2.6194,-5.875 5.875,-5.875 z"
        transform="translate(54.892143,42.612206)"
        id="path926"
