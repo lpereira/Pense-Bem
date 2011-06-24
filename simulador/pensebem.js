@@ -47,10 +47,9 @@ AritmeticaMode = {
 	reset: function() {
 		AritmeticaMode.possibleOperations = "+-/*";
 	},
-	oneLoopIteration: function() {
-	},
-	buttonPress: function() {},
-	buttonRelease: function() {}
+	oneLoopIteration: function() {},
+	buttonPress: function(b) {},
+	buttonRelease: function(b) {}
 };
 
 AdicaoMode = {
