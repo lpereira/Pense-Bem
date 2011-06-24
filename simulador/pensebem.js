@@ -81,7 +81,7 @@ Som = {
         for (var i = 0; i < numberOfSamples; ++i) {
 	        const x = f * (i * dt);
 	        const y = x - Math.floor(x);
-	        samples.push(!!(v >= 0.5));
+	        samples.push(!!(y >= 0.5));
         }
 
         audio.setAttribute("src", Som.encode8BitAudio(samples));
