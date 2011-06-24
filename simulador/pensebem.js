@@ -1,32 +1,32 @@
-DummyMode = {
+Dummy = {
 	reset: function() {},
 	oneLoopIteration: function() {},
 	buttonPress: function() {},
 	buttonRelease: function() {},
 };
-AdvinheONumeroMode = DummyMode;
-SigaMeMode = DummyMode;
-NumeroDoMeioMode = DummyMode;
-OperacaoMode = DummyMode;
+AdvinheONumero = Dummy;
+SigaMe = Dummy;
+NumeroDoMeio = Dummy;
+Operacao = Dummy;
 
-MemoriaSonsMode = {
+MemoriaSons = {
 	reset: function() {
 		PB.setDisplay("");
-		MemoriaSonsMode.playQueue = [];
+		MemoriaSons.playQueue = [];
 	},
 	oneLoopIteration: function() {},
 	playAndClearQueue: function() {
-		for (var noteIndex in MemoriaSonsMode.playQueue) {
-			MemoriaSonsMode.playNote(MemoriaSonsMode.playQueue[noteIndex]);
+		for (var noteIndex in MemoriaSons.playQueue) {
+			MemoriaSons.playNote(MemoriaSons.playQueue[noteIndex]);
 		}
-		MemoriaSonsMode.reset();
+		MemoriaSons.reset();
 	},
 	playNote: function(n) {
 		PB.setDisplay(n);
 	},
 	buttonPress: function(b) {
 		if (b == 'ENTER') {
-			MemoriaSonsMode.playAndClearQueue();
+			MemoriaSons.playAndClearQueue();
 			return;
 		}
 		const buttonToNoteTable = {
@@ -39,125 +39,144 @@ MemoriaSonsMode = {
 			PB.beep();
 			return;
 		}
-		MemoriaSonsMode.playQueue.push(note);
-		MemoriaSonsMode.playNote(note);
+		MemoriaSons.playQueue.push(note);
+		MemoriaSons.playNote(note);
 	},
 	buttonRelease: function(b) {}
 };
 
-AritmeticaMode = {
+Aritmetica = {
 	reset: function() {
-		AritmeticaMode.possibleOperations = "+-/*";
+		Aritmetica.possibleOperations = "+-/*";
+		Aritmetica.points = 0;
+		Aritmetica.tries = 0;
 	},
 	oneLoopIteration: function() {},
 	buttonPress: function(b) {},
-	buttonRelease: function(b) {}
+	buttonRelease: function(b) {},
+	advanceQuestion: function() {
+		Aritmetica.operation = Math.round(Math.random() * Aritmetica.possibleOperations.length);
+		Aritmetica.firstDigit = Math.round(Math.random() * 99);
+		Aritmetica.secondDigit = Math.round(Math.random() * 99);
+		const operatorFunctionTable = {
+			"+": function(a, b) { return a + b; },
+			"-": function(a, b) { return a - b; },
+			"/": function(a, b) { return a / b; },
+			"*": function(a, b) { return a * b; }
+		};
+		Aritmetica.answer = operatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
+		PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.operation + " " + Aritmetica.secondDigit);
+	}
 };
 
-AdicaoMode = {
+Adicao = {
 	reset: function() {
-		AritmeticaMode.reset();
-		AritmeticaMode.possibleOperations = "+";
+		Aritmetica.reset();
+		Aritmetica.possibleOperations = "+";
+		Aritmetica.advanceQuestion();
 	},
-	oneLoopIteration: AritmeticaMode.oneLoopIteration,
-	buttonPress: AritmeticaMode.buttonPress,
-	buttonRelease: AritmeticaMode.buttonRelease
+	oneLoopIteration: Aritmetica.oneLoopIteration,
+	buttonPress: Aritmetica.buttonPress,
+	buttonRelease: Aritmetica.buttonRelease
 };
 
-SubtracaoMode = {
+Subtracao = {
 	reset: function() {
-		AritmeticaMode.reset();
-		AritmeticaMode.possibleOperations = "-";
+		Aritmetica.reset();
+		Aritmetica.possibleOperations = "-";
+		Aritmetica.advanceQuestion();
 	},
-	oneLoopIteration: AritmeticaMode.oneLoopIteration,
-	buttonPress: AritmeticaMode.buttonPress,
-	buttonRelease: AritmeticaMode.buttonRelease
+	oneLoopIteration: Aritmetica.oneLoopIteration,
+	buttonPress: Aritmetica.buttonPress,
+	buttonRelease: Aritmetica.buttonRelease
 };
 
-MultiplicacaoMode = {
+Multiplicacao = {
 	reset: function() {
-		AritmeticaMode.reset();
-		AritmeticaMode.possibleOperations = "*";
+		Aritmetica.reset();
+		Aritmetica.possibleOperations = "*";
+		Aritmetica.advanceQuestion();
 	},
-	oneLoopIteration: AritmeticaMode.oneLoopIteration,
-	buttonPress: AritmeticaMode.buttonPress,
-	buttonRelease: AritmeticaMode.buttonRelease
+	oneLoopIteration: Aritmetica.oneLoopIteration,
+	buttonPress: Aritmetica.buttonPress,
+	buttonRelease: Aritmetica.buttonRelease
 };
 
-DivisaoMode = {
+Divisao = {
 	reset: function() {
-		AritmeticaMode.reset();
-		AritmeticaMode.possibleOperations = "/";
+		Aritmetica.reset();
+		Aritmetica.possibleOperations = "/";
+		Aritmetica.advanceQuestion();
 	},
-	oneLoopIteration: AritmeticaMode.oneLoopIteration,
-	buttonPress: AritmeticaMode.buttonPress,
-	buttonRelease: AritmeticaMode.buttonRelease
+	oneLoopIteration: Aritmetica.oneLoopIteration,
+	buttonPress: Aritmetica.buttonPress,
+	buttonRelease: Aritmetica.buttonRelease
 };
 
-LivroMode = {
+Livro = {
 	StateChoosingBook: 0,
 	StateQuestioning: 1,
 	reset: function() {
-		LivroMode.state = LivroMode.StateChoosingBook;
+		Livro.state = Livro.StateChoosingBook;
 	},
 	oneLoopIteration: function() {
-		switch (LivroMode.state) {
-		case LivroMode.StateChoosingBook:
+		switch (Livro.state) {
+		case Livro.StateChoosingBook:
 			var book = prompt("Book number?", "_");
 			book = parseInt(book.substring(0, 2));
 			PB.setDisplay("Selected book: " + book);
 			if (book > 0 && book < 999) {
-				LivroMode.book = book;
-				LivroMode.question = 0;
-				LivroMode.tries = 0;
-				LivroMode.points = 0;
-				LivroMode.state = LivroMode.StateQuestioning;
+				Livro.book = book;
+				Livro.question = 0;
+				Livro.tries = 0;
+				Livro.points = 0;
+				Livro.state = Livro.StateQuestioning;
 
-				LivroMode.advanceQuestion();
+				Livro.advanceQuestion();
 			}
 			break;
-		case LivroMode.StateQuestioning:
+		case Livro.StateQuestioning:
 		}
 	},
 	showCorrectAnswer: function() {
-		PB.setDisplay("The correct answer was: " + LivroMode.getCorrectAnswer());
+		PB.setDisplay("The correct answer was: " + Livro.getCorrectAnswer());
 	},
 	advanceQuestion: function() {
-		if (LivroMode.question >= 0) {
-			switch (LivroMode.tries) {
-			case 0: LivroMode.points += 10; break;
-			case 1: LivroMode.points += 6; break;
-			case 2: LivroMode.points += 4; break;
+		if (Livro.question >= 0) {
+			switch (Livro.tries) {
+			case 0: Livro.points += 10; break;
+			case 1: Livro.points += 6; break;
+			case 2: Livro.points += 4; break;
 			}
 		}
-		LivroMode.tries = 0;
-		LivroMode.question++;
-		PB.setDisplay("Question: " + LivroMode.question);
+		Livro.tries = 0;
+		Livro.question++;
+		PB.setDisplay("Question: " + Livro.question);
 	},
 	getCorrectAnswer: function() {
 		const answerPattern = "CDDBAADCBDAADCBB";
-		return answerPattern[(LivroMode.book + LivroMode.question) & 15];		
+		return answerPattern[(Livro.book + Livro.question) & 15];
 	},
 	buttonPress: function(b) {
-		switch (LivroMode.state) {
-		case LivroMode.StateChoosingBook:
+		switch (Livro.state) {
+		case Livro.StateChoosingBook:
 			break;
-		case LivroMode.StateQuestioning:
+		case Livro.StateQuestioning:
 			switch (b) {
 			case "A":
 			case "B":
 			case "C":
 			case "D":
-				if (LivroMode.getCorrectAnswer(b) == b) {
-					LivroMode.advanceQuestion();
+				if (Livro.getCorrectAnswer(b) == b) {
+					Livro.advanceQuestion();
 					return;
 				}
-				LivroMode.tries++;
-				if (LivroMode.tries >= 3) {
-					LivroMode.showCorrectAnswer();
-					LivroMode.advanceQuestion();
+				Livro.tries++;
+				if (Livro.tries >= 3) {
+					Livro.showCorrectAnswer();
+					Livro.advanceQuestion();
 				} else {
-					PB.setDisplay((3 - LivroMode.tries) + " more tries");
+					PB.setDisplay((3 - Livro.tries) + " more tries");
 				}
 				break;
 			default:
@@ -170,26 +189,26 @@ LivroMode = {
 	}
 }
 
-WelcomeMode = {
+Welcome = {
 	reset: function() {
 		PB.setDisplay("*");
 	},
 	oneLoopIteration: function() {},
 	buttonPress: function(b) {
-		const buttonToModeTable = {
-			"ADVINHE-O-NÚMERO": AdvinheONumeroMode,
-			"ADIÇÃO": AdicaoMode,
-			"MULTIPLICAÇÃO": MultiplicacaoMode,
-			"DIVISÃO": DivisaoMode,
-			"ARITMETICA": AritmeticaMode,
-			"OPERAÇÃO": OperacaoMode,
-			"SIGA-ME": SigaMeMode,
-			"MEMÓRIA-SONS": MemoriaSonsMode,
-			"NÚMERO-DO-MEIO": NumeroDoMeioMode,
-			"SUBTRAÇÃO": SubtracaoMode,
-			"LIVRO": LivroMode,
+		const buttonToTable = {
+			"ADVINHE-O-NÚMERO": AdvinheONumero,
+			"ADIÇÃO": Adicao,
+			"MULTIPLICAÇÃO": Multiplicacao,
+			"DIVISÃO": Divisao,
+			"ARITMETICA": Aritmetica,
+			"OPERAÇÃO": Operacao,
+			"SIGA-ME": SigaMe,
+			"MEMÓRIA-SONS": MemoriaSons,
+			"NÚMERO-DO-MEIO": NumeroDoMeio,
+			"SUBTRAÇÃO": Subtracao,
+			"LIVRO": Livro,
 		};
-		var newMode = buttonToModeTable[b];
+		var newMode = buttonToTable[b];
 		if (newMode === undefined) {
 			PB.beep();
 			return;
@@ -199,7 +218,7 @@ WelcomeMode = {
 	buttonRelease: function(b) {}
 };
 
-StandbyMode = {
+Standby = {
 	reset: function() {
 		PB.setDisplay("");
 	},
@@ -211,7 +230,7 @@ StandbyMode = {
 PB = {
 	mode: null,
 	init: function() {
-		PB.setMode(StandbyMode);
+		PB.setMode(Standby);
 		PB.reset();
 		setInterval('PB.oneLoopIteration()', 100);
 	},
@@ -231,8 +250,8 @@ PB = {
 	},
 	buttonPress: function(b) {
 		switch (b) {
-		case 'LIGA': PB.setMode(WelcomeMode); return;
-		case 'DESL': PB.setMode(StandbyMode); return;
+		case 'LIGA': PB.setMode(Welcome); return;
+		case 'DESL': PB.setMode(Standby); return;
 		default:
 			if (PB.mode) {
 				PB.mode.buttonPress(b);
