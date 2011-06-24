@@ -15,6 +15,7 @@ unknown = 0
 errors = 0
 m = samples.dict()
 for b,q in m.keys():
+	print 'book', b
 	a = m[b,q]
 	expected = answer(b, q)
 	if expected:

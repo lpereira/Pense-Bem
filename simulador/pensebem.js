@@ -5,15 +5,59 @@ DummyMode = {
 	buttonRelease: function() {},
 };
 AdvinheONumeroMode = DummyMode;
-AdicaoMode = DummyMode;
-MultiplicacaoMode = DummyMode;
-DivisaoMode = DummyMode;
-AritmeticaMode = DummyMode;
-OperacaoMode = DummyMode;
 SigaMeMode = DummyMode;
 MemoriaSonsMode = DummyMode;
-SubtracaoMode = DummyMode;
 NumeroDoMeioMode = DummyMode;
+
+AritmeticaMode = {
+	reset: function() {
+		AritmeticaMode.possibleOperations = "+-/*";
+	},
+	oneLoopIteration: function() {
+	},
+	buttonPress: function() {},
+	buttonRelease: function() {}
+};
+
+AdicaoMode = {
+	reset: function() {
+		AritmeticaMode.reset();
+		AritmeticaMode.possibleOperations = "+";
+	},
+	oneLoopIteration: AritmeticaMode.oneLoopIteration,
+	buttonPress: AritmeticaMode.buttonPress,
+	buttonRelease: AritmeticaMode.buttonRelease
+};
+
+SubtracaoMode = {
+	reset: function() {
+		AritmeticaMode.reset();
+		AritmeticaMode.possibleOperations = "-";
+	},
+	oneLoopIteration: AritmeticaMode.oneLoopIteration,
+	buttonPress: AritmeticaMode.buttonPress,
+	buttonRelease: AritmeticaMode.buttonRelease
+};
+
+MultiplicacaoMode = {
+	reset: function() {
+		AritmeticaMode.reset();
+		AritmeticaMode.possibleOperations = "*";
+	},
+	oneLoopIteration: AritmeticaMode.oneLoopIteration,
+	buttonPress: AritmeticaMode.buttonPress,
+	buttonRelease: AritmeticaMode.buttonRelease
+};
+
+DivisaoMode = {
+	reset: function() {
+		AritmeticaMode.reset();
+		AritmeticaMode.possibleOperations = "/";
+	},
+	oneLoopIteration: AritmeticaMode.oneLoopIteration,
+	buttonPress: AritmeticaMode.buttonPress,
+	buttonRelease: AritmeticaMode.buttonRelease
+};
 
 LivroMode = {
 	StateChoosingBook: 0,
