@@ -6,8 +6,42 @@ DummyMode = {
 };
 AdvinheONumeroMode = DummyMode;
 SigaMeMode = DummyMode;
-MemoriaSonsMode = DummyMode;
 NumeroDoMeioMode = DummyMode;
+OperacaoMode = DummyMode;
+
+MemoriaSonsMode = {
+	reset: function() {
+		MemoriaSonsMode.playQueue = [];
+	},
+	oneLoopIteration: function() {},
+	playAndClearQueue: function() {
+		for (var noteIndex in MemoriaSonsMode.playQueue) {
+			MemoriaSonsMode.playNote(MemoriaSonsMode.playQueue[noteIndex]);
+		}
+		MemoriaSonsMode.playQueue = [];
+	},
+	playNote: function(n) {
+	},
+	buttonPress: function(b) {
+		if (b == 'ENTER') {
+			MemoriaSonsMode.playAndClearQueue();
+			return;
+		}
+		const buttonToNoteTable = {
+			"0": "p", "1": "c", "2": "d", "3": "e",
+			"4": "f", "5": "g", "6": "a", "7": "b",
+			"8": "C", "9": "D"
+		};
+		var note = buttonToNoteTable[b];
+		if (note === undefined) {
+			PB.beep();
+			return;
+		}
+		MemoriaSonsMode.playQueue.push(note);
+		MemoriaSonsMode.playNote(note);
+	},
+	buttonRelease: function(b) {}
+};
 
 AritmeticaMode = {
 	reset: function() {
