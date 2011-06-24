@@ -10,6 +10,8 @@ NumeroDoMeio = Dummy;
 Operacao = Dummy;
 
 Som = {
+    SampleRate: 44100,
+    TickInterval: 10,
     encodeBase64: function(str) {
         var out, i, len;
         var c1, c2, c3;
@@ -42,7 +44,6 @@ Som = {
         }
         return out;
     },
-    SampleRate: 44100,
     encode8BitAudio: function(data) {
 		var n = data.length;
 		var integer = 0, i;
@@ -72,14 +73,15 @@ Som = {
 
 		return 'data:audio/wav;base64,' + Som.encodeBase64(header);
     },
-    newTone: function (n) {
+    newTone: function (f) {
         var audio = new Audio();
+        const numberOfSamples = Math.ceil(Som.SampleRate * Som.TickInterval / 100);
+        const dt = 1 / Som.SampleRate;
         var samples = [];
-        const sampleRateBy8 = Som.SampleRate / 7;
-        const nBy50 = n * 50;
-        const nBy25 = n * 25;
-        for (var i = 0; i < sampleRateBy8; i++){
-            samples.push(i % nBy50 <= nBy25);
+        for (var i = 0; i < numberOfSamples; ++i) {
+	        const x = f * (i * dt);
+	        const y = x - Math.floor(x);
+	        samples.push(!!(v >= 0.5));
         }
 
         audio.setAttribute("src", Som.encode8BitAudio(samples));
@@ -90,15 +92,16 @@ Som = {
     },
     playNote: function (n) {
         const noteToToneTable = {
-            "c": Som.newTone(1),
-            "d": Som.newTone(2),
-            "e": Som.newTone(3),
-            "f": Som.newTone(4),
-            "g": Som.newTone(5),
-            "a": Som.newTone(6),
-            "b": Som.newTone(7),
-            "C": Som.newTone(8),
-            "D": Som.newTone(9)
+            "c": Som.newTone(277.18),
+            "d": Som.newTone(293.66),
+            "e": Som.newTone(329.63),
+            "f": Som.newTone(349.23),
+            "g": Som.newTone(392.00),
+            "a": Som.newTone(440.00),
+            "b": Som.newTone(493.88),
+            "C": Som.newTone(523.25),
+            "D": Som.newTone(587.33),
+            "p": function() {}
         };
         var tone = noteToToneTable[n];
         if (tone === undefined) {
