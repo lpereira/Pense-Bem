@@ -103,7 +103,7 @@ LivroMode = {
 		case LivroMode.StateChoosingBook:
 			var book = prompt("Book number?", "_");
 			book = parseInt(book.substring(0, 2));
-			alert("Selected book: " + book);
+			PB.setDisplay("Selected book: " + book);
 			if (book > 0 && book < 999) {
 				LivroMode.book = book;
 				LivroMode.question = 0;
@@ -118,7 +118,7 @@ LivroMode = {
 		}
 	},
 	showCorrectAnswer: function() {
-		alert("The correct answer was: " + LivroMode.getCorrectAnswer());
+		PB.setDisplay("The correct answer was: " + LivroMode.getCorrectAnswer());
 	},
 	advanceQuestion: function() {
 		if (LivroMode.question >= 0) {
@@ -130,7 +130,7 @@ LivroMode = {
 		}
 		LivroMode.tries = 0;
 		LivroMode.question++;
-		alert("Answer the question number " + LivroMode.question);
+		PB.setDisplay("Question: " + LivroMode.question);
 	},
 	getCorrectAnswer: function() {
 		const answerPattern = "CDDBAADCBDAADCBB";
@@ -155,7 +155,7 @@ LivroMode = {
 					LivroMode.showCorrectAnswer();
 					LivroMode.advanceQuestion();
 				} else {
-					alert("Wrong! " + (3 - LivroMode.tries) + " more tries");
+					PB.setDisplay((3 - LivroMode.tries) + " more tries");
 				}
 				break;
 			default:
@@ -169,7 +169,9 @@ LivroMode = {
 }
 
 WelcomeMode = {
-	reset: function() {},
+	reset: function() {
+		PB.setDisplay("*");
+	},
 	oneLoopIteration: function() {},
 	buttonPress: function(b) {
 		const buttonToModeTable = {
@@ -196,7 +198,9 @@ WelcomeMode = {
 };
 
 StandbyMode = {
-	reset: function() {},
+	reset: function() {
+		PB.setDisplay("");
+	},
 	oneLoopIteration: function() {},
 	buttonPress: function(b) {},
 	buttonRelease: function(b) {}
@@ -205,8 +209,8 @@ StandbyMode = {
 PB = {
 	mode: null,
 	init: function() {
-		PB.reset();
 		PB.setMode(StandbyMode);
+		PB.reset();
 		setInterval('PB.oneLoopIteration()', 100);
 	},
 	reset: function() {
@@ -242,6 +246,9 @@ PB = {
 		}
 	},
 	beep: function() {
-		alert("Ação inválida");
+		PB.setDisplay("Ação inválida");
+	},
+	setDisplay: function(c) {
+		document.getElementById("debug").textContent = c;
 	}
 };
