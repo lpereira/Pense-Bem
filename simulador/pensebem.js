@@ -197,7 +197,7 @@ WelcomeMode = {
 
 StandbyMode = {
 	reset: function() {},
-	oneLoopInteration: function() {},
+	oneLoopIteration: function() {},
 	buttonPress: function(b) {},
 	buttonRelease: function(b) {}
 };
