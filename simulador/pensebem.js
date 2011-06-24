@@ -49,15 +49,39 @@ Aritmetica = {
 	reset: function() {
 		Aritmetica.possibleOperations = "+-/*";
 		Aritmetica.points = 0;
-		Aritmetica.tries = 0;
+		Aritmetica.advanceQuestion();
 	},
-	oneLoopIteration: function() {},
+	oneLoopIteration: function() {
+		var answer = parseInt(prompt("Answer:"));
+		if (answer != Aritmetica.answer) {
+			Aritmetica.tries++;
+			if (Aritmetica.tries >= 3) {
+				Aritmetica.showCorrectAnswer();
+				Aritmetica.advanceQuestion();
+			}
+		} else {
+			Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
+			Aritmetica.advanceQuestion();
+		}
+	},
+	showCorrectAnswer: function() {
+		PB.setDisplay(Aritmetica.answer);
+	},
 	buttonPress: function(b) {},
 	buttonRelease: function(b) {},
 	advanceQuestion: function() {
-		Aritmetica.operation = Math.round(Math.random() * Aritmetica.possibleOperations.length);
+		Aritmetica.tries = 0;
+		Aritmetica.operation = Aritmetica.possibleOperations[Math.round(Math.random() * (Aritmetica.possibleOperations.length - 1))];
 		Aritmetica.firstDigit = Math.round(Math.random() * 99);
 		Aritmetica.secondDigit = Math.round(Math.random() * 99);
+		if ((Aritmetica.operation == "/" || Aritmetica.operation == "-") && Aritmetica.secondDigit > Aritmetica.firstDigit) {
+			var temp = Aritmetica.firstDigit;
+			Aritmetica.firstDigit = Aritmetica.secondDigit;
+			Aritmetica.secondDigit = temp;
+			if (Aritmetica.secondDigit == 0) {
+				Aritmetica.secondDigit = 1;
+			}
+		}
 		const operatorFunctionTable = {
 			"+": function(a, b) { return a + b; },
 			"-": function(a, b) { return a - b; },
@@ -71,7 +95,6 @@ Aritmetica = {
 
 Adicao = {
 	reset: function() {
-		Aritmetica.reset();
 		Aritmetica.possibleOperations = "+";
 		Aritmetica.advanceQuestion();
 	},
@@ -82,7 +105,6 @@ Adicao = {
 
 Subtracao = {
 	reset: function() {
-		Aritmetica.reset();
 		Aritmetica.possibleOperations = "-";
 		Aritmetica.advanceQuestion();
 	},
@@ -93,7 +115,6 @@ Subtracao = {
 
 Multiplicacao = {
 	reset: function() {
-		Aritmetica.reset();
 		Aritmetica.possibleOperations = "*";
 		Aritmetica.advanceQuestion();
 	},
@@ -104,7 +125,6 @@ Multiplicacao = {
 
 Divisao = {
 	reset: function() {
-		Aritmetica.reset();
 		Aritmetica.possibleOperations = "/";
 		Aritmetica.advanceQuestion();
 	},
@@ -143,11 +163,7 @@ Livro = {
 	},
 	advanceQuestion: function() {
 		if (Livro.question >= 0) {
-			switch (Livro.tries) {
-			case 0: Livro.points += 10; break;
-			case 1: Livro.points += 6; break;
-			case 2: Livro.points += 4; break;
-			}
+			Livro.points += PB.pointsByNumberOfTries(Livro.tries);
 		}
 		Livro.tries = 0;
 		Livro.question++;
@@ -200,7 +216,7 @@ Welcome = {
 			"ADIÇÃO": Adicao,
 			"MULTIPLICAÇÃO": Multiplicacao,
 			"DIVISÃO": Divisao,
-			"ARITMETICA": Aritmetica,
+			"ARITMÉTICA": Aritmetica,
 			"OPERAÇÃO": Operacao,
 			"SIGA-ME": SigaMe,
 			"MEMÓRIA-SONS": MemoriaSons,
@@ -271,5 +287,13 @@ PB = {
 	},
 	setDisplay: function(c) {
 		document.getElementById("debug").textContent = c;
+	},
+	pointsByNumberOfTries: function(t) {
+		switch (t) {
+		case 0: return 10;
+		case 1: return 6;
+		case 2: return 4;
+		}
+		return 0;
 	}
 };
