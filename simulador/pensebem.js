@@ -11,6 +11,7 @@ OperacaoMode = DummyMode;
 
 MemoriaSonsMode = {
 	reset: function() {
+		PB.setDisplay("");
 		MemoriaSonsMode.playQueue = [];
 	},
 	oneLoopIteration: function() {},
@@ -18,9 +19,10 @@ MemoriaSonsMode = {
 		for (var noteIndex in MemoriaSonsMode.playQueue) {
 			MemoriaSonsMode.playNote(MemoriaSonsMode.playQueue[noteIndex]);
 		}
-		MemoriaSonsMode.playQueue = [];
+		MemoriaSonsMode.reset();
 	},
 	playNote: function(n) {
+		PB.setDisplay(n);
 	},
 	buttonPress: function(b) {
 		if (b == 'ENTER') {
