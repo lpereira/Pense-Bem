@@ -557,7 +557,7 @@ Welcome = {
 			PB.beep();
 			return;
 		}
-		PB.setMode(newMode);
+		PB.setActivity(newMode);
     },
     buttonRelease: function(b) {}
 };
@@ -593,7 +593,7 @@ Prompt = {
 	buttonPress: function(b) {
 		if (b == "ENTER") {
 			Prompt.done = true;
-			PB.mode = PB.previous_mode;
+			PB.activity = PB.previous_mode;
 			return;
 		}
 		if (b in ["0","1","2","3","4","5","6","7","8","9"]) {
@@ -610,37 +610,37 @@ Prompt = {
 //------------------------------------------------------------------------------
 PB = {
     bugfix: false, /* we are simulating all the bugs from the original machine */
-    mode: null,
+    activity: null,
     init: function() {
-        PB.setMode(Standby);
+        PB.setActivity(Standby);
         PB.reset();
         setInterval('PB.oneLoopIteration()', 100);
     },
     reset: function() {
-        if (PB.mode) {
-            PB.mode.reset();
+        if (PB.activity) {
+            PB.activity.reset();
         }
     },
     oneLoopIteration: function() {
-        if (PB.mode) {
-            PB.mode.oneLoopIteration();
+        if (PB.activity) {
+            PB.activity.oneLoopIteration();
         }
     },
-    setMode: function(m) {
-        PB.mode = m;
+    setActivity: function(m) {
+        PB.activity = m;
         PB.reset();
     },
 	prompt: function() {
-		PB.previous_mode = PB.mode;
-		PB.setMode(Prompt);
+		PB.previous_mode = PB.activity;
+		PB.setActivity(Prompt);
 	},
     buttonPress: function(b) {
         switch (b) {
-        case 'LIGA': PB.setMode(Welcome); return;
-        case 'DESL': PB.setMode(Standby); return;
+        case 'LIGA': PB.setActivity(Welcome); return;
+        case 'DESL': PB.setActivity(Standby); return;
         default:
-            if (PB.mode) {
-                PB.mode.buttonPress(b);
+            if (PB.activity) {
+                PB.activity.buttonPress(b);
             }
         }
     },
@@ -648,8 +648,8 @@ PB = {
         if (b == 'LIGA' || b == 'DESL') {
             return;
         }
-        if (PB.mode) {
-            PB.mode.buttonRelease(b);
+        if (PB.activity) {
+            PB.activity.buttonRelease(b);
         }
     },
     beep: function() {
