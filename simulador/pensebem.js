@@ -611,6 +611,8 @@ Prompt = {
 PB = {
     bugfix: false, /* we are simulating all the bugs from the original machine */
     activity: null,
+    ticks: 0,
+    delayTable: {},
     init: function() {
         PB.setActivity(Standby);
         PB.reset();
@@ -621,7 +623,17 @@ PB = {
             PB.activity.reset();
         }
     },
+	delay: function(ticks, callback) {
+		PB.delayTable[PB.ticks + ticks] = callback;
+	},
     oneLoopIteration: function() {
+	    ++PB.ticks;
+	    for (var delay in PB.delayTable) {
+			if (PB.ticks >= delay) {
+				PB.delayTable[delay]();
+				delete PB.delayTable[delay];
+			}
+		}
         if (PB.activity) {
             PB.activity.oneLoopIteration();
         }
