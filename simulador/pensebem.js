@@ -172,10 +172,12 @@ Som = {
 
 //------------------------------------------------------------------------------
 Aritmetica = {
-    reset: function() {
+    reset: function(possibleOperations) {
 		Som.playSong(Som.GameSelectedSong);
-		Aritmetica.possibleOperations = "+-/*";
+		Aritmetica.possibleOperations = possibleOperations || "+-/*";
 		Aritmetica.points = 0;
+		Aritmetica.showResultFlag = false;
+		Aritmetica.showOperatorFlag = true;
 		Aritmetica.advanceQuestion();
 	},
     oneLoopIteration: function() {
@@ -201,11 +203,28 @@ Aritmetica = {
 	},
     showCorrectAnswer: function() {
         //PB.blinkDisplayAFewTimesBeforeResuming(Aritmetica.answer);
-        PB.setDisplay(Aritmetica.answer);
+        if (Aritmetica.showOperator) {
+			PB.setDisplay(Aritmetica.answer);
+		} else {
+			Aritmetica.showOperator();
+		}
     },
+    showOperator: function() {
+		if (Aritmetica.showOperatorFlag) {
+			switch(Aritmetica.operation) {
+			case "*": PB.setSpecialDigit("x"); break;
+			case "/": PB.setSpecialDigit("%"); break;
+			default:
+				PB.setSpecialDigit(Aritmetica.operation);
+			}
+		} else {
+			PB.setSpecialDigit("#");
+		}
+	},
     buttonPress: function(b) {},
     buttonRelease: function(b) {},
     advanceQuestion: function() {
+		PB.clearDisplay();
 		Aritmetica.tries = 0;
 		Aritmetica.operation = Aritmetica.possibleOperations[Math.round(Math.random() * (Aritmetica.possibleOperations.length - 1))];
 
@@ -229,14 +248,14 @@ Aritmetica = {
 			"*": function(a, b) { return a * b; }
 		};
 		Aritmetica.answer = operatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
-		PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.secondDigit);
-
-		switch(Aritmetica.operation) {
-		case "*": PB.setSpecialDigit("x"); break;
-		case "/": PB.setSpecialDigit("%"); break;
-		default:
-			PB.setSpecialDigit(Aritmetica.operation);
+		if (Aritmetica.showResultFlag) {
+			PB.debug(Aritmetica.operation);
+			PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.secondDigit + Aritmetica.answer);
+		} else {
+			PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.secondDigit);
 		}
+
+		Aritmetica.showOperator();
 
 		PB.setSpecialDigit2("=");
     }
@@ -247,7 +266,7 @@ Adicao = {
     reset: function() {
 		PB.clearDisplay();
 		Som.playSong(Som.GameSelectedSong);
-		Aritmetica.possibleOperations = "+";
+		Aritmetica.reset("+");
 		Aritmetica.advanceQuestion();
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
@@ -260,7 +279,7 @@ Subtracao = {
     reset: function() {
 		PB.clearDisplay();
 		Som.playSong(Som.GameSelectedSong);
-		Aritmetica.possibleOperations = "-";
+		Aritmetica.reset("-");
 		Aritmetica.advanceQuestion();
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
@@ -273,7 +292,7 @@ Multiplicacao = {
     reset: function() {
 		PB.clearDisplay();
 		Som.playSong(Som.GameSelectedSong);
-		Aritmetica.possibleOperations = "*";
+		Aritmetica.reset("*");
 		Aritmetica.advanceQuestion();
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
@@ -286,7 +305,7 @@ Divisao = {
     reset: function() {
 		PB.clearDisplay();
 		Som.playSong(Som.GameSelectedSong);
-		Aritmetica.possibleOperations = "/";
+		Aritmetica.reset("/");
 		Aritmetica.advanceQuestion();
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
@@ -299,9 +318,37 @@ Operacao = {
     reset: function() {
 		PB.clearDisplay();
 		Som.playSong(Som.GameSelectedSong);
+		Aritmetica.reset();
+		Aritmetica.showOperatorFlag = false;
+		Aritmetica.showResultFlag = true;
+		Aritmetica.advanceQuestion();
 	},
     oneLoopIteration: function() {},
-    buttonPress: function() {},
+    buttonPress: function(b) {
+		switch (b) {
+		case "+":
+		case "-":
+		case "*":
+		case "/":
+			if (b != Aritmetica.operation) {
+				Aritmetica.tries++;
+				if (Aritmetica.tries >= 3) {
+					Som.playSong(Som.GameOverSong);
+					Aritmetica.showCorrectAnswer();
+					Aritmetica.advanceQuestion();
+				} else {
+					Som.playSong(Som.WrongSong);
+				}
+			} else {
+				Som.playSong(Som.CorrectSong);
+				Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
+				Aritmetica.advanceQuestion();
+			}
+			break;
+		default:
+			PB.beep();
+		}
+	},
     buttonRelease: function() {},
 };
 
@@ -615,6 +662,7 @@ PB = {
 		"*": [[0, 0, 0, 0, 0, 0, 1, 0], [1, 1, 1, 1, 1, 1, 0, 0]],
 		"x": [[0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 0, 1, 1, 0, 0, 0]],
 		"%": [[0, 0, 0, 0, 0, 0, 1, 1], [0, 0, 0, 0, 0, 0, 1, 0]],
+		"#": [[0, 0, 0, 0, 0, 0, 1, 1], [1, 1, 1, 1, 1, 1, 1, 0]]
 	},
 	FontTable: {
 		"0": [1, 1, 1, 1, 1, 1, 0],
