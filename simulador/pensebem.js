@@ -3,6 +3,7 @@ Som = {
 		game_selected_song: "CgC",
 		correct_song: "gCC",
 		wrong_song: "ec",
+    gameover_song: "egec",
 		high_beep: "C",
 		low_beep: "c",
     SampleRate: 44100,
@@ -147,14 +148,15 @@ Aritmetica = {
 					PB.prompt();
 				} else {
 		      var answer = parseInt(Prompt.getInput());
-          PB.debug("answer: "+answer);
-		      if (answer != Aritmetica.answer) {
-              Som.playSong(Som.wrong_song);
-		          Aritmetica.tries++;
+          if (answer != Aritmetica.answer) {
+              Aritmetica.tries++;
 		          if (Aritmetica.tries >= 3) {
+                  Som.playSong(Som.gameover_song);
 		              Aritmetica.showCorrectAnswer();
 		              Aritmetica.advanceQuestion();
-		          }
+		          } else {
+                Som.playSong(Som.wrong_song);
+              }
 		      } else {
               Som.playSong(Som.correct_song);
 		          Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
@@ -163,7 +165,8 @@ Aritmetica = {
 	      }
     },
     showCorrectAnswer: function() {
-        PB.setDisplay("      " + Aritmetica.answer);
+        //PB.blinkDisplayAFewTimesBeforeResuming(Aritmetica.answer);
+        PB.setDisplay(Aritmetica.answer);
     },
     buttonPress: function(b) {},
     buttonRelease: function(b) {},
