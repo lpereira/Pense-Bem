@@ -182,14 +182,9 @@ Aritmetica = {
         Aritmetica.tries = 0;
         Aritmetica.operation = Aritmetica.possibleOperations[Math.round(Math.random() * (Aritmetica.possibleOperations.length - 1))];
         Aritmetica.firstDigit = Math.round(Math.random() * 99);
-        Aritmetica.secondDigit = Math.round(Math.random() * 99);
-        if ((Aritmetica.operation == "/" || Aritmetica.operation == "-") && Aritmetica.secondDigit > Aritmetica.firstDigit) {
-            var temp = Aritmetica.firstDigit;
-            Aritmetica.firstDigit = Aritmetica.secondDigit;
-            Aritmetica.secondDigit = temp;
-            if (Aritmetica.secondDigit == 0) {
-                Aritmetica.secondDigit = 1;
-            }
+        Aritmetica.secondDigit = Math.round(Math.random() * 9);
+        if (Aritmetica.operation == "/"  && Aritmetica.secondDigit == 0) {
+			Aritmetica.secondDigit = 1;
         }
         const operatorFunctionTable = {
             "+": function(a, b) { return a + b; },
