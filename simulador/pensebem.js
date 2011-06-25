@@ -189,8 +189,7 @@ Aritmetica = {
             "*": function(a, b) { return a * b; }
         };
         Aritmetica.answer = operatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
-        PB.debug(Aritmetica.firstDigit + " " + Aritmetica.operation + " " + Aritmetica.secondDigit);
-				PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.secondDigit);
+        PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.secondDigit);
 
 				switch(Aritmetica.operation){
 					case "*": PB.setSpecialDigit("x"); break;
