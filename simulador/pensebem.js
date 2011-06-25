@@ -136,24 +136,32 @@ Som = {
 
 //------------------------------------------------------------------------------
 Aritmetica = {
+		please_wait: true,
     reset: function() {
 				Som.playSong(Som.game_selected_song);
         Aritmetica.possibleOperations = "+-/*";
         Aritmetica.points = 0;
         Aritmetica.advanceQuestion();
+				Aritmetica.please_wait = false;
     },
     oneLoopIteration: function() {
-        var answer = parseInt(prompt("Answer:"));
-        if (answer != Aritmetica.answer) {
-            Aritmetica.tries++;
-            if (Aritmetica.tries >= 3) {
-                Aritmetica.showCorrectAnswer();
-                Aritmetica.advanceQuestion();
-            }
-        } else {
-            Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
-            Aritmetica.advanceQuestion();
-        }
+				if (Aritmetica.please_wait) return;
+
+				if (!Prompt.ready){
+					PB.prompt();
+				} else {
+		      var answer = parseInt(Prompt.input);
+		      if (answer != Aritmetica.answer) {
+		          Aritmetica.tries++;
+		          if (Aritmetica.tries >= 3) {
+		              Aritmetica.showCorrectAnswer();
+		              Aritmetica.advanceQuestion();
+		          }
+		      } else {
+		          Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
+		          Aritmetica.advanceQuestion();
+		      }
+	      }
     },
     showCorrectAnswer: function() {
         PB.setDisplay("      " + Aritmetica.answer);
@@ -182,6 +190,9 @@ Aritmetica = {
         };
         Aritmetica.answer = operatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
         PB.debug(Aritmetica.firstDigit + " " + Aritmetica.operation + " " + Aritmetica.secondDigit);
+				PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.secondDigit);
+				PB.setSpecialDigit(Aritmetica.operation);
+				PB.setSpecialDigit2("=");
     }
 };
 
