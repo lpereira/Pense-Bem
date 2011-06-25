@@ -4,6 +4,7 @@ Som = {
 		correct_song: "gCC",
 		wrong_song: "ec",
     gameover_song: "egec",
+    sigame_win_song: "ceeecCCC",//TODO: verify this
 		high_beep: "C",
 		low_beep: "c",
     SampleRate: 44100,
@@ -275,9 +276,47 @@ SigaMe = {
     reset: function() {
         PB.clearDisplay();
 				Som.playSong(Som.game_selected_song);
+        SigaMe.guess_index = 0;
+        SigaMe.sequence = [];
+        SigaMe.addRandomNote();
 		},
+    addRandomNote: function(){
+        SigaMe.sequence.push(Math.round(Math.random() * 10));
+        SigaMe.playSequence();
+    },
     oneLoopIteration: function() {},
-    buttonPress: function() {},
+    playSequence: function(){
+      for (var i=0; i<SigaMe.sequence.length; i++){
+        Som.playNote("cdefgabCDE"[SigaMe.sequence[i]]);
+        pausa(200);
+        PB.clearDisplay();
+        PB.setDigit(7, SigaMe.sequence[i]);
+      }
+    },
+    buttonPress: function(b) {
+			if (b in ["0","1","2","3","4","5","6","7","8","9"]){
+        if (SigaMe.guess_index < SigaMe.sequence.length){
+          if (b==SigaMe.sequence[SigaMe.guess_index]){
+            if (SigaMe.sequence.length == 15){
+              Som.playSong(Som.sigame_win_song);
+              SigaMe.reset();
+              return;
+            }
+            Som.playNote(b);
+            PB.setDigit(7, b);
+            SigaMe.guess_index++;
+          } else {
+            Som.playSong(Som.wrong_song);
+            //TODO: pause here?
+            SigaMe.playSequence();
+            SigaMe.guess_index=0;            
+          }          
+        } else {
+          SigaMe.addRandomNote();
+          SigaMe.guess_index=0;
+        }
+      }
+		},
     buttonRelease: function() {},
 };
 
