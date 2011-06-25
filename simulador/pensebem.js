@@ -137,7 +137,7 @@ Som = {
 //------------------------------------------------------------------------------
 Aritmetica = {
     reset: function() {
-				Som.playSong(Som.ok_song);
+				Som.playSong(Som.game_selected_song);
         Aritmetica.possibleOperations = "+-/*";
         Aritmetica.points = 0;
         Aritmetica.advanceQuestion();
@@ -227,7 +227,7 @@ Divisao = {
 Operacao = {
     reset: function() {
         PB.clearDisplay();
-				Som.playSong(Som.ok_song);
+				Som.playSong(Som.game_selected_song);
 		},
     oneLoopIteration: function() {},
     buttonPress: function() {},
@@ -238,7 +238,7 @@ Operacao = {
 SigaMe = {
     reset: function() {
         PB.clearDisplay();
-				Som.playSong(Som.ok_song);
+				Som.playSong(Som.game_selected_song);
 		},
     oneLoopIteration: function() {},
     buttonPress: function() {},
@@ -249,7 +249,7 @@ SigaMe = {
 MemoriaTons = {
     reset: function() {
         PB.clearDisplay();
-				Som.playSong(Som.ok_song);
+				Som.playSong(Som.game_selected_song);
     },
     oneLoopIteration: function() {},
     buttonPress: function(b) {
@@ -277,7 +277,7 @@ MemoriaTons = {
 NumeroDoMeio = {
     reset: function() {
         PB.clearDisplay();
-				Som.playSong(Som.ok_song);
+				Som.playSong(Som.game_selected_song);
 		},
     oneLoopIteration: function() {},
     buttonPress: function() {},
@@ -288,7 +288,7 @@ NumeroDoMeio = {
 AdivinheONumero = {
     reset: function() {
         PB.clearDisplay();
-				Som.playSong(Som.ok_song);
+				Som.playSong(Som.game_selected_song);
 		},
     oneLoopIteration: function() {},
     buttonPress: function() {},
@@ -300,7 +300,7 @@ Livro = {
     StateChoosingBook: 0,
     StateQuestioning: 1,
     reset: function() {
-				Som.playSong(Som.ok_song);
+				Som.playSong(Som.game_selected_song);
         Livro.state = Livro.StateChoosingBook;
     },
     oneLoopIteration: function() {
