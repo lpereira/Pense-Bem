@@ -206,6 +206,8 @@ Aritmetica = {
 //------------------------------------------------------------------------------
 Adicao = {
     reset: function() {
+        PB.clearDisplay();
+				Som.playSong(Som.game_selected_song);
         Aritmetica.possibleOperations = "+";
         Aritmetica.advanceQuestion();
     },
@@ -217,6 +219,8 @@ Adicao = {
 //------------------------------------------------------------------------------
 Subtracao = {
     reset: function() {
+        PB.clearDisplay();
+				Som.playSong(Som.game_selected_song);
         Aritmetica.possibleOperations = "-";
         Aritmetica.advanceQuestion();
     },
@@ -228,6 +232,8 @@ Subtracao = {
 //------------------------------------------------------------------------------
 Multiplicacao = {
     reset: function() {
+        PB.clearDisplay();
+				Som.playSong(Som.game_selected_song);
         Aritmetica.possibleOperations = "*";
         Aritmetica.advanceQuestion();
     },
@@ -239,6 +245,8 @@ Multiplicacao = {
 //------------------------------------------------------------------------------
 Divisao = {
     reset: function() {
+        PB.clearDisplay();
+				Som.playSong(Som.game_selected_song);
         Aritmetica.possibleOperations = "/";
         Aritmetica.advanceQuestion();
     },
