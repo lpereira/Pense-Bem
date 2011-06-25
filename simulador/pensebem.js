@@ -136,21 +136,18 @@ Som = {
 
 //------------------------------------------------------------------------------
 Aritmetica = {
-		please_wait: true,
     reset: function() {
 				Som.playSong(Som.game_selected_song);
         Aritmetica.possibleOperations = "+-/*";
         Aritmetica.points = 0;
         Aritmetica.advanceQuestion();
-				Aritmetica.please_wait = false;
-    },
+	  },
     oneLoopIteration: function() {
-				if (Aritmetica.please_wait) return;
-
 				if (!Prompt.ready){
 					PB.prompt();
 				} else {
 		      var answer = parseInt(Prompt.input);
+          PB.debug("answer: "+answer);
 		      if (answer != Aritmetica.answer) {
 		          Aritmetica.tries++;
 		          if (Aritmetica.tries >= 3) {
@@ -363,7 +360,7 @@ Livro = {
         Livro.tries = 0;
         Livro.question++;
         PB.setDisplay("      " + Livro.question);
-    },
+		},
     getCorrectAnswer: function() {
         const answerPattern = "CDDBAADCBDAADCBB";
         return answerPattern[(Livro.book + Livro.question) & 15];
@@ -445,7 +442,7 @@ Prompt = {
     reset: function() {
         //TODO: PB.blinkDigit(7, "-", " ");
 				Prompt.ready = false;
-				Prompt.input = "   ";
+    		Prompt.input= "   ";
     },
 		ready: false,
     oneLoopIteration: function() {
@@ -454,18 +451,18 @@ Prompt = {
         PB.setDigit(7, Prompt.input[2]);
 		},
     buttonPress: function(b) {
+
 				if (b == "ENTER"){
 					Prompt.ready = true;
 					PB.mode = PB.previous_mode;
 				}
 
 				if (b in ["0","1","2","3","4","5","6","7","8","9"]){
-					//low_beep
-					Prompt.input[0] = Prompt.input[1];
-					Prompt.input[1] = Prompt.input[2];
-					Prompt.input[2] = b;
+					Som.playNote(Som.low_beep);
+					Prompt.input = Prompt.input[1] + Prompt.input[2] + b;
 				} else {
 					//blink and high_beep
+          Som.playNote(Som.high_beep);
 				}
 		},
     buttonRelease: function(b) {}
