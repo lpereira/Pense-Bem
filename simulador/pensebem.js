@@ -10,6 +10,22 @@ NumeroDoMeio = Dummy;
 Operacao = Dummy;
 
 Som = {
+		current_note:0,
+    playAndClearQueue: function(){
+				if (Som.current_note > Som.playQueue.length){
+					Som.current_note=0;
+					Som.playQueue = [];
+				} else {
+          Som.playNote(Som.playQueue[Som.current_note]);
+					window.setTimeout("Som.playAndClearQueue()", 500);
+					Som.current_note++;
+				}
+		},
+    playNote: function(n) {
+        Som.playNote(n);
+        PB.setDisplay(n);
+    },
+
     SampleRate: 44100,
     TickInterval: 10,
     encodeBase64: function(str) {
@@ -114,27 +130,12 @@ Som = {
 MemoriaSons = {
     reset: function() {
         PB.setDisplay("");
-        MemoriaSons.playQueue = [];
+        Som.playQueue = [];
     },
     oneLoopIteration: function() {},
-		current_note:0,
-    playAndClearQueue: function(){
-				if (MemoriaSons.current_note>MemoriaSons.playQueue.length){
-					MemoriaSons.current_note=0;
-					MemoriaSons.reset();
-				} else {
-          MemoriaSons.playNote(MemoriaSons.playQueue[MemoriaSons.current_note]);
-					window.setTimeout("MemoriaSons.playAndClearQueue()", 500);
-					MemoriaSons.current_note++;
-				}
-		},
-    playNote: function(n) {
-        Som.playNote(n);
-        PB.setDisplay(n);
-    },
     buttonPress: function(b) {
         if (b == 'ENTER') {
-            MemoriaSons.playAndClearQueue();
+            Som.playAndClearQueue();
             return;
         }
         const buttonToNoteTable = {
@@ -147,8 +148,8 @@ MemoriaSons = {
             PB.beep();
             return;
         }
-        MemoriaSons.playQueue.push(note);
-        MemoriaSons.playNote(note);
+        Som.playQueue.push(note);
+        Som.playNote(note);
     },
     buttonRelease: function(b) {}
 };
