@@ -1,6 +1,10 @@
 Som = {
 		welcome_song: "egage",
-		ok_song: "CgC",
+		game_selected_song: "CgC",
+		correct_song: "gCC",
+		wrong_song: "ec",
+		high_beep: "C",
+		low_beep: "c",
     SampleRate: 44100,
     TickInterval: 10,
 		currentNote: 0,
