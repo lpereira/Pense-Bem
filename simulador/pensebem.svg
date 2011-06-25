@@ -214,11 +214,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.3885006"
-     inkscape:cx="345.49009"
-     inkscape:cy="102.31064"
+     inkscape:zoom="10.012608"
+     inkscape:cx="191.69897"
+     inkscape:cy="392.6275"
      inkscape:document-units="px"
-     inkscape:current-layer="g2139"
+     inkscape:current-layer="layer8"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -1746,8 +1746,7 @@
      inkscape:groupmode="layer"
      id="layer8"
      inkscape:label="digitos-display"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <rect
        style="fill:#1b2327;fill-opacity:1;stroke:none"
        id="rect1347"
@@ -2558,7 +2557,7 @@
     <path
        sodipodi:nodetypes="ccccc"
        inkscape:connector-curvature="0"
-       id="menos"
+       id="d8_h"
        d="m 170.92451,76.268279 9.1145,0 -0.31705,2.94402 -9.11449,0 z"
        style="fill:#575b4b;fill-opacity:1;stroke:none"
        inkscape:label="#path1267" />
@@ -2593,10 +2592,11 @@
        sodipodi:rx="1.9731542"
        sodipodi:cy="119.35948"
        sodipodi:cx="228.25449"
-       id="path1275"
+       id="d3_h"
        style="fill:#575b4b;fill-opacity:1;stroke:none"
        sodipodi:type="arc"
-       transform="matrix(1.1477234,0,0,1.1477234,-72.24051,-30.872615)" />
+       transform="matrix(1.1477234,0,0,1.1477234,-72.24051,-30.872615)"
+       inkscape:label="#path1275" />
     <path
        style="fill:#575b4b;fill-opacity:1;stroke:none"
        d="m 199.79155,69.379889 -5.84622,8.85899 -0.3228,4.12464 1.14773,0 5.45168,-8.321 0.39453,-4.66263 -0.82492,0 z"

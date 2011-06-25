@@ -191,7 +191,14 @@ Aritmetica = {
         Aritmetica.answer = operatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
         PB.debug(Aritmetica.firstDigit + " " + Aritmetica.operation + " " + Aritmetica.secondDigit);
 				PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.secondDigit);
-				PB.setSpecialDigit(Aritmetica.operation);
+
+				switch(Aritmetica.operation){
+					case "*": PB.setSpecialDigit("x"); break;
+					case "/": PB.setSpecialDigit("%"); break;
+					default:
+						PB.setSpecialDigit(Aritmetica.operation);
+				}
+
 				PB.setSpecialDigit2("=");
     }
 };
@@ -505,8 +512,12 @@ PB = {
         PB.setDisplay("Ação inválida");
     },
     specialFontTable: {
-			" ": [0, 0, 0, 0, 0, 0, 0],
-			"*": [1, 1, 1, 1, 1, 1, 0],
+			" ": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
+			"+": [[0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 1, 0, 0, 1, 0, 0]],
+			"-": [[0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
+			"*": [[0, 0, 0, 0, 0, 0, 1, 0], [1, 1, 1, 1, 1, 1, 0, 0]],
+			"x": [[0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 0, 1, 1, 0, 0, 0]],
+			"%": [[0, 0, 0, 0, 0, 0, 1, 1], [0, 0, 0, 0, 0, 0, 1, 0]],
 		},
     fontTable: {
 			"0": [1, 1, 1, 1, 1, 1, 0],
@@ -565,9 +576,11 @@ PB = {
 			if (state === undefined) {
 				state = PB.specialFontTable[' '];
 			}
-			for (var segment = 1; segment <= 7; segment++) {
-				PB.setSegment("8", "abcdefg"[segment - 1], state[segment - 1]);
+			for (var segment = 1; segment <= 8; segment++) {
+				PB.setSegment("3", "abcdefgh"[segment - 1], state[0][segment - 1]);
+				PB.setSegment("8", "abcdefgh"[segment - 1], state[1][segment - 1]);
 			}
+
     },
     setSpecialDigit2: function(c) {
 			if (c == "="){
