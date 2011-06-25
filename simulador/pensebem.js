@@ -117,12 +117,17 @@ MemoriaSons = {
         MemoriaSons.playQueue = [];
     },
     oneLoopIteration: function() {},
-    playAndClearQueue: function() {
-        for (var noteIndex in MemoriaSons.playQueue) {
-            MemoriaSons.playNote(MemoriaSons.playQueue[noteIndex]);
-        }
-        MemoriaSons.reset();
-    },
+		current_note:0,
+    playAndClearQueue: function(){
+				if (MemoriaSons.current_note>MemoriaSons.playQueue.length){
+					MemoriaSons.current_note=0;
+					MemoriaSons.reset();
+				} else {
+          MemoriaSons.playNote(MemoriaSons.playQueue[MemoriaSons.current_note]);
+					window.setTimeout("MemoriaSons.playAndClearQueue()", 500);
+					MemoriaSons.current_note++;
+				}
+		},
     playNote: function(n) {
         Som.playNote(n);
         PB.setDisplay(n);
