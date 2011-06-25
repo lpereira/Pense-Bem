@@ -180,10 +180,13 @@ Aritmetica = {
 	        Aritmetica.firstDigit = Math.round(Math.random() * 99);
 				}
         Aritmetica.secondDigit = Math.round(Math.random() * 9);
-        if (Aritmetica.operation == "/"  && Aritmetica.secondDigit == 0) {
-					Aritmetica.secondDigit = 1;
-					//TODO: fix-me: Isso faz divisões por 1 serem mais provaveis que as demais.
-        }
+        if (Aritmetica.operation == "/") {
+			if (Aritmetica.secondDigit == 0) {
+				Aritmetica.secondDigit = 1;
+				//TODO: fix-me: Isso faz divisões por 1 serem mais provaveis que as demais.
+			}
+			Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
+		}
         const operatorFunctionTable = {
             "+": function(a, b) { return a + b; },
             "-": function(a, b) { return a - b; },
