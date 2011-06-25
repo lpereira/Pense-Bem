@@ -540,6 +540,7 @@ PB = {
 		clearDisplay: function(){
         PB.setDisplay("");
 				PB.setSpecialDigit(" ");
+				PB.setSpecialDigit2(" ");
 		},
     setDisplay: function(c) {
 			for (var i = 1; i <= 7; ++i) {
