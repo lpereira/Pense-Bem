@@ -1,32 +1,32 @@
 Som = {
-		welcome_song: "egage",
-		game_selected_song: "CgC",
-		correct_song: "gCC",
-		wrong_song: "ec",
-    gameover_song: "egec",
-    sigame_win_song: "ceeecCCC",//TODO: verify this
-		high_beep: "C",
-		low_beep: "c",
-    SampleRate: 8192,
-    TickInterval: 10,
-		currentNote: 0,
-    playAndClearQueue: function(){
-			if (Som.currentNote > Som.playQueue.length){
-				Som.currentNote=0;
-				Som.playQueue = [];
-			} else {
-				Som.playNote(Som.playQueue[Som.currentNote]);
-				window.setTimeout("Som.playAndClearQueue()", 200);
-				Som.currentNote++;
-			}
-		},
-		playSong: function(song){
+	WelcomeSong: "egage",
+	GameSelectedSong: "CgC",
+	CorrectSong: "gCC",
+	WrongSong: "ec",
+	GameOverSong: "egec",
+	SigaMeCorrectSong: "ceeecCCC",//TODO: verify this
+	HighBeep: "C",
+	LowBeep: "c",
+	SampleRate: 8192,
+	TickInterval: 10,
+	currentNote: 0,
+    playAndClearQueue: function() {
+		if (Som.currentNote > Som.playQueue.length) {
+			Som.currentNote=0;
 			Som.playQueue = [];
-			for (note in song){
-				Som.playQueue.push(song[note]);
-			}
-			Som.playAndClearQueue();
-		},
+		} else {
+			Som.playNote(Som.playQueue[Som.currentNote]);
+			window.setTimeout("Som.playAndClearQueue()", 200);
+			Som.currentNote++;
+		}
+	},
+	playSong: function(song) {
+		Som.playQueue = [];
+		for (note in song) {
+			Som.playQueue.push(song[note]);
+		}
+		Som.playAndClearQueue();
+	},
     playNote: function(n) {
         Som.playNote(n);
         PB.setDisplay(n);
@@ -173,32 +173,32 @@ Som = {
 //------------------------------------------------------------------------------
 Aritmetica = {
     reset: function() {
-				Som.playSong(Som.game_selected_song);
-        Aritmetica.possibleOperations = "+-/*";
-        Aritmetica.points = 0;
-        Aritmetica.advanceQuestion();
-	  },
+		Som.playSong(Som.GameSelectedSong);
+		Aritmetica.possibleOperations = "+-/*";
+		Aritmetica.points = 0;
+		Aritmetica.advanceQuestion();
+	},
     oneLoopIteration: function() {
-				if (!Prompt.done){
-					PB.prompt();
+		if (!Prompt.done) {
+			PB.prompt();
+		} else {
+			var answer = parseInt(Prompt.getInput());
+			if (answer != Aritmetica.answer) {
+				Aritmetica.tries++;
+				if (Aritmetica.tries >= 3) {
+					Som.playSong(Som.GameOverSong);
+					Aritmetica.showCorrectAnswer();
+					Aritmetica.advanceQuestion();
 				} else {
-		      var answer = parseInt(Prompt.getInput());
-          if (answer != Aritmetica.answer) {
-              Aritmetica.tries++;
-		          if (Aritmetica.tries >= 3) {
-                  Som.playSong(Som.gameover_song);
-		              Aritmetica.showCorrectAnswer();
-		              Aritmetica.advanceQuestion();
-		          } else {
-                Som.playSong(Som.wrong_song);
-              }
-		      } else {
-              Som.playSong(Som.correct_song);
-		          Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
-		          Aritmetica.advanceQuestion();
-		      }
-	      }
-    },
+					Som.playSong(Som.WrongSong);
+				}
+			} else {
+				Som.playSong(Som.CorrectSong);
+				Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
+				Aritmetica.advanceQuestion();
+			}
+		}
+	},
     showCorrectAnswer: function() {
         //PB.blinkDisplayAFewTimesBeforeResuming(Aritmetica.answer);
         PB.setDisplay(Aritmetica.answer);
@@ -206,49 +206,49 @@ Aritmetica = {
     buttonPress: function(b) {},
     buttonRelease: function(b) {},
     advanceQuestion: function() {
-        Aritmetica.tries = 0;
-        Aritmetica.operation = Aritmetica.possibleOperations[Math.round(Math.random() * (Aritmetica.possibleOperations.length - 1))];
+		Aritmetica.tries = 0;
+		Aritmetica.operation = Aritmetica.possibleOperations[Math.round(Math.random() * (Aritmetica.possibleOperations.length - 1))];
 
-				//TODO: verificar se é possivel aparecerem numeros menores que 10
-				Aritmetica.firstDigit=0;
-				while (Aritmetica.firstDigit<10){
-	        Aritmetica.firstDigit = Math.round(Math.random() * 99);
-				}
-        Aritmetica.secondDigit = Math.round(Math.random() * 9);
-        if (Aritmetica.operation == "/") {
+		//TODO: verificar se é possivel aparecerem numeros menores que 10
+		Aritmetica.firstDigit=0;
+		while (Aritmetica.firstDigit<10) {
+			Aritmetica.firstDigit = Math.round(Math.random() * 99);
+		}
+		Aritmetica.secondDigit = Math.round(Math.random() * 9);
+		if (Aritmetica.operation == "/") {
 			if (Aritmetica.secondDigit == 0) {
 				Aritmetica.secondDigit = 1;
 				//TODO: fix-me: Isso faz divisões por 1 serem mais provaveis que as demais.
 			}
 			Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
 		}
-        const operatorFunctionTable = {
-            "+": function(a, b) { return a + b; },
-            "-": function(a, b) { return a - b; },
-            "/": function(a, b) { return a / b; },
-            "*": function(a, b) { return a * b; }
-        };
-        Aritmetica.answer = operatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
-        PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.secondDigit);
+		const operatorFunctionTable = {
+			"+": function(a, b) { return a + b; },
+			"-": function(a, b) { return a - b; },
+			"/": function(a, b) { return a / b; },
+			"*": function(a, b) { return a * b; }
+		};
+		Aritmetica.answer = operatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
+		PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.secondDigit);
 
-				switch(Aritmetica.operation){
-					case "*": PB.setSpecialDigit("x"); break;
-					case "/": PB.setSpecialDigit("%"); break;
-					default:
-						PB.setSpecialDigit(Aritmetica.operation);
-				}
+		switch(Aritmetica.operation) {
+		case "*": PB.setSpecialDigit("x"); break;
+		case "/": PB.setSpecialDigit("%"); break;
+		default:
+			PB.setSpecialDigit(Aritmetica.operation);
+		}
 
-				PB.setSpecialDigit2("=");
+		PB.setSpecialDigit2("=");
     }
 };
 
 //------------------------------------------------------------------------------
 Adicao = {
     reset: function() {
-        PB.clearDisplay();
-				Som.playSong(Som.game_selected_song);
-        Aritmetica.possibleOperations = "+";
-        Aritmetica.advanceQuestion();
+		PB.clearDisplay();
+		Som.playSong(Som.GameSelectedSong);
+		Aritmetica.possibleOperations = "+";
+		Aritmetica.advanceQuestion();
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress,
@@ -258,10 +258,10 @@ Adicao = {
 //------------------------------------------------------------------------------
 Subtracao = {
     reset: function() {
-        PB.clearDisplay();
-				Som.playSong(Som.game_selected_song);
-        Aritmetica.possibleOperations = "-";
-        Aritmetica.advanceQuestion();
+		PB.clearDisplay();
+		Som.playSong(Som.GameSelectedSong);
+		Aritmetica.possibleOperations = "-";
+		Aritmetica.advanceQuestion();
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress,
@@ -271,10 +271,10 @@ Subtracao = {
 //------------------------------------------------------------------------------
 Multiplicacao = {
     reset: function() {
-        PB.clearDisplay();
-				Som.playSong(Som.game_selected_song);
-        Aritmetica.possibleOperations = "*";
-        Aritmetica.advanceQuestion();
+		PB.clearDisplay();
+		Som.playSong(Som.GameSelectedSong);
+		Aritmetica.possibleOperations = "*";
+		Aritmetica.advanceQuestion();
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress,
@@ -284,10 +284,10 @@ Multiplicacao = {
 //------------------------------------------------------------------------------
 Divisao = {
     reset: function() {
-        PB.clearDisplay();
-				Som.playSong(Som.game_selected_song);
-        Aritmetica.possibleOperations = "/";
-        Aritmetica.advanceQuestion();
+		PB.clearDisplay();
+		Som.playSong(Som.GameSelectedSong);
+		Aritmetica.possibleOperations = "/";
+		Aritmetica.advanceQuestion();
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress,
@@ -297,9 +297,9 @@ Divisao = {
 //------------------------------------------------------------------------------
 Operacao = {
     reset: function() {
-        PB.clearDisplay();
-				Som.playSong(Som.game_selected_song);
-		},
+		PB.clearDisplay();
+		Som.playSong(Som.GameSelectedSong);
+	},
     oneLoopIteration: function() {},
     buttonPress: function() {},
     buttonRelease: function() {},
@@ -308,86 +308,86 @@ Operacao = {
 //------------------------------------------------------------------------------
 SigaMe = {
     reset: function() {
-        PB.clearDisplay();
-				Som.playSong(Som.game_selected_song);
-        SigaMe.guess_index = 0;
-        SigaMe.sequence = [];
-        SigaMe.addRandomNote();
-		},
-    addRandomNote: function(){
-        SigaMe.sequence.push(Math.round(Math.random() * 10));
-        SigaMe.playSequence();
-    },
-    oneLoopIteration: function() {},
-    playSequence: function(){
-      for (var i=0; i<SigaMe.sequence.length; i++){
-        Som.playNote("cdefgabCDE"[SigaMe.sequence[i]]);
-        pausa(200);
-        PB.clearDisplay();
-        PB.setDigit(7, SigaMe.sequence[i]);
-      }
-    },
-    buttonPress: function(b) {
-			if (b in ["0","1","2","3","4","5","6","7","8","9"]){
-        if (SigaMe.guess_index < SigaMe.sequence.length){
-          if (b==SigaMe.sequence[SigaMe.guess_index]){
-            if (SigaMe.sequence.length == 15){
-              Som.playSong(Som.sigame_win_song);
-              SigaMe.reset();
-              return;
-            }
-            Som.playNote(b);
-            PB.setDigit(7, b);
-            SigaMe.guess_index++;
-          } else {
-            Som.playSong(Som.wrong_song);
-            //TODO: pause here?
-            SigaMe.playSequence();
-            SigaMe.guess_index=0;            
-          }          
-        } else {
-          SigaMe.addRandomNote();
-          SigaMe.guess_index=0;
-        }
-      }
-		},
-    buttonRelease: function() {},
+		PB.clearDisplay();
+		Som.playSong(Som.GameSelectedSong);
+		SigaMe.guessIndex = 0;
+		SigaMe.sequence = [];
+		SigaMe.addRandomNote();
+	},
+	addRandomNote: function() {
+		SigaMe.sequence.push(Math.round(Math.random() * 10));
+		SigaMe.playSequence();
+	},
+	oneLoopIteration: function() {},
+	playSequence: function() {
+		for (var i=0; i<SigaMe.sequence.length; i++) {
+			Som.playNote("cdefgabCDE"[SigaMe.sequence[i]]);
+			pausa(200);
+			PB.clearDisplay();
+			PB.setDigit(7, SigaMe.sequence[i]);
+		}
+	},
+	buttonPress: function(b) {
+		if (b in ["0","1","2","3","4","5","6","7","8","9"]) {
+			if (SigaMe.guessIndex < SigaMe.sequence.length) {
+				if (b == SigaMe.sequence[SigaMe.guessIndex]) {
+					if (SigaMe.sequence.length == 15) {
+						Som.playSong(Som.SigaMeCorrectSong);
+						SigaMe.reset();
+						return;
+					}
+					Som.playNote(b);
+					PB.setDigit(7, b);
+					SigaMe.guessIndex++;
+				} else {
+					Som.playSong(Som.WrongSong);
+					//TODO: pause here?
+					SigaMe.playSequence();
+					SigaMe.guessIndex=0;
+				}
+			} else {
+				SigaMe.addRandomNote();
+				SigaMe.guessIndex=0;
+			}
+		}
+	},
+	buttonRelease: function() {},
 };
 
 //------------------------------------------------------------------------------
 MemoriaTons = {
-    reset: function() {
-        PB.clearDisplay();
-				Som.playSong(Som.game_selected_song);
-    },
-    oneLoopIteration: function() {},
-    buttonPress: function(b) {
-        if (b == 'ENTER') {
-            Som.playAndClearQueue();
-            return;
-        }
-        const buttonToNoteTable = {
-            "0": "p", "1": "c", "2": "d", "3": "e",
-            "4": "f", "5": "g", "6": "a", "7": "b",
-            "8": "C", "9": "D"
-        };
-        var note = buttonToNoteTable[b];
-        if (note === undefined) {
-            PB.beep();
-            return;
-        }
-        Som.playQueue.push(note);
-        Som.playNote(note);
-    },
-    buttonRelease: function(b) {}
+	reset: function() {
+		PB.clearDisplay();
+		Som.playSong(Som.GameSelectedSong);
+	},
+	oneLoopIteration: function() {},
+	buttonPress: function(b) {
+		if (b == 'ENTER') {
+			Som.playAndClearQueue();
+			return;
+		}
+		const buttonToNoteTable = {
+			"0": "p", "1": "c", "2": "d", "3": "e",
+			"4": "f", "5": "g", "6": "a", "7": "b",
+			"8": "C", "9": "D"
+		};
+		var note = buttonToNoteTable[b];
+		if (note === undefined) {
+			PB.beep();
+			return;
+		}
+		Som.playQueue.push(note);
+		Som.playNote(note);
+	},
+	buttonRelease: function(b) {}
 };
 
 //------------------------------------------------------------------------------
 NumeroDoMeio = {
     reset: function() {
-        PB.clearDisplay();
-				Som.playSong(Som.game_selected_song);
-		},
+		PB.clearDisplay();
+		Som.playSong(Som.GameSelectedSong);
+	},
     oneLoopIteration: function() {},
     buttonPress: function() {},
     buttonRelease: function() {},
@@ -396,9 +396,9 @@ NumeroDoMeio = {
 //------------------------------------------------------------------------------
 AdivinheONumero = {
     reset: function() {
-        PB.clearDisplay();
-				Som.playSong(Som.game_selected_song);
-		},
+		PB.clearDisplay();
+		Som.playSong(Som.GameSelectedSong);
+	},
     oneLoopIteration: function() {},
     buttonPress: function() {},
     buttonRelease: function() {},
@@ -409,47 +409,46 @@ Livro = {
     StateChoosingBook: 0,
     StateQuestioning: 1,
     reset: function() {
-				Som.playSong(Som.game_selected_song);
-        Livro.state = Livro.StateChoosingBook;
+		Som.playSong(Som.GameSelectedSong);
+		Livro.state = Livro.StateChoosingBook;
     },
     oneLoopIteration: function() {
-        switch (Livro.state) {
-        case Livro.StateChoosingBook:
-				    if (!Prompt.done){
-              PB.clearDisplay(); //TODO: PB.blinkDisplay("      -");
-					    PB.prompt();
-				    } else {
-		          var book = parseInt(Prompt.getInput());
-              PB.debug("Selected book: " + book);
-              if (book > 0 && book < 999) {
-                  Livro.book = book;
-                  Livro.question = 0;
-                  Livro.tries = 0;
-                  Livro.points = 0;
-                  Livro.state = Livro.StateQuestioning;
+		switch (Livro.state) {
+		case Livro.StateChoosingBook:
+			if (!Prompt.done) {
+				PB.clearDisplay(); //TODO: PB.blinkDisplay("      -");
+				PB.prompt();
+			} else {
+				var book = parseInt(Prompt.getInput());
+				PB.debug("Selected book: " + book);
+				if (book > 0 && book < 999) {
+					Livro.book = book;
+					Livro.question = 0;
+					Livro.tries = 0;
+					Livro.points = 0;
+					Livro.state = Livro.StateQuestioning;
 
-                  Livro.advanceQuestion();
-              }
-            }
-            break;
-          
-        case Livro.StateQuestioning:
-            //TODO: show question number ("  1") and
-            // blink "_ _ _ _" waiting for A B C or D 
-            // (implement a special prompt for that) 
-        }
-    },
+					Livro.advanceQuestion();
+				}
+			}
+		break;
+		case Livro.StateQuestioning:
+			//TODO: show question number ("  1") and
+			// blink "_ _ _ _" waiting for A B C or D
+			// (implement a special prompt for that)
+		}
+	},
     showCorrectAnswer: function() {
         PB.debug("The correct answer was: " + Livro.getCorrectAnswer());
     },
-    advanceQuestion: function() {
-        if (Livro.question >= 0) {
-            Livro.points += PB.pointsByNumberOfTries(Livro.tries);
-        }
-        Livro.tries = 0;
-        Livro.question++;
-        PB.setDisplay("      " + Livro.question);
-		},
+	advanceQuestion: function() {
+		if (Livro.question >= 0) {
+			Livro.points += PB.pointsByNumberOfTries(Livro.tries);
+		}
+		Livro.tries = 0;
+		Livro.question++;
+		PB.setDisplay("      " + Livro.question);
+	},
     getCorrectAnswer: function() {
         const answerPattern = "CDDBAADCBDAADCBB";
         return answerPattern[(Livro.book + Livro.question) & 15];
@@ -480,88 +479,85 @@ Livro = {
             break;
         }
     },
-    buttonRelease: function(b) {        
-    }
+    buttonRelease: function(b) {}
 }
 
 //------------------------------------------------------------------------------
 Welcome = {
-    reset: function() {
-        //TODO: PB.blinkDisplay("       ", "*");
-        PB.clearDisplay();
-        PB.setSpecialDigit("*");
-				Som.playSong(Som.welcome_song);
-    },
+	reset: function() {
+		//TODO: PB.blinkDisplay("       ", "*");
+		PB.clearDisplay();
+		PB.setSpecialDigit("*");
+		Som.playSong(Som.WelcomeSong);
+	},
     oneLoopIteration: function() {},
     buttonPress: function(b) {
-        const buttonToTable = {
-            "ADIVINHE-O-NÚMERO": AdivinheONumero,
-            "ADIÇÃO": Adicao,
-            "MULTIPLICAÇÃO": Multiplicacao,
-            "DIVISÃO": Divisao,
-            "ARITMÉTICA": Aritmetica,
-            "OPERAÇÃO": Operacao,
-            "SIGA-ME": SigaMe,
-            "MEMÓRIA-TONS": MemoriaTons,
-            "NÚMERO-DO-MEIO": NumeroDoMeio,
-            "SUBTRAÇÃO": Subtracao,
-            "LIVRO": Livro,
-        };
-        var newMode = buttonToTable[b];
-        if (newMode === undefined) {
-            PB.beep();
-            return;
-        }
-        PB.setMode(newMode);
+		const buttonToTable = {
+			"ADIVINHE-O-NÚMERO": AdivinheONumero,
+			"ADIÇÃO": Adicao,
+			"MULTIPLICAÇÃO": Multiplicacao,
+			"DIVISÃO": Divisao,
+			"ARITMÉTICA": Aritmetica,
+			"OPERAÇÃO": Operacao,
+			"SIGA-ME": SigaMe,
+			"MEMÓRIA-TONS": MemoriaTons,
+			"NÚMERO-DO-MEIO": NumeroDoMeio,
+			"SUBTRAÇÃO": Subtracao,
+			"LIVRO": Livro,
+		};
+		var newMode = buttonToTable[b];
+		if (newMode === undefined) {
+			PB.beep();
+			return;
+		}
+		PB.setMode(newMode);
     },
     buttonRelease: function(b) {}
 };
 
 //------------------------------------------------------------------------------
 Standby = {
-    reset: function() {
-        PB.clearDisplay();
-    },
-    oneLoopIteration: function() {},
-    buttonPress: function(b) {},
-    buttonRelease: function(b) {}
+	reset: function() {
+		PB.clearDisplay();
+	},
+	oneLoopIteration: function() {},
+	buttonPress: function(b) {},
+	buttonRelease: function(b) {}
 };
 
 //------------------------------------------------------------------------------
 Prompt = {
-    reset: function() {
-        //TODO: PB.blinkDigit(7, "-", " ");
-				Prompt.done = false;
-    		Prompt.input= "   ";
-    },
-    getInput: function(){
-      const value = Prompt.input;
-      Prompt.reset();
-      return value;
-    },
-		ready: false,
-    oneLoopIteration: function() {
-        PB.setDigit(5, Prompt.input[0]);
-        PB.setDigit(6, Prompt.input[1]);
-        PB.setDigit(7, Prompt.input[2]);
-		},
-    buttonPress: function(b) {
-
-				if (b == "ENTER"){
-					Prompt.done = true;
-					PB.mode = PB.previous_mode;
-          return;
-				}
-
-				if (b in ["0","1","2","3","4","5","6","7","8","9"]){
-					Som.playNote(Som.low_beep);
-					Prompt.input = Prompt.input[1] + Prompt.input[2] + b;
-				} else {
-					//blink and high_beep
-          Som.playNote(Som.high_beep);
-				}
-		},
-    buttonRelease: function(b) {}
+	reset: function() {
+		//TODO: PB.blinkDigit(7, "-", " ");
+		Prompt.done = false;
+		Prompt.input= "   ";
+	},
+	getInput: function() {
+		const value = Prompt.input;
+		Prompt.reset();
+		return value;
+	},
+	ready: false,
+	oneLoopIteration: function() {
+		PB.setDigit(5, Prompt.input[0]);
+		PB.setDigit(6, Prompt.input[1]);
+		PB.setDigit(7, Prompt.input[2]);
+	},
+	buttonPress: function(b) {
+		if (b == "ENTER") {
+			Prompt.done = true;
+			PB.mode = PB.previous_mode;
+			return;
+		}
+		if (b in ["0","1","2","3","4","5","6","7","8","9"]) {
+			Som.playNote(Som.LowBeep);
+			Prompt.input = Prompt.input[1] + Prompt.input[2] + b;
+		} else {
+			//blink and HighBeep
+			Som.playNote(Som.HighBeep);
+		}
+	},
+	buttonRelease: function(b) {}
 };
 
 //------------------------------------------------------------------------------
@@ -587,10 +583,10 @@ PB = {
         PB.mode = m;
         PB.reset();
     },
-		prompt: function(){
-				PB.previous_mode = PB.mode;
-				PB.setMode(Prompt);
-		},
+	prompt: function() {
+		PB.previous_mode = PB.mode;
+		PB.setMode(Prompt);
+	},
     buttonPress: function(b) {
         switch (b) {
         case 'LIGA': PB.setMode(Welcome); return;
@@ -612,128 +608,122 @@ PB = {
     beep: function() {
         PB.setDisplay("Ação inválida");
     },
-    specialFontTable: {
-			" ": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
-			"+": [[0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 1, 0, 0, 1, 0, 0]],
-			"-": [[0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
-			"*": [[0, 0, 0, 0, 0, 0, 1, 0], [1, 1, 1, 1, 1, 1, 0, 0]],
-			"x": [[0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 0, 1, 1, 0, 0, 0]],
-			"%": [[0, 0, 0, 0, 0, 0, 1, 1], [0, 0, 0, 0, 0, 0, 1, 0]],
-		},
-    fontTable: {
-			"0": [1, 1, 1, 1, 1, 1, 0],
-			"1": [1, 1, 0, 0, 0, 0, 0],
-			"2": [1, 0, 1, 1, 0, 1, 1],
-			"3": [1, 1, 1, 0, 0, 1, 1],
-			"4": [1, 1, 0, 0, 1, 0, 1],
-			"5": [0, 1, 1, 0, 1, 1, 1],
-			"6": [0, 1, 1, 1, 1, 1, 1],
-			"7": [1, 1, 0, 0, 0, 1, 0],
-			"8": [1, 1, 1, 1, 1, 1, 1],
-			"9": [1, 1, 1, 0, 1, 1, 1],
-			"-": [0, 0, 0, 0, 0, 0, 1],
-			"_": [0, 0, 1, 0, 0, 0, 0],
-			" ": [0, 0, 0, 0, 0, 0, 0],
-			"a": [1, 1, 0, 1, 1, 1, 1],
-			"b": [0, 1, 1, 1, 1, 0, 0],
-			"c": [0, 0, 1, 1, 1, 1, 0],
-			"d": [0, 0, 0, 0, 0, 0, 0],
-			"e": [0, 0, 0, 0, 0, 0, 0],
-			"f": [0, 0, 0, 0, 0, 0, 0],
-			"*": [0, 0, 0, 0, 0, 0, 1],
-		},
-    setSegmentById: function(id, state){
+    SpecialFontTable: {
+		" ": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
+		"+": [[0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 1, 0, 0, 1, 0, 0]],
+		"-": [[0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
+		"*": [[0, 0, 0, 0, 0, 0, 1, 0], [1, 1, 1, 1, 1, 1, 0, 0]],
+		"x": [[0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 0, 1, 1, 0, 0, 0]],
+		"%": [[0, 0, 0, 0, 0, 0, 1, 1], [0, 0, 0, 0, 0, 0, 1, 0]],
+	},
+	FontTable: {
+		"0": [1, 1, 1, 1, 1, 1, 0],
+		"1": [1, 1, 0, 0, 0, 0, 0],
+		"2": [1, 0, 1, 1, 0, 1, 1],
+		"3": [1, 1, 1, 0, 0, 1, 1],
+		"4": [1, 1, 0, 0, 1, 0, 1],
+		"5": [0, 1, 1, 0, 1, 1, 1],
+		"6": [0, 1, 1, 1, 1, 1, 1],
+		"7": [1, 1, 0, 0, 0, 1, 0],
+		"8": [1, 1, 1, 1, 1, 1, 1],
+		"9": [1, 1, 1, 0, 1, 1, 1],
+		"-": [0, 0, 0, 0, 0, 0, 1],
+		"_": [0, 0, 1, 0, 0, 0, 0],
+		" ": [0, 0, 0, 0, 0, 0, 0],
+		"a": [1, 1, 0, 1, 1, 1, 1],
+		"b": [0, 1, 1, 1, 1, 0, 0],
+		"c": [0, 0, 1, 1, 1, 1, 0],
+		"d": [0, 0, 0, 0, 0, 0, 0],
+		"e": [0, 0, 0, 0, 0, 0, 0],
+		"f": [0, 0, 0, 0, 0, 0, 0],
+		"*": [0, 0, 0, 0, 0, 0, 1],
+	},
+    setSegmentById: function(id, state) {
         var s = document.getElementById(id);
         s.setAttribute('visibility', state ? 'hidden' : 'visible');
     },
-    setSegment: function(i, seg, state){
+    setSegment: function(i, seg, state) {
         PB.setSegmentById("d" + i + "_" + seg, state);
     },
-		clearDisplay: function(){
-        PB.setDisplay("");
-				PB.setSpecialDigit(" ");
-				PB.setSpecialDigit2(" ");
-		},
-    setDisplay: function(c) {
-			for (var i = 1; i <= 7; ++i) {
-				PB.setDigit(i, c[i - 1]);
-			}
-    },
-    setDigit: function(i, c){
-			var state = PB.fontTable[c];
-			if (state === undefined) {
-				state = PB.fontTable[' '];
-			}
-			for (var segment = 1; segment <= 7; segment++) {
-				PB.setSegment(i, "abcdefg"[segment - 1], state[segment - 1]);
-			}
-    },
+	clearDisplay: function() {
+		PB.setDisplay("");
+		PB.setSpecialDigit(" ");
+		PB.setSpecialDigit2(" ");
+	},
+	setDisplay: function(c) {
+		for (var i = 1; i <= 7; ++i) {
+			PB.setDigit(i, c[i - 1]);
+		}
+	},
+    setDigit: function(i, c) {
+		var state = PB.FontTable[c];
+		if (state === undefined) {
+			state = PB.FontTable[' '];
+		}
+		for (var segment = 1; segment <= 7; segment++) {
+			PB.setSegment(i, "abcdefg"[segment - 1], state[segment - 1]);
+		}
+	},
     setSpecialDigit: function(c) {
-	    if (c in PB.fontTable){
-				PB.setDigit(3, c);
-			}
+		if (c in PB.FontTable) {
+			PB.setDigit(3, c);
+		}
 
-			var state = PB.specialFontTable[c];
-			if (state === undefined) {
-				state = PB.specialFontTable[' '];
-			}
-			for (var segment = 1; segment <= 8; segment++) {
-				PB.setSegment("3", "abcdefgh"[segment - 1], state[0][segment - 1]);
-				PB.setSegment("8", "abcdefgh"[segment - 1], state[1][segment - 1]);
-			}
-
+		var state = PB.SpecialFontTable[c];
+		if (state === undefined) {
+			state = PB.SpecialFontTable[' '];
+		}
+		for (var segment = 1; segment <= 8; segment++) {
+			PB.setSegment("3", "abcdefgh"[segment - 1], state[0][segment - 1]);
+			PB.setSegment("8", "abcdefgh"[segment - 1], state[1][segment - 1]);
+		}
     },
     setSpecialDigit2: function(c) {
-			if (c == "="){
-        PB.setSegmentById("igual", true);
-        PB.setSegmentById("igual2", true);
-				return;
-			}
+		if (c == "=") {
+			PB.setSegmentById("igual", true);
+			PB.setSegmentById("igual2", true);
+			return;
+		}
 
-			if (c == "-"){
-        PB.setSegmentById("igual", true);
-        PB.setSegmentById("igual2", false);
-				return;
-			}
+		if (c == "-") {
+			PB.setSegmentById("igual", true);
+			PB.setSegmentById("igual2", false);
+			return;
+		}
 
-      PB.setSegmentById("igual", false);
-      PB.setSegmentById("igual2", false);
-		},
+		PB.setSegmentById("igual", false);
+		PB.setSegmentById("igual2", false);
+	},
     debug: function(t) {
-        document.getElementById("debug").textContent = t;
-		},
+		document.getElementById("debug").textContent = t;
+	},
     pointsByNumberOfTries: function(t) {
-        switch (t) {
-        case 0: return 10;
-        case 1: return 6;
-        case 2: return 4;
-        }
-        return 0;
+		switch (t) {
+			case 0: return 10;
+			case 1: return 6;
+			case 2: return 4;
+		}
+		return 0;
     }
 };
 
-document.onkeydown = function(event){
-  const ENTER_KEY = 13
-  const PAUSE_KEY = 19
-  const ESC_KEY = 27
-  const P_KEY = 80
-  const ZERO_KEY = 48;
-  const NINE_KEY = 57;
+document.onkeydown = function(event) {
+	const EnterKey = 13
+	const PauseKey = 19
+	const EscKey = 27
+	const PKey = 80
+	const ZeroKey = 48;
+	const NineKey = 57;
 
-  if (event.which >= ZERO_KEY &&
-      event.which <= NINE_KEY){
-			PB.buttonPress(event.which - ZERO_KEY);
-  }
+	if (event.which >= ZeroKey && event.which <= NineKey) {
+		PB.buttonPress(event.which - ZeroKey);
+	}
 
-	switch(event.which){
-		case ENTER_KEY:
-			PB.buttonPress("ENTER");
-			break;
-		case P_KEY:
-		case PAUSE_KEY:
-			PB.buttonPress("PAUSE");
-		case ESC_KEY:
-			PB.buttonPress("DESL");
+	switch(event.which) {
+	case EnterKey: PB.buttonPress("ENTER"); break;
+	case PKey: /* fallthrough */
+	case PauseKey: PB.buttonPress("PAUSE"); break;
+	case EscKey: PB.buttonPress("DESL"); break;
 	}
 }
 
