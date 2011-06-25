@@ -143,18 +143,20 @@ Aritmetica = {
         Aritmetica.advanceQuestion();
 	  },
     oneLoopIteration: function() {
-				if (!Prompt.ready){
+				if (!Prompt.done){
 					PB.prompt();
 				} else {
-		      var answer = parseInt(Prompt.input);
+		      var answer = parseInt(Prompt.getInput());
           PB.debug("answer: "+answer);
 		      if (answer != Aritmetica.answer) {
+              Som.playSong(Som.wrong_song);
 		          Aritmetica.tries++;
 		          if (Aritmetica.tries >= 3) {
 		              Aritmetica.showCorrectAnswer();
 		              Aritmetica.advanceQuestion();
 		          }
 		      } else {
+              Som.playSong(Som.correct_song);
 		          Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
 		          Aritmetica.advanceQuestion();
 		      }
@@ -441,8 +443,13 @@ Standby = {
 Prompt = {
     reset: function() {
         //TODO: PB.blinkDigit(7, "-", " ");
-				Prompt.ready = false;
+				Prompt.done = false;
     		Prompt.input= "   ";
+    },
+    getInput: function(){
+      const value = Prompt.input;
+      Prompt.reset();
+      return value;
     },
 		ready: false,
     oneLoopIteration: function() {
@@ -453,8 +460,9 @@ Prompt = {
     buttonPress: function(b) {
 
 				if (b == "ENTER"){
-					Prompt.ready = true;
+					Prompt.done = true;
 					PB.mode = PB.previous_mode;
+          return;
 				}
 
 				if (b in ["0","1","2","3","4","5","6","7","8","9"]){
