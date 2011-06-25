@@ -214,11 +214,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.0622462"
-     inkscape:cx="215.59311"
-     inkscape:cy="408.42041"
+     inkscape:zoom="2.5311231"
+     inkscape:cx="532.961"
+     inkscape:cy="325.56213"
      inkscape:document-units="px"
-     inkscape:current-layer="layer8"
+     inkscape:current-layer="layer5"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -1746,7 +1746,8 @@
      inkscape:groupmode="layer"
      id="layer8"
      inkscape:label="digitos-display"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <rect
        style="fill:#1b2327;fill-opacity:1;stroke:none"
        id="rect1347"
@@ -3884,7 +3885,7 @@
          sodipodi:role="line"
          id="debug"
          x="152.56142"
-         y="205.3378">data</tspan></text>
+         y="205.3378"> </tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -3904,8 +3905,7 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="carcaça-teclado"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <path
        sodipodi:nodetypes="ssssssssssssssssss"
        inkscape:connector-curvature="0"
@@ -3923,14 +3923,14 @@
     <text
        xml:space="preserve"
        style="font-size:23.16592979px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000080;fill-opacity:1;stroke:none;font-family:Sans"
-       x="472.69376"
-       y="197.95529"
+       x="462.06094"
+       y="200.09317"
        id="text1634"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan1636"
-         x="472.69376"
-         y="197.95529"
-         style="font-weight:bold;fill:#000080;font-family:Sans;-inkscape-font-specification:Sans Bold">Veja Bem</tspan></text>
+         x="462.06094"
+         y="200.09317"
+         style="font-weight:bold;fill:#000080;font-family:Sans;-inkscape-font-specification:Sans Bold">Pense Bem</tspan></text>
   </g>
 </svg>
