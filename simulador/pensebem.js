@@ -1,14 +1,3 @@
-Dummy = {
-    reset: function() {},
-    oneLoopIteration: function() {},
-    buttonPress: function() {},
-    buttonRelease: function() {},
-};
-AdvinheONumero = Dummy;
-SigaMe = Dummy;
-NumeroDoMeio = Dummy;
-Operacao = Dummy;
-
 Som = {
 		welcome_song: "egage",
 		ok_song: "CgC",
@@ -141,33 +130,7 @@ Som = {
     }
 };
 
-MemoriaSons = {
-    reset: function() {
-        PB.clearDisplay();
-				Som.playSong(Som.ok_song);
-    },
-    oneLoopIteration: function() {},
-    buttonPress: function(b) {
-        if (b == 'ENTER') {
-            Som.playAndClearQueue();
-            return;
-        }
-        const buttonToNoteTable = {
-            "0": "p", "1": "c", "2": "d", "3": "e",
-            "4": "f", "5": "g", "6": "a", "7": "b",
-            "8": "C", "9": "D"
-        };
-        var note = buttonToNoteTable[b];
-        if (note === undefined) {
-            PB.beep();
-            return;
-        }
-        Som.playQueue.push(note);
-        Som.playNote(note);
-    },
-    buttonRelease: function(b) {}
-};
-
+//------------------------------------------------------------------------------
 Aritmetica = {
     reset: function() {
 				Som.playSong(Som.ok_song);
@@ -212,6 +175,7 @@ Aritmetica = {
     }
 };
 
+//------------------------------------------------------------------------------
 Adicao = {
     reset: function() {
         Aritmetica.possibleOperations = "+";
@@ -222,6 +186,7 @@ Adicao = {
     buttonRelease: Aritmetica.buttonRelease
 };
 
+//------------------------------------------------------------------------------
 Subtracao = {
     reset: function() {
         Aritmetica.possibleOperations = "-";
@@ -232,6 +197,7 @@ Subtracao = {
     buttonRelease: Aritmetica.buttonRelease
 };
 
+//------------------------------------------------------------------------------
 Multiplicacao = {
     reset: function() {
         Aritmetica.possibleOperations = "*";
@@ -242,6 +208,7 @@ Multiplicacao = {
     buttonRelease: Aritmetica.buttonRelease
 };
 
+//------------------------------------------------------------------------------
 Divisao = {
     reset: function() {
         Aritmetica.possibleOperations = "/";
@@ -252,6 +219,79 @@ Divisao = {
     buttonRelease: Aritmetica.buttonRelease
 };
 
+//------------------------------------------------------------------------------
+Operacao = {
+    reset: function() {
+        PB.clearDisplay();
+				Som.playSong(Som.ok_song);
+		},
+    oneLoopIteration: function() {},
+    buttonPress: function() {},
+    buttonRelease: function() {},
+};
+
+//------------------------------------------------------------------------------
+SigaMe = {
+    reset: function() {
+        PB.clearDisplay();
+				Som.playSong(Som.ok_song);
+		},
+    oneLoopIteration: function() {},
+    buttonPress: function() {},
+    buttonRelease: function() {},
+};
+
+//------------------------------------------------------------------------------
+MemoriaTons = {
+    reset: function() {
+        PB.clearDisplay();
+				Som.playSong(Som.ok_song);
+    },
+    oneLoopIteration: function() {},
+    buttonPress: function(b) {
+        if (b == 'ENTER') {
+            Som.playAndClearQueue();
+            return;
+        }
+        const buttonToNoteTable = {
+            "0": "p", "1": "c", "2": "d", "3": "e",
+            "4": "f", "5": "g", "6": "a", "7": "b",
+            "8": "C", "9": "D"
+        };
+        var note = buttonToNoteTable[b];
+        if (note === undefined) {
+            PB.beep();
+            return;
+        }
+        Som.playQueue.push(note);
+        Som.playNote(note);
+    },
+    buttonRelease: function(b) {}
+};
+
+//------------------------------------------------------------------------------
+NumeroDoMeio = {
+    reset: function() {
+        PB.clearDisplay();
+				Som.playSong(Som.ok_song);
+		},
+    oneLoopIteration: function() {},
+    buttonPress: function() {},
+    buttonRelease: function() {},
+};
+
+//------------------------------------------------------------------------------
+AdivinheONumero = {
+    reset: function() {
+        PB.clearDisplay();
+				Som.playSong(Som.ok_song);
+		},
+    oneLoopIteration: function() {},
+    buttonPress: function() {},
+    buttonRelease: function() {},
+};
+
+//------------------------------------------------------------------------------
 Livro = {
     StateChoosingBook: 0,
     StateQuestioning: 1,
@@ -323,6 +363,7 @@ Livro = {
     }
 }
 
+//------------------------------------------------------------------------------
 Welcome = {
     reset: function() {
         PB.clearDisplay();
@@ -332,14 +373,14 @@ Welcome = {
     oneLoopIteration: function() {},
     buttonPress: function(b) {
         const buttonToTable = {
-            "ADVINHE-O-NÚMERO": AdvinheONumero,
+            "ADIVINHE-O-NÚMERO": AdivinheONumero,
             "ADIÇÃO": Adicao,
             "MULTIPLICAÇÃO": Multiplicacao,
             "DIVISÃO": Divisao,
             "ARITMÉTICA": Aritmetica,
             "OPERAÇÃO": Operacao,
             "SIGA-ME": SigaMe,
-            "MEMÓRIA-SONS": MemoriaSons,
+            "MEMÓRIA-TONS": MemoriaTons,
             "NÚMERO-DO-MEIO": NumeroDoMeio,
             "SUBTRAÇÃO": Subtracao,
             "LIVRO": Livro,
@@ -354,6 +395,7 @@ Welcome = {
     buttonRelease: function(b) {}
 };
 
+//------------------------------------------------------------------------------
 Standby = {
     reset: function() {
         PB.clearDisplay();
@@ -363,6 +405,7 @@ Standby = {
     buttonRelease: function(b) {}
 };
 
+//------------------------------------------------------------------------------
 PB = {
     mode: null,
     init: function() {
