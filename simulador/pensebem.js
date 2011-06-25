@@ -395,119 +395,37 @@ PB = {
         PB.setDisplay("Ação inválida");
     },
     setSegment: function(i, seg, state){
-        var s = document.getElementById("d"+i+"_"+seg);
-        if (state){
-            s.setAttribute("visibility", "hidden");
-        } else {
-            s.setAttribute("visibility", "visible");
-        }
+        var s = document.getElementById("d" + i + "_" + seg);
+        s.setAttribute('visibility', state ? 'hidden' : 'visible');
     },
     setDigit: function(i, c){
-        switch(c){
-            case "0":
-                PB.setSegment(i, "a", 1);
-                PB.setSegment(i, "b", 1);
-                PB.setSegment(i, "c", 1);
-                PB.setSegment(i, "d", 1);
-                PB.setSegment(i, "e", 1);
-                PB.setSegment(i, "f", 1);
-                PB.setSegment(i, "g", 0);
-                break;
-            case "1":
-                PB.setSegment(i, "a", 1);
-                PB.setSegment(i, "b", 1);
-                PB.setSegment(i, "c", 0);
-                PB.setSegment(i, "d", 0);
-                PB.setSegment(i, "e", 0);
-                PB.setSegment(i, "f", 0);
-                PB.setSegment(i, "g", 0);
-                break;
-            case "2":
-                PB.setSegment(i, "a", 1);
-                PB.setSegment(i, "b", 0);
-                PB.setSegment(i, "c", 1);
-                PB.setSegment(i, "d", 1);
-                PB.setSegment(i, "e", 0);
-                PB.setSegment(i, "f", 1);
-                PB.setSegment(i, "g", 1);
-                break;
-            case "3":
-                PB.setSegment(i, "a", 1);
-                PB.setSegment(i, "b", 1);
-                PB.setSegment(i, "c", 1);
-                PB.setSegment(i, "d", 0);
-                PB.setSegment(i, "e", 0);
-                PB.setSegment(i, "f", 1);
-                PB.setSegment(i, "g", 1);
-                break;
-            case "4":
-                PB.setSegment(i, "a", 1);
-                PB.setSegment(i, "b", 1);
-                PB.setSegment(i, "c", 0);
-                PB.setSegment(i, "d", 0);
-                PB.setSegment(i, "e", 1);
-                PB.setSegment(i, "f", 0);
-                PB.setSegment(i, "g", 1);
-                break;
-            case "5":
-                PB.setSegment(i, "a", 0);
-                PB.setSegment(i, "b", 1);
-                PB.setSegment(i, "c", 1);
-                PB.setSegment(i, "d", 0);
-                PB.setSegment(i, "e", 1);
-                PB.setSegment(i, "f", 1);
-                PB.setSegment(i, "g", 1);
-                break;
-            case "6":
-                PB.setSegment(i, "a", 0);
-                PB.setSegment(i, "b", 1);
-                PB.setSegment(i, "c", 1);
-                PB.setSegment(i, "d", 1);
-                PB.setSegment(i, "e", 1);
-                PB.setSegment(i, "f", 1);
-                PB.setSegment(i, "g", 1);
-                break;
-            case "7":
-                PB.setSegment(i, "a", 1);
-                PB.setSegment(i, "b", 1);
-                PB.setSegment(i, "c", 0);
-                PB.setSegment(i, "d", 0);
-                PB.setSegment(i, "e", 0);
-                PB.setSegment(i, "f", 1);
-                PB.setSegment(i, "g", 0);
-                break;
-            case "8":
-                PB.setSegment(i, "a", 1);
-                PB.setSegment(i, "b", 1);
-                PB.setSegment(i, "c", 1);
-                PB.setSegment(i, "d", 1);
-                PB.setSegment(i, "e", 1);
-                PB.setSegment(i, "f", 1);
-                PB.setSegment(i, "g", 1);
-                break;
-            case "9":
-                PB.setSegment(i, "a", 1);
-                PB.setSegment(i, "b", 1);
-                PB.setSegment(i, "c", 1);
-                PB.setSegment(i, "d", 1);
-                PB.setSegment(i, "e", 0);
-                PB.setSegment(i, "f", 1);
-                PB.setSegment(i, "g", 1);
-                break;
-            default:
-                PB.setSegment(i, "a", 1);
-                PB.setSegment(i, "b", 1);
-                PB.setSegment(i, "c", 1);
-                PB.setSegment(i, "d", 1);
-                PB.setSegment(i, "e", 1);
-                PB.setSegment(i, "f", 1);
-                PB.setSegment(i, "g", 1);
-        }
+	    const fontTable = {
+			"0": [1, 1, 1, 1, 1, 1, 0],
+			"1": [1, 1, 0, 0, 0, 0, 0],
+			"2": [1, 0, 1, 1, 0, 1, 1],
+			"3": [1, 1, 1, 0, 0, 1, 1],
+			"4": [1, 1, 0, 0, 1, 0, 1],
+			"5": [0, 1, 1, 0, 1, 1, 1],
+			"6": [0, 1, 1, 1, 1, 1, 1],
+			"7": [1, 1, 0, 0, 0, 1, 0],
+			"8": [1, 1, 1, 1, 1, 1, 1],
+			"9": [1, 1, 1, 1, 0, 1, 1],
+			"-": [0, 0, 0, 0, 0, 0, 1],
+			"_": [0, 0, 1, 0, 0, 0, 0],
+			" ": [0, 0, 0, 0, 0, 0, 0]
+		};
+		var state = fontTable[c];
+		if (state === undefined) {
+			state = fontTable['8'];
+		}
+		for (var segment = 1; segment < 8; segment++) {
+			PB.setSegment(i, "abcdefg"[segment - 1], state[segment - 1]);
+		}
     },
     setDisplay: function(c) {
-        for (i=1;i<=7;i++){
-            PB.setDigit(i, c[i-1]);
-        }
+		for (var i = 1; i <= 7; ++i) {
+			PB.setDigit(i, c[i - 1]);
+		}
 
         document.getElementById("debug").textContent = c;
     },
