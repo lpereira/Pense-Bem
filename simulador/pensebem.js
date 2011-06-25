@@ -92,7 +92,7 @@ Som = {
     },
     playNote: function (n) {
         const noteToToneTable = {
-            "c": Som.newTone(277.18),
+            "c": Som.newTone(261.63),
             "d": Som.newTone(293.66),
             "e": Som.newTone(329.63),
             "f": Som.newTone(349.23),
