@@ -514,7 +514,6 @@ PB = {
 			"*": [0, 0, 0, 0, 0, 0, 1],
 		},
     setSegmentById: function(id, state){
-				PB.debug(id);
         var s = document.getElementById(id);
         s.setAttribute('visibility', state ? 'hidden' : 'visible');
     },
