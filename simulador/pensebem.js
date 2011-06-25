@@ -10,19 +10,28 @@ NumeroDoMeio = Dummy;
 Operacao = Dummy;
 
 Som = {
-	currentNote: 0,
+		welcome_song: "egage",
+		ok_song: "CgC",
     SampleRate: 44100,
     TickInterval: 10,
+		currentNote: 0,
     playAndClearQueue: function(){
-		if (Som.currentNote > Som.playQueue.length){
-			Som.currentNote=0;
+			if (Som.currentNote > Som.playQueue.length){
+				Som.currentNote=0;
+				Som.playQueue = [];
+			} else {
+				Som.playNote(Som.playQueue[Som.currentNote]);
+				window.setTimeout("Som.playAndClearQueue()", 200);
+				Som.currentNote++;
+			}
+		},
+		playSong: function(song){
 			Som.playQueue = [];
-		} else {
-			Som.playNote(Som.playQueue[Som.currentNote]);
-			window.setTimeout("Som.playAndClearQueue()", 500);
-			Som.currentNote++;
-		}
-	},
+			for (note in song){
+				Som.playQueue.push(song[note]);
+			}
+			Som.playAndClearQueue();
+		},
     playNote: function(n) {
         Som.playNote(n);
         PB.setDisplay(n);
@@ -96,7 +105,13 @@ Som = {
         for (var i = 0; i < numberOfSamples; ++i) {
 	        const x = f * (i * dt);
 	        const y = x - Math.floor(x);
-	        samples.push(!!(y >= 0.5));
+					const envelope = Math.min(1, 5*(1 - i/numberOfSamples));
+					//square wave
+	        samples.push(envelope * !!(y >= 0.5));
+					//sawtooth wave
+	        //samples.push(envelope * y);
+					//sine wawe
+					//samples.push(envelope * (Math.sin(2*3.1415*x)/2.0 + 0.5));
         }
 
         audio.setAttribute("src", Som.encode8BitAudio(samples));
@@ -129,7 +144,7 @@ Som = {
 MemoriaSons = {
     reset: function() {
         PB.setDisplay("");
-        Som.playQueue = [];
+				Som.playSong(Som.ok_song);
     },
     oneLoopIteration: function() {},
     buttonPress: function(b) {
@@ -155,6 +170,7 @@ MemoriaSons = {
 
 Aritmetica = {
     reset: function() {
+				Som.playSong(Som.ok_song);
         Aritmetica.possibleOperations = "+-/*";
         Aritmetica.points = 0;
         Aritmetica.advanceQuestion();
@@ -240,6 +256,7 @@ Livro = {
     StateChoosingBook: 0,
     StateQuestioning: 1,
     reset: function() {
+				Som.playSong(Som.ok_song);
         Livro.state = Livro.StateChoosingBook;
     },
     oneLoopIteration: function() {
@@ -309,6 +326,7 @@ Livro = {
 Welcome = {
     reset: function() {
         PB.setDisplay("  *    ");
+				Som.playSong(Som.welcome_song);
     },
     oneLoopIteration: function() {},
     buttonPress: function(b) {
