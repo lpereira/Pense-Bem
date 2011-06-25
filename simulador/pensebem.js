@@ -110,10 +110,11 @@ Som = {
         }
 
         audio.setAttribute("src", Som.encode8BitAudio(samples));
-
-        audio.load();
         audio.autoplay = false;
-        return function() {audio.play();};
+        return function() {
+          audio.load();
+          audio.play();
+        };
     },
 	NoteToToneTable: null,
     playNote: function (n) {
