@@ -174,7 +174,7 @@ Aritmetica = {
         }
     },
     showCorrectAnswer: function() {
-        PB.setDisplay(Aritmetica.answer);
+        PB.setDisplay("      " + Aritmetica.answer);
     },
     buttonPress: function(b) {},
     buttonRelease: function(b) {},
@@ -198,7 +198,7 @@ Aritmetica = {
             "*": function(a, b) { return a * b; }
         };
         Aritmetica.answer = operatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
-        PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.operation + " " + Aritmetica.secondDigit);
+        PB.debug(Aritmetica.firstDigit + " " + Aritmetica.operation + " " + Aritmetica.secondDigit);
     }
 };
 
@@ -253,7 +253,7 @@ Livro = {
         case Livro.StateChoosingBook:
             var book = prompt("Book number?", "_");
             book = parseInt(book.substring(0, 2));
-            PB.setDisplay("Selected book: " + book);
+            PB.debug("Selected book: " + book);
             if (book > 0 && book < 999) {
                 Livro.book = book;
                 Livro.question = 0;
@@ -268,7 +268,7 @@ Livro = {
         }
     },
     showCorrectAnswer: function() {
-        PB.setDisplay("The correct answer was: " + Livro.getCorrectAnswer());
+        PB.debug("The correct answer was: " + Livro.getCorrectAnswer());
     },
     advanceQuestion: function() {
         if (Livro.question >= 0) {
@@ -276,7 +276,7 @@ Livro = {
         }
         Livro.tries = 0;
         Livro.question++;
-        PB.setDisplay("Question: " + Livro.question);
+        PB.setDisplay("      " + Livro.question);
     },
     getCorrectAnswer: function() {
         const answerPattern = "CDDBAADCBDAADCBB";
@@ -300,8 +300,6 @@ Livro = {
                 if (Livro.tries >= 3) {
                     Livro.showCorrectAnswer();
                     Livro.advanceQuestion();
-                } else {
-                    PB.setDisplay((3 - Livro.tries) + " more tries");
                 }
                 break;
             default:
@@ -316,7 +314,7 @@ Livro = {
 
 Welcome = {
     reset: function() {
-        PB.setDisplay("*");
+        PB.setDisplay("  *    ");
     },
     oneLoopIteration: function() {},
     buttonPress: function(b) {
@@ -412,11 +410,18 @@ PB = {
 			"9": [1, 1, 1, 1, 0, 1, 1],
 			"-": [0, 0, 0, 0, 0, 0, 1],
 			"_": [0, 0, 1, 0, 0, 0, 0],
-			" ": [0, 0, 0, 0, 0, 0, 0]
+			" ": [0, 0, 0, 0, 0, 0, 0],
+			"a": [1, 1, 0, 1, 1, 1, 1],
+			"b": [0, 1, 1, 1, 1, 0, 0],
+			"c": [0, 0, 1, 1, 1, 1, 0],
+			"d": [0, 0, 0, 0, 0, 0, 0],
+			"e": [0, 0, 0, 0, 0, 0, 0],
+			"f": [0, 0, 0, 0, 0, 0, 0],
+			"*": [1, 1, 1, 1, 1, 1, 1]
 		};
 		var state = fontTable[c];
 		if (state === undefined) {
-			state = fontTable['8'];
+			state = fontTable[' '];
 		}
 		for (var segment = 1; segment < 8; segment++) {
 			PB.setSegment(i, "abcdefg"[segment - 1], state[segment - 1]);
@@ -426,9 +431,10 @@ PB = {
 		for (var i = 1; i <= 7; ++i) {
 			PB.setDigit(i, c[i - 1]);
 		}
-
-        document.getElementById("debug").textContent = c;
     },
+    debug: function(t) {
+        document.getElementById("debug").textContent = t;
+	},
     pointsByNumberOfTries: function(t) {
         switch (t) {
         case 0: return 10;
