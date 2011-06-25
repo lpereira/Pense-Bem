@@ -634,3 +634,29 @@ PB = {
         return 0;
     }
 };
+
+document.onkeydown = function(event){
+  const ENTER_KEY = 13
+  const PAUSE_KEY = 19
+  const ESC_KEY = 27
+  const P_KEY = 80
+  const ZERO_KEY = 48;
+  const NINE_KEY = 57;
+
+  if (event.which >= ZERO_KEY &&
+      event.which <= NINE_KEY){
+			PB.buttonPress(event.which - ZERO_KEY);
+  }
+
+	switch(event.which){
+		case ENTER_KEY:
+			PB.buttonPress("ENTER");
+			break;
+		case P_KEY:
+		case PAUSE_KEY:
+			PB.buttonPress("PAUSE");
+		case ESC_KEY:
+			PB.buttonPress("DESL");
+	}
+}
+
