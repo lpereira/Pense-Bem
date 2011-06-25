@@ -315,7 +315,7 @@ Livro = {
 
 Welcome = {
     reset: function() {
-        PB.setDisplay("1234567");
+        PB.setDisplay("*");
     },
     oneLoopIteration: function() {},
     buttonPress: function(b) {
