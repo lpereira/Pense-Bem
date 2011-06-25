@@ -143,7 +143,7 @@ Som = {
 
 MemoriaSons = {
     reset: function() {
-        PB.setDisplay("");
+        PB.clearDisplay();
 				Som.playSong(Som.ok_song);
     },
     oneLoopIteration: function() {},
@@ -325,7 +325,8 @@ Livro = {
 
 Welcome = {
     reset: function() {
-        PB.setDisplay("  *    ");
+        PB.clearDisplay();
+        PB.setSpecialDigit("*");
 				Som.playSong(Som.welcome_song);
     },
     oneLoopIteration: function() {},
@@ -355,7 +356,7 @@ Welcome = {
 
 Standby = {
     reset: function() {
-        PB.setDisplay("");
+        PB.clearDisplay();
     },
     oneLoopIteration: function() {},
     buttonPress: function(b) {},
@@ -404,12 +405,11 @@ PB = {
     beep: function() {
         PB.setDisplay("Ação inválida");
     },
-    setSegment: function(i, seg, state){
-        var s = document.getElementById("d" + i + "_" + seg);
-        s.setAttribute('visibility', state ? 'hidden' : 'visible');
-    },
-    setDigit: function(i, c){
-	    const fontTable = {
+    specialFontTable: {
+			" ": [0, 0, 0, 0, 0, 0, 0],
+			"*": [1, 1, 1, 1, 1, 1, 0],
+		},
+    fontTable: {
 			"0": [1, 1, 1, 1, 1, 1, 0],
 			"1": [1, 1, 0, 0, 0, 0, 0],
 			"2": [1, 0, 1, 1, 0, 1, 1],
@@ -429,24 +429,66 @@ PB = {
 			"d": [0, 0, 0, 0, 0, 0, 0],
 			"e": [0, 0, 0, 0, 0, 0, 0],
 			"f": [0, 0, 0, 0, 0, 0, 0],
-			"*": [1, 1, 1, 1, 1, 1, 1]
-		};
-		var state = fontTable[c];
-		if (state === undefined) {
-			state = fontTable[' '];
-		}
-		for (var segment = 1; segment < 8; segment++) {
-			PB.setSegment(i, "abcdefg"[segment - 1], state[segment - 1]);
-		}
+			"*": [0, 0, 0, 0, 0, 0, 1],
+		},
+    setSegmentById: function(id, state){
+				PB.debug(id);
+        var s = document.getElementById(id);
+        s.setAttribute('visibility', state ? 'hidden' : 'visible');
     },
+    setSegment: function(i, seg, state){
+        PB.setSegmentById("d" + i + "_" + seg, state);
+    },
+		clearDisplay: function(){
+        PB.setDisplay("");
+				PB.setSpecialDigit(" ");
+		},
     setDisplay: function(c) {
-		for (var i = 1; i <= 7; ++i) {
-			PB.setDigit(i, c[i - 1]);
-		}
+			for (var i = 1; i <= 7; ++i) {
+				PB.setDigit(i, c[i - 1]);
+			}
     },
+    setDigit: function(i, c){
+			var state = PB.fontTable[c];
+			if (state === undefined) {
+				state = PB.fontTable[' '];
+			}
+			for (var segment = 1; segment <= 7; segment++) {
+				PB.setSegment(i, "abcdefg"[segment - 1], state[segment - 1]);
+			}
+    },
+    setSpecialDigit: function(c) {
+	    if (c in PB.fontTable){
+				PB.setDigit(3, c);
+			}
+
+			var state = PB.specialFontTable[c];
+			if (state === undefined) {
+				state = PB.specialFontTable[' '];
+			}
+			for (var segment = 1; segment <= 7; segment++) {
+				PB.setSegment("8", "abcdefg"[segment - 1], state[segment - 1]);
+			}
+    },
+    setSpecialDigit2: function(c) {
+			if (c == "="){
+        PB.setSegmentById("igual", true);
+        PB.setSegmentById("igual2", true);
+				return;
+			}
+
+			if (c == "-"){
+        PB.setSegmentById("igual", true);
+        PB.setSegmentById("igual2", false);
+				return;
+			}
+
+      PB.setSegmentById("igual", false);
+      PB.setSegmentById("igual2", false);
+		},
     debug: function(t) {
         document.getElementById("debug").textContent = t;
-	},
+		},
     pointsByNumberOfTries: function(t) {
         switch (t) {
         case 0: return 10;
