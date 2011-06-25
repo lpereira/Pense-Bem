@@ -410,6 +410,37 @@ Standby = {
 };
 
 //------------------------------------------------------------------------------
+Prompt = {
+    reset: function() {
+        //TODO: PB.blinkDigit(7, "-", " ");
+				Prompt.ready = false;
+				Prompt.input = "   ";
+    },
+		ready: false,
+    oneLoopIteration: function() {
+        PB.setDigit(5, Prompt.input[0]);
+        PB.setDigit(6, Prompt.input[1]);
+        PB.setDigit(7, Prompt.input[2]);
+		},
+    buttonPress: function(b) {
+				if (b == "ENTER"){
+					Prompt.ready = true;
+					PB.mode = PB.previous_mode;
+				}
+
+				if (b in ["0","1","2","3","4","5","6","7","8","9"]){
+					//low_beep
+					Prompt.input[0] = Prompt.input[1];
+					Prompt.input[1] = Prompt.input[2];
+					Prompt.input[2] = b;
+				} else {
+					//blink and high_beep
+				}
+		},
+    buttonRelease: function(b) {}
+};
+
+//------------------------------------------------------------------------------
 PB = {
     mode: null,
     init: function() {
@@ -431,6 +462,10 @@ PB = {
         PB.mode = m;
         PB.reset();
     },
+		prompt: function(){
+				PB.previous_mode = PB.mode;
+				PB.setMode(Prompt);
+		},
     buttonPress: function(b) {
         switch (b) {
         case 'LIGA': PB.setMode(Welcome); return;
