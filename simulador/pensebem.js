@@ -7,7 +7,7 @@ Som = {
     sigame_win_song: "ceeecCCC",//TODO: verify this
 		high_beep: "C",
 		low_beep: "c",
-    SampleRate: 44100,
+    SampleRate: 8192,
     TickInterval: 10,
 		currentNote: 0,
     playAndClearQueue: function(){
