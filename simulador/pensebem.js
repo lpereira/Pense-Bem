@@ -115,20 +115,23 @@ Som = {
         audio.autoplay = false;
         return function() {audio.play();};
     },
+	NoteToToneTable: null,
     playNote: function (n) {
-        const noteToToneTable = {
-            "c": Som.newTone(261.63),
-            "d": Som.newTone(293.66),
-            "e": Som.newTone(329.63),
-            "f": Som.newTone(349.23),
-            "g": Som.newTone(392.00),
-            "a": Som.newTone(440.00),
-            "b": Som.newTone(493.88),
-            "C": Som.newTone(523.25),
-            "D": Som.newTone(587.33),
-            "p": function() {}
-        };
-        var tone = noteToToneTable[n];
+		if (!Som.NoteToToneTable) {
+			Som.NoteToToneTable = {
+		        "c": Som.newTone(261.63),
+		        "d": Som.newTone(293.66),
+		        "e": Som.newTone(329.63),
+		        "f": Som.newTone(349.23),
+		        "g": Som.newTone(392.00),
+		        "a": Som.newTone(440.00),
+		        "b": Som.newTone(493.88),
+		        "C": Som.newTone(523.25),
+		        "D": Som.newTone(587.33),
+		        "p": function() {}
+			}
+	    }
+        var tone = Som.NoteToToneTable[n];
         if (tone === undefined) {
             return;
         }
