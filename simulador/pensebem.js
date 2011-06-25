@@ -163,10 +163,16 @@ Aritmetica = {
     advanceQuestion: function() {
         Aritmetica.tries = 0;
         Aritmetica.operation = Aritmetica.possibleOperations[Math.round(Math.random() * (Aritmetica.possibleOperations.length - 1))];
-        Aritmetica.firstDigit = Math.round(Math.random() * 99);
+
+				//TODO: verificar se é possivel aparecerem numeros menores que 10
+				Aritmetica.firstDigit=0;
+				while (Aritmetica.firstDigit<10){
+	        Aritmetica.firstDigit = Math.round(Math.random() * 99);
+				}
         Aritmetica.secondDigit = Math.round(Math.random() * 9);
         if (Aritmetica.operation == "/"  && Aritmetica.secondDigit == 0) {
-			Aritmetica.secondDigit = 1;
+					Aritmetica.secondDigit = 1;
+					//TODO: fix-me: Isso faz divisões por 1 serem mais provaveis que as demais.
         }
         const operatorFunctionTable = {
             "+": function(a, b) { return a + b; },
