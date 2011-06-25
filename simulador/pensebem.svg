@@ -214,11 +214,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="10.012608"
-     inkscape:cx="191.69897"
-     inkscape:cy="392.6275"
+     inkscape:zoom="0.97878788"
+     inkscape:cx="330"
+     inkscape:cy="239"
      inkscape:document-units="px"
-     inkscape:current-layer="layer8"
+     inkscape:current-layer="layer5"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -1746,7 +1746,8 @@
      inkscape:groupmode="layer"
      id="layer8"
      inkscape:label="digitos-display"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <rect
        style="fill:#1b2327;fill-opacity:1;stroke:none"
        id="rect1347"
@@ -3921,8 +3922,7 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="carcaça-teclado"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <path
        sodipodi:nodetypes="ssssssssssssssssss"
        inkscape:connector-curvature="0"
@@ -3949,5 +3949,9 @@
          x="462.06094"
          y="200.09317"
          style="font-weight:bold;fill:#000080;font-family:Sans;-inkscape-font-specification:Sans Bold">Pense Bem</tspan></text>
+    <path
+       id="path1376"
+       style="fill:#000080;fill-opacity:1;stroke:none"
+       d="m 591.13666,186.35937 c 0,0.46599 -0.37776,0.84375 -0.84375,0.84375 -0.46598,0 -0.84374,-0.37776 -0.84374,-0.84375 0,-0.46598 0.37776,-0.84374 0.84374,-0.84374 0.46599,0 0.84375,0.37776 0.84375,0.84374 z m 2.6875,0 c 0,0.46599 -0.37776,0.84375 -0.84375,0.84375 -0.46598,0 -0.84374,-0.37776 -0.84374,-0.84375 0,-0.46598 0.37776,-0.84374 0.84374,-0.84374 0.46599,0 0.84375,0.37776 0.84375,0.84374 z m -5.06294,1.73915 c 0,1.57974 1.28722,2.88392 2.86697,2.88392 1.57974,0 2.88392,-1.30418 2.88392,-2.88392 l -1.50982,0 c 0,0.76908 -0.60502,1.3741 -1.3741,1.3741 -0.76909,0 -1.37411,-0.60502 -1.37411,-1.3741 l -1.49286,0 z m 2.86378,-4.94227 c -2.73121,0 -4.9375,2.20629 -4.9375,4.9375 0,2.73121 2.20629,4.96875 4.9375,4.96875 2.73121,0 4.96875,-2.23754 4.96875,-4.96875 0,-2.73121 -2.23754,-4.9375 -4.96875,-4.9375 z m 0,1 c 2.19077,0 3.96875,1.74673 3.96875,3.9375 0,2.19077 -1.77798,3.96875 -3.96875,3.96875 -2.19077,0 -3.9375,-1.77798 -3.9375,-3.96875 0,-2.19077 1.74673,-3.9375 3.9375,-3.9375 z" />
   </g>
 </svg>
