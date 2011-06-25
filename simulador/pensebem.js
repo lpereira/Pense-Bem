@@ -339,20 +339,28 @@ Livro = {
     oneLoopIteration: function() {
         switch (Livro.state) {
         case Livro.StateChoosingBook:
-            var book = prompt("Book number?", "_");
-            book = parseInt(book.substring(0, 2));
-            PB.debug("Selected book: " + book);
-            if (book > 0 && book < 999) {
-                Livro.book = book;
-                Livro.question = 0;
-                Livro.tries = 0;
-                Livro.points = 0;
-                Livro.state = Livro.StateQuestioning;
+				    if (!Prompt.done){
+              PB.clearDisplay(); //TODO: PB.blinkDisplay("      -");
+					    PB.prompt();
+				    } else {
+		          var book = parseInt(Prompt.getInput());
+              PB.debug("Selected book: " + book);
+              if (book > 0 && book < 999) {
+                  Livro.book = book;
+                  Livro.question = 0;
+                  Livro.tries = 0;
+                  Livro.points = 0;
+                  Livro.state = Livro.StateQuestioning;
 
-                Livro.advanceQuestion();
+                  Livro.advanceQuestion();
+              }
             }
             break;
+          
         case Livro.StateQuestioning:
+            //TODO: show question number ("  1") and
+            // blink "_ _ _ _" waiting for A B C or D 
+            // (implement a special prompt for that) 
         }
     },
     showCorrectAnswer: function() {
@@ -403,6 +411,7 @@ Livro = {
 //------------------------------------------------------------------------------
 Welcome = {
     reset: function() {
+        //TODO: PB.blinkDisplay("       ", "*");
         PB.clearDisplay();
         PB.setSpecialDigit("*");
 				Som.playSong(Som.welcome_song);
