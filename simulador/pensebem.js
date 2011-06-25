@@ -10,24 +10,23 @@ NumeroDoMeio = Dummy;
 Operacao = Dummy;
 
 Som = {
-		current_note:0,
+	currentNote: 0,
+    SampleRate: 44100,
+    TickInterval: 10,
     playAndClearQueue: function(){
-				if (Som.current_note > Som.playQueue.length){
-					Som.current_note=0;
-					Som.playQueue = [];
-				} else {
-          Som.playNote(Som.playQueue[Som.current_note]);
-					window.setTimeout("Som.playAndClearQueue()", 500);
-					Som.current_note++;
-				}
-		},
+		if (Som.currentNote > Som.playQueue.length){
+			Som.currentNote=0;
+			Som.playQueue = [];
+		} else {
+			Som.playNote(Som.playQueue[Som.currentNote]);
+			window.setTimeout("Som.playAndClearQueue()", 500);
+			Som.currentNote++;
+		}
+	},
     playNote: function(n) {
         Som.playNote(n);
         PB.setDisplay(n);
     },
-
-    SampleRate: 44100,
-    TickInterval: 10,
     encodeBase64: function(str) {
         var out, i, len;
         var c1, c2, c3;
