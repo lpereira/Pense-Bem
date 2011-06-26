@@ -488,7 +488,7 @@ NumeroDoMeio = {
 	showAnswer: function(s) {
 		PB.clearDisplay();
 		Som.playSong(s, function() {
-			PB.setSpecialDigit("-");
+			PB.setSpecialDigit("~");
 			PB.setSpecialDigit2("-");
 			PB.showNumberAtDigit(NumeroDoMeio.firstDigit, 2);
 			PB.showNumberAtDigit(NumeroDoMeio.secondDigit, 6);
@@ -669,7 +669,7 @@ Prompt = {
 		if (b in ["0","1","2","3","4","5","6","7","8","9"]) {
 			PB.lowBeep();
 			if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
-				PB.setSpecialDigit("-");
+				PB.setSpecialDigit("~");
 				PB.setSpecialDigit2("-");
 			}
 			switch (Prompt.maxDigitSize) {
@@ -783,7 +783,8 @@ PB = {
     SpecialFontTable: {
 		" ": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
 		"+": [[0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 1, 0, 0, 1, 0, 0]],
-		"-": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1]],
+		"-": [[0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
+		"~": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1]],
 		"*": [[0, 0, 0, 0, 0, 0, 1, 0], [1, 1, 1, 1, 1, 1, 0, 0]],
 		"x": [[0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 0, 1, 1, 0, 0, 0]],
 		"%": [[0, 0, 0, 0, 0, 0, 1, 1], [0, 0, 0, 0, 0, 0, 1, 0]],
