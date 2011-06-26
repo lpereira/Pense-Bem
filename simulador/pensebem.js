@@ -10,18 +10,26 @@ Som = {
 	SampleRate: 8192,
 	TickInterval: 10,
 	currentNote: 0,
+	isPlayingSong: false,
 	songFinishedCallback: function() {},
-    playAndClearQueue: function() {
+	toneFinishedPlaying: function() {
+		if (!Som.isPlayingSong)
+			return;
+
 		if (Som.currentNote >= Som.playQueue.length) {
 			Som.currentNote = 0;
+			Som.isPlayingSong = false;
 			Som.playQueue = [];
 			Som.songFinishedCallback();
 			Som.songFinishedCallback = function() {};
 		} else {
 			Som.playNote(Som.playQueue[Som.currentNote]);
-			window.setTimeout("Som.playAndClearQueue()", 200);
 			Som.currentNote++;
 		}
+	},
+	playAndClearQueue: function() {
+		Som.isPlayingSong = true;
+		Som.toneFinishedPlaying();
 	},
 	playSong: function(song, callback) {
 		Som.songFinishedCallback = callback || function() {};
@@ -114,6 +122,9 @@ Som = {
         }
 
         audio.setAttribute("src", Som.encode8BitAudio(samples));
+        audio.addEventListener("ended", function() {
+			Som.toneFinishedPlaying();
+		}, false);
         audio.autoplay = false;
         return function() {
           audio.load();
@@ -149,7 +160,9 @@ Som = {
 		            "b": Som.newTone(FREQ_Csust5),
 		            "C": Som.newTone(FREQ_D5),
 		            "D": Som.newTone(FREQ_E5),
-		            "p": function() {}
+		            "p": function() {
+						PB.delay(3, Som.toneFinishedPlaying);
+					}
 			    }
         } else {
 			    Som.NoteToToneTable = {
@@ -162,7 +175,9 @@ Som = {
 		            "b": Som.newTone(FREQ_B4),
 		            "C": Som.newTone(FREQ_C5),
 		            "D": Som.newTone(FREQ_D5),
-		            "p": function() {}
+		            "p": function() {
+						PB.delay(3, Som.toneFinishedPlaying);
+					}
 			    }
         }
 	    }
