@@ -479,7 +479,7 @@ NumeroDoMeio = {
 	advanceQuestion: function() {
 		PB.clearDisplay();
 		NumeroDoMeio.firstDigit = Math.round(Math.random() * 50);
-		NumeroDoMeio.secondDigit = NumeroDoMeio.firstDigit + Math.round(Math.random() * 48) + 1;
+		NumeroDoMeio.secondDigit = NumeroDoMeio.firstDigit + Math.round(Math.random() * 47) + 2;
 		NumeroDoMeio.answer = Math.round((NumeroDoMeio.firstDigit + NumeroDoMeio.secondDigit) / 2);
 		NumeroDoMeio.tries = 0;
 		PB.showNumberAtDigit(NumeroDoMeio.firstDigit, 2);
