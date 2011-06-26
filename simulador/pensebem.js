@@ -39,10 +39,6 @@ Som = {
 		}
 		Som.playAndClearQueue();
 	},
-    playNote: function(n) {
-        Som.playNote(n);
-        PB.setDisplay(n);
-    },
     encodeBase64: function(str) {
         var out, i, len;
         var c1, c2, c3;
