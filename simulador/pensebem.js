@@ -485,9 +485,9 @@ NumeroDoMeio = {
 		PB.showNumberAtDigit(NumeroDoMeio.secondDigit, 6);
 		console.log(NumeroDoMeio.firstDigit + " - " + NumeroDoMeio.answer + " - " + NumeroDoMeio.secondDigit);
 	},
-	showCorrectAnswer: function(c) {
+	showAnswer: function(s) {
 		PB.clearDisplay();
-		Som.playSong(Songs.Fail, function() {
+		Som.playSong(s, function() {
 			PB.setSpecialDigit("-");
 			PB.setSpecialDigit2("-");
 			PB.showNumberAtDigit(NumeroDoMeio.firstDigit, 2);
@@ -495,7 +495,7 @@ NumeroDoMeio = {
 			PB.showNumberAtDigit(NumeroDoMeio.answer, 4);
 			PB.delay(20, function() {
 				PB.clearDisplay();
-				PB.delay(3, c);
+				PB.delay(3, NumeroDoMeio.advanceQuestion);
 			});
 		});
 	},
@@ -508,14 +508,9 @@ NumeroDoMeio = {
 				Som.playSong(Songs.Wrong);
 				return;
 			}
-			NumeroDoMeio.showCorrectAnswer(NumeroDoMeio.advanceQuestion);
+			NumeroDoMeio.showAnswer(Songs.Fail);
 		} else {
-			Som.playSong(Songs.Correct, function() {
-				PB.clearDisplay();
-				PB.delay(3, function() {
-					NumeroDoMeio.advanceQuestion();
-				});
-			});
+			NumeroDoMeio.showAnswer(Songs.Correct);
 		}
 	},
     buttonPress: function() {},
