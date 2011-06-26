@@ -381,7 +381,7 @@ Operacao = {
 			}
 			break;
 		default:
-			PB.HighBeep();
+			PB.highBeep();
 		}
 	},
     buttonRelease: function() {},
@@ -458,7 +458,7 @@ MemoriaTons = {
 		};
 		var note = buttonToNoteTable[b];
 		if (note === undefined) {
-			PB.LowBeep();
+			PB.lowBeep();
 			return;
 		}
 		Som.playQueue.push(note);
@@ -559,7 +559,7 @@ Livro = {
                 }
                 break;
             default:
-                PB.LowBeep();
+                PB.lowBeep();
             }
             break;
         }
@@ -579,7 +579,7 @@ Welcome = {
     buttonPress: function(b) {
 		  const newActivity = PB.buttonToTable[b];
 		  if (newActivity === undefined) {
-        PB.LowBeep();
+        PB.lowBeep();
 			  return;
 		  }
 		  PB.setActivity(newActivity);
@@ -641,7 +641,7 @@ Prompt = {
 			Prompt.redrawPrompt();
 		} else {
 			//blink and HighBeep
-			PB.HighBeep();
+			PB.highBeep();
 		}
 	},
 	buttonRelease: function(b) {}
@@ -706,7 +706,7 @@ PB = {
         if (PB.activity) {
             console.log("atividade atual: "+PB.getActivity()+" | botao: "+b);
             if ((PB.activity!=Welcome) && (b in PB.buttonToTable)) {
-                PB.HighBeep();
+                PB.highBeep();
                 return;
             }
             console.log("repassando o buttonpress para a atividade atual");            
@@ -735,10 +735,10 @@ PB = {
         "SUBTRAÇÃO": Subtracao,
         "LIVRO": Livro,
     },
-    LowBeep: function() {
+    lowBeep: function() {
         Som.playNote(Songs.LowBeep);
     },
-    HighBeep: function() {
+    highBeep: function() {
         Som.playNote(Songs.HighBeep);
     },
     SpecialFontTable: {
