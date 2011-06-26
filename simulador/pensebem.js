@@ -764,6 +764,18 @@ PB = {
 			PB.setSegment(i, "abcdefg"[segment - 1], state[segment - 1]);
 		}
 	},
+	showNumberAtDigit: function(n, d) {
+		if (n < 10) {
+			PB.setDigit(d, n);
+		} else if (n < 100) {
+			PB.setDigit(d, n % 10);
+			n = Math.round(n / 10);
+			PB.setDigit(d - 1, n % 10);
+		} else {
+			PB.setDigit(d, n % 10);
+			PB.showNumberAtDigit(Math.round(n / 10), d - 1);
+		}
+	},
     setSpecialDigit: function(c) {
 		if (c in PB.FontTable) {
 			PB.setDigit(3, c);
