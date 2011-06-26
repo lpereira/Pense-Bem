@@ -272,9 +272,7 @@ Aritmetica = {
 Adicao = {
     reset: function() {
 		PB.clearDisplay();
-		Som.playSong(Som.GameSelectedSong);
 		Aritmetica.reset("+");
-		Aritmetica.advanceQuestion();
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress,
@@ -285,9 +283,7 @@ Adicao = {
 Subtracao = {
     reset: function() {
 		PB.clearDisplay();
-		Som.playSong(Som.GameSelectedSong);
 		Aritmetica.reset("-");
-		Aritmetica.advanceQuestion();
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress,
@@ -298,9 +294,7 @@ Subtracao = {
 Multiplicacao = {
     reset: function() {
 		PB.clearDisplay();
-		Som.playSong(Som.GameSelectedSong);
 		Aritmetica.reset("*");
-		Aritmetica.advanceQuestion();
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress,
@@ -311,9 +305,7 @@ Multiplicacao = {
 Divisao = {
     reset: function() {
 		PB.clearDisplay();
-		Som.playSong(Som.GameSelectedSong);
 		Aritmetica.reset("/");
-		Aritmetica.advanceQuestion();
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress,
@@ -324,11 +316,9 @@ Divisao = {
 Operacao = {
     reset: function() {
 		PB.clearDisplay();
-		Som.playSong(Som.GameSelectedSong);
-		Aritmetica.reset();
 		Aritmetica.showOperatorFlag = false;
 		Aritmetica.showResultFlag = true;
-		Aritmetica.advanceQuestion();
+		Aritmetica.reset();
 	},
     oneLoopIteration: function() {},
     buttonPress: function(b) {
@@ -363,7 +353,6 @@ Operacao = {
 SigaMe = {
     reset: function() {
 		PB.clearDisplay();
-		Som.playSong(Som.GameSelectedSong);
 		SigaMe.guessIndex = 0;
 		SigaMe.sequence = [];
 		Som.playSong(Som.GameSelectedSong, function() {
