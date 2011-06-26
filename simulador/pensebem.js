@@ -10,17 +10,21 @@ Som = {
 	SampleRate: 8192,
 	TickInterval: 10,
 	currentNote: 0,
+	songFinishedCallback: function() {},
     playAndClearQueue: function() {
-		if (Som.currentNote < Som.playQueue.length) {
+		if (Som.currentNote >= Som.playQueue.length) {
+			Som.currentNote = 0;
+			Som.playQueue = [];
+			Som.songFinishedCallback();
+			Som.songFinishedCallback = function() {};
+		} else {
 			Som.playNote(Som.playQueue[Som.currentNote]);
 			window.setTimeout("Som.playAndClearQueue()", 200);
 			Som.currentNote++;
-		} else {
-			Som.currentNote=0;
-			Som.playQueue = [];
 		}
 	},
-	playSong: function(song) {
+	playSong: function(song, callback) {
+		Som.songFinishedCallback = callback || function() {};
 		Som.playQueue = [];
 		for (note in song) {
 			Som.playQueue.push(song[note]);
@@ -173,12 +177,13 @@ Som = {
 //------------------------------------------------------------------------------
 Aritmetica = {
     reset: function(possibleOperations) {
-		Som.playSong(Som.GameSelectedSong);
 		Aritmetica.possibleOperations = possibleOperations || "+-/*";
 		Aritmetica.points = 0;
 		Aritmetica.showResultFlag = false;
 		Aritmetica.showOperatorFlag = true;
-		Aritmetica.advanceQuestion();
+		Som.playSong(Som.GameSelectedSong, function() {
+			Aritmetica.advanceQuestion();
+		});
 	},
     oneLoopIteration: function() {
 		if (!Prompt.done) {
@@ -188,16 +193,18 @@ Aritmetica = {
 			if (answer != Aritmetica.answer) {
 				Aritmetica.tries++;
 				if (Aritmetica.tries >= 3) {
-					Som.playSong(Som.GameOverSong);
-					Aritmetica.showCorrectAnswer();
-					Aritmetica.advanceQuestion();
+					Som.playSong(Som.GameOverSong, function() {
+						Aritmetica.showCorrectAnswer();
+						Aritmetica.advanceQuestion();
+					});
 				} else {
 					Som.playSong(Som.WrongSong);
 				}
 			} else {
-				Som.playSong(Som.CorrectSong);
-				Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
-				Aritmetica.advanceQuestion();
+				Som.playSong(Som.CorrectSong, function() {
+					Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
+					Aritmetica.advanceQuestion();
+				});
 			}
 		}
 	},
@@ -359,7 +366,9 @@ SigaMe = {
 		Som.playSong(Som.GameSelectedSong);
 		SigaMe.guessIndex = 0;
 		SigaMe.sequence = [];
-		SigaMe.addRandomNote();
+		Som.playSong(Som.GameSelectedSong, function() {
+			SigaMe.addRandomNote();
+		});
 	},
 	addRandomNote: function() {
 		SigaMe.sequence.push(Math.round(Math.random() * 10));
@@ -378,18 +387,21 @@ SigaMe = {
 			if (SigaMe.guessIndex < SigaMe.sequence.length) {
 				if (b == SigaMe.sequence[SigaMe.guessIndex]) {
 					if (SigaMe.sequence.length == 15) {
-						Som.playSong(Som.SigaMeCorrectSong);
-						SigaMe.reset();
+						Som.playSong(Som.SigaMeCorrectSong, function() {
+							SigaMe.reset();
+						});
 						return;
 					}
 					Som.playNote(b);
 					PB.setDigit(7, b);
 					SigaMe.guessIndex++;
 				} else {
-					Som.playSong(Som.WrongSong);
-					//TODO: pause here?
-					SigaMe.playSequence();
-					SigaMe.guessIndex=0;
+					Som.playSong(Som.WrongSong, function() {
+						PB.delay(1, function() {
+							SigaMe.playSequence();
+							SigaMe.guessIndex = 0;
+						});
+					});
 				}
 			} else {
 				SigaMe.addRandomNote();
