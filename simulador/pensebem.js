@@ -1,14 +1,17 @@
 pulseaudio_bug = navigator.userAgent.indexOf("Linux")>0;
 
-Som = {
-	WelcomeSong: "egage",
-	GameSelectedSong: "CgC",
-	CorrectSong: "gCC",
-	WrongSong: "ec",
-	GameOverSong: "egec",
-	SigaMeCorrectSong: "ceeecCCC",//TODO: verify this
+Songs = {
+	Welcome: "egage",
+	GameSelected: "CgC",
+	Correct: "gCC",
+	Wrong: "ec",
+	GameOver: "egec",
+	SigaMeCorrect: "ceeecCCC",//TODO: verify this
 	HighBeep: "C",
-	LowBeep: "c",
+	LowBeep: "c"
+}
+
+Som = {
 	SampleRate: 8192,
 	TickInterval: 20,
 	currentNote: 0,
@@ -203,7 +206,7 @@ Aritmetica = {
 		Aritmetica.points = 0;
 		Aritmetica.showResultFlag = false;
 		Aritmetica.showOperatorFlag = true;
-		Som.playSong(Som.GameSelectedSong, function() {
+		Som.playSong(Songs.GameSelected, function() {
 			Aritmetica.advanceQuestion();
 		});
 	},
@@ -215,15 +218,15 @@ Aritmetica = {
 			if (answer != Aritmetica.answer) {
 				Aritmetica.tries++;
 				if (Aritmetica.tries >= 3) {
-					Som.playSong(Som.GameOverSong, function() {
+					Som.playSong(Songs.GameOver, function() {
 						Aritmetica.showCorrectAnswer();
 						Aritmetica.advanceQuestion();
 					});
 				} else {
-					Som.playSong(Som.WrongSong);
+					Som.playSong(Songs.Wrong);
 				}
 			} else {
-				Som.playSong(Som.CorrectSong, function() {
+				Som.playSong(Songs.Correct, function() {
 					Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
 					Aritmetica.advanceQuestion();
 				});
@@ -352,11 +355,11 @@ Operacao = {
 			if (b != Aritmetica.operation) {
 				Aritmetica.tries++;
 				if (Aritmetica.tries >= 3) {
-					Som.playSong(Som.GameOverSong);
+					Som.playSong(Songs.GameOver);
 					Aritmetica.showCorrectAnswer();
 					Aritmetica.advanceQuestion();
 				} else {
-					Som.playSong(Som.WrongSong);
+					Som.playSong(Songs.Wrong);
 				}
 			} else {
 				Som.playSong(Som.CorrectSong);
@@ -377,7 +380,7 @@ SigaMe = {
 		PB.clearDisplay();
 		SigaMe.guessIndex = 0;
 		SigaMe.sequence = [];
-		Som.playSong(Som.GameSelectedSong, function() {
+		Som.playSong(Songs.GameSelected, function() {
 			SigaMe.addRandomNote();
 		});
 	},
@@ -398,7 +401,7 @@ SigaMe = {
 			if (SigaMe.guessIndex < SigaMe.sequence.length) {
 				if (b == SigaMe.sequence[SigaMe.guessIndex]) {
 					if (SigaMe.sequence.length == 15) {
-						Som.playSong(Som.SigaMeCorrectSong, function() {
+						Som.playSong(Songs.SigaMeCorrect, function() {
 							SigaMe.reset();
 						});
 						return;
@@ -407,7 +410,7 @@ SigaMe = {
 					PB.setDigit(7, b);
 					SigaMe.guessIndex++;
 				} else {
-					Som.playSong(Som.WrongSong, function() {
+					Som.playSong(Songs.Wrong, function() {
 						PB.delay(1, function() {
 							SigaMe.playSequence();
 							SigaMe.guessIndex = 0;
@@ -427,7 +430,7 @@ SigaMe = {
 MemoriaTons = {
 	reset: function() {
 		PB.clearDisplay();
-		Som.playSong(Som.GameSelectedSong);
+		Som.playSong(Songs.GameSelected);
 	},
 	oneLoopIteration: function() {},
 	buttonPress: function(b) {
@@ -455,7 +458,7 @@ MemoriaTons = {
 NumeroDoMeio = {
     reset: function() {
 		PB.clearDisplay();
-		Som.playSong(Som.GameSelectedSong);
+		Som.playSong(Songs.GameSelected);
 	},
     oneLoopIteration: function() {},
     buttonPress: function() {},
@@ -466,7 +469,7 @@ NumeroDoMeio = {
 AdivinheONumero = {
     reset: function() {
 		PB.clearDisplay();
-		Som.playSong(Som.GameSelectedSong);
+		Som.playSong(Songs.GameSelected);
 	},
     oneLoopIteration: function() {},
     buttonPress: function() {},
@@ -478,7 +481,7 @@ Livro = {
     StateChoosingBook: 0,
     StateQuestioning: 1,
     reset: function() {
-		Som.playSong(Som.GameSelectedSong);
+		Som.playSong(Songs.GameSelected);
 		Livro.state = Livro.StateChoosingBook;
     },
     oneLoopIteration: function() {
@@ -557,7 +560,7 @@ Welcome = {
 		//TODO: PB.blinkDisplay("       ", "*");
 		PB.clearDisplay();
 		PB.setSpecialDigit("*");
-		Som.playSong(Som.WelcomeSong);
+		Som.playSong(Songs.Welcome);
 	},
     oneLoopIteration: function() {},
     buttonPress: function(b) {
@@ -703,10 +706,10 @@ PB = {
         "LIVRO": Livro,
     },
     LowBeep: function() {
-        Som.playNote(Som.LowBeep);
+        Som.playNote(Songs.LowBeep);
     },
     HighBeep: function() {
-        Som.playNote(Som.HighBeep);
+        Som.playNote(Songs.HighBeep);
     },
     SpecialFontTable: {
 		" ": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
