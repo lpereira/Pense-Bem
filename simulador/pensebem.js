@@ -130,6 +130,8 @@ Som = {
 	  NoteToToneTable: null,
     playNote: function (n) {
 
+      console.log("NOTE: "+ n);
+
       //real note frequency values:
       const FREQ_C4 = 261.63;
       const FREQ_D4 = 293.66;
