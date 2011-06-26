@@ -420,7 +420,7 @@ MemoriaTons = {
 		};
 		var note = buttonToNoteTable[b];
 		if (note === undefined) {
-			PB.beep();
+			PB.lowBeep();
 			return;
 		}
 		Som.playQueue.push(note);
@@ -521,7 +521,7 @@ Livro = {
                 }
                 break;
             default:
-                PB.beep();
+                PB.lowBeep();
             }
             break;
         }
@@ -539,25 +539,25 @@ Welcome = {
 	},
     oneLoopIteration: function() {},
     buttonPress: function(b) {
-		const buttonToTable = {
-			"ADIVINHE-O-NÚMERO": AdivinheONumero,
-			"ADIÇÃO": Adicao,
-			"MULTIPLICAÇÃO": Multiplicacao,
-			"DIVISÃO": Divisao,
-			"ARITMÉTICA": Aritmetica,
-			"OPERAÇÃO": Operacao,
-			"SIGA-ME": SigaMe,
-			"MEMÓRIA-TONS": MemoriaTons,
-			"NÚMERO-DO-MEIO": NumeroDoMeio,
-			"SUBTRAÇÃO": Subtracao,
-			"LIVRO": Livro,
-		};
-		var newMode = buttonToTable[b];
-		if (newMode === undefined) {
-			PB.beep();
-			return;
-		}
-		PB.setActivity(newMode);
+		  const buttonToTable = {
+			  "ADIVINHE-O-NÚMERO": AdivinheONumero,
+			  "ADIÇÃO": Adicao,
+			  "MULTIPLICAÇÃO": Multiplicacao,
+			  "DIVISÃO": Divisao,
+			  "ARITMÉTICA": Aritmetica,
+			  "OPERAÇÃO": Operacao,
+			  "SIGA-ME": SigaMe,
+			  "MEMÓRIA-TONS": MemoriaTons,
+			  "NÚMERO-DO-MEIO": NumeroDoMeio,
+			  "SUBTRAÇÃO": Subtracao,
+			  "LIVRO": Livro,
+		  };
+		  var newMode = buttonToTable[b];
+		  if (newMode === undefined) {
+        PB.lowBeep();
+			  return;
+		  }
+		  PB.setActivity(newMode);
     },
     buttonRelease: function(b) {}
 };
@@ -597,11 +597,11 @@ Prompt = {
 			return;
 		}
 		if (b in ["0","1","2","3","4","5","6","7","8","9"]) {
-			Som.playNote(Som.LowBeep);
+			PB.lowBeep();
 			Prompt.input = Prompt.input[1] + Prompt.input[2] + b;
 		} else {
 			//blink and HighBeep
-			Som.playNote(Som.HighBeep);
+			PB.highBeep();
 		}
 	},
 	buttonRelease: function(b) {}
@@ -666,6 +666,11 @@ PB = {
     },
     beep: function() {
         PB.setDisplay("Ação inválida");
+    lowBeep: function() {
+        Som.playNote(Som.low_beep);
+    },
+    highBeep: function() {
+        Som.playNote(Som.high_beep);
     },
     SpecialFontTable: {
 		" ": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
