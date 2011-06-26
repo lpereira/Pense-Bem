@@ -26,6 +26,7 @@ Som = {
 			Som.isPlayingSong = false;
 			Som.playQueue = [];
 			Som.songFinishedCallback();
+			PB.enableKeyboard();
 		} else {
 			Som.playNote(Som.playQueue[Som.currentNote]);
 			Som.currentNote++;
@@ -33,6 +34,7 @@ Som = {
 	},
 	playAndClearQueue: function() {
 		Som.isPlayingSong = true;
+		PB.disableKeyboard();
 		Som.toneFinishedPlaying();
 	},
 	playSong: function(song, callback) {
@@ -694,6 +696,7 @@ PB = {
   activity: null,
   ticks: 0,
   delayTable: {},
+  keyboardEnabled: true,
   init: function() {
     PB.setActivity(Standby);
     PB.reset();
@@ -744,7 +747,7 @@ PB = {
       case 'LIGA': PB.setActivity(Welcome); return;
       case 'DESL': PB.setActivity(Standby); return;
       default:
-        if (PB.activity) {
+        if (PB.keyboardEnabled && PB.activity) {
             console.log("atividade atual: "+PB.getActivity()+" | botao: "+b);
             if ((PB.activity!=Welcome) && (b in PB.buttonToTable)) {
                 PB.highBeep();
@@ -755,11 +758,17 @@ PB = {
           }
         }
     },
+    enableKeyboard: function() {
+		PB.keyboardEnabled = true;
+	},
+	disableKeyboard: function() {
+		PB.keyboardEnabled = false;
+	},
     buttonRelease: function(b) {
         if (b == 'LIGA' || b == 'DESL') {
             return;
         }
-        if (PB.activity) {
+        if (PB.keyboardEnabled && PB.activity) {
             PB.activity.buttonRelease(b);
         }
     },
