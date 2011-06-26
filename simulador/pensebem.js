@@ -809,11 +809,11 @@ PB = {
 			PB.setDigit(d, n);
 		} else if (n < 100) {
 			PB.setDigit(d, n % 10);
-			n = Math.round(n / 10);
+			n = Math.floor(n / 10);
 			PB.setDigit(d - 1, n % 10);
 		} else {
 			PB.setDigit(d, n % 10);
-			PB.showNumberAtDigit(Math.round(n / 10), d - 1);
+			PB.showNumberAtDigit(Math.floor(n / 10), d - 1);
 		}
 	},
     setSpecialDigit: function(c) {
