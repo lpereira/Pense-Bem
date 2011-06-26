@@ -360,7 +360,7 @@ SigaMe = {
 		});
 	},
 	addRandomNote: function() {
-		SigaMe.sequence.push(Math.round(Math.random() * 10));
+		SigaMe.sequence.push(Math.round(Math.random() * 9));
 		SigaMe.playSequence();
 	},
 	oneLoopIteration: function() {},
