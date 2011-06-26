@@ -539,25 +539,12 @@ Welcome = {
 	},
     oneLoopIteration: function() {},
     buttonPress: function(b) {
-		  const buttonToTable = {
-			  "ADIVINHE-O-NÚMERO": AdivinheONumero,
-			  "ADIÇÃO": Adicao,
-			  "MULTIPLICAÇÃO": Multiplicacao,
-			  "DIVISÃO": Divisao,
-			  "ARITMÉTICA": Aritmetica,
-			  "OPERAÇÃO": Operacao,
-			  "SIGA-ME": SigaMe,
-			  "MEMÓRIA-TONS": MemoriaTons,
-			  "NÚMERO-DO-MEIO": NumeroDoMeio,
-			  "SUBTRAÇÃO": Subtracao,
-			  "LIVRO": Livro,
-		  };
-		  var newMode = buttonToTable[b];
-		  if (newMode === undefined) {
+		  const newActivity = PB.buttonToTable[b];
+		  if (newActivity === undefined) {
         PB.lowBeep();
 			  return;
 		  }
-		  PB.setActivity(newMode);
+		  PB.setActivity(newActivity);
     },
     buttonRelease: function(b) {}
 };
@@ -609,51 +596,67 @@ Prompt = {
 
 //------------------------------------------------------------------------------
 PB = {
-    bugfix: false, /* we are simulating all the bugs from the original machine */
-    activity: null,
-    ticks: 0,
-    delayTable: {},
-    init: function() {
-        PB.setActivity(Standby);
-        PB.reset();
-        setInterval('PB.oneLoopIteration()', 100);
-    },
-    reset: function() {
-        if (PB.activity) {
-            PB.activity.reset();
-        }
-    },
+  bugfix: false, /* we are simulating all the bugs from the original machine */
+  activity: null,
+  ticks: 0,
+  delayTable: {},
+  init: function() {
+    PB.setActivity(Standby);
+    PB.reset();
+    setInterval('PB.oneLoopIteration()', 100);
+  },
+  reset: function() {
+    if (PB.activity) {
+      PB.activity.reset();
+    }
+  },
 	delay: function(ticks, callback) {
 		PB.delayTable[PB.ticks + ticks] = callback;
 	},
-    oneLoopIteration: function() {
-	    ++PB.ticks;
-	    for (var delay in PB.delayTable) {
-			if (PB.ticks >= delay) {
-				PB.delayTable[delay]();
-				delete PB.delayTable[delay];
-			}
-		}
-        if (PB.activity) {
-            PB.activity.oneLoopIteration();
-        }
-    },
-    setActivity: function(m) {
-        PB.activity = m;
-        PB.reset();
-    },
+  oneLoopIteration: function() {
+    ++PB.ticks;
+    for (var delay in PB.delayTable) {
+		  if (PB.ticks >= delay) {
+			  PB.delayTable[delay]();
+			  delete PB.delayTable[delay];
+		  }
+	  }
+    if (PB.activity) {
+      PB.activity.oneLoopIteration();
+    }
+  },
+  setActivity: function(m) {
+    PB.activity = m;
+    PB.reset();
+  },
 	prompt: function() {
 		PB.previousActivity = PB.activity;
 		PB.setActivity(Prompt);
 	},
-    buttonPress: function(b) {
-        switch (b) {
-        case 'LIGA': PB.setActivity(Welcome); return;
-        case 'DESL': PB.setActivity(Standby); return;
-        default:
-            if (PB.activity) {
-                PB.activity.buttonPress(b);
+  getActivity: function(){
+    for (i in PB.buttonToTable){
+      if (PB.activity==PB.buttonToTable[i]) return i;
+    }
+    if (PB.activity==Welcome) return "Welcome";
+    if (PB.activity==Standby) return "Standby";
+    if (PB.activity==Prompt) return "Prompt)";
+
+    return "Invalid Activity";
+  },
+  buttonPress: function(b) {
+      switch (b) {
+      case 'LIGA': PB.setActivity(Welcome); return;
+      case 'DESL': PB.setActivity(Standby); return;
+      default:
+        if (PB.activity) {
+            console.log("atividade atual: "+PB.getActivity()+" | botao: "+b);
+            if ((PB.activity!=Welcome) && (b in PB.buttonToTable)) {
+                PB.highBeep();
+                return;
             }
+            console.log("repassando o buttonpress para a atividade atual");            
+            PB.activity.buttonPress(b);
+          }
         }
     },
     buttonRelease: function(b) {
@@ -664,8 +667,19 @@ PB = {
             PB.activity.buttonRelease(b);
         }
     },
-    beep: function() {
-        PB.setDisplay("Ação inválida");
+    buttonToTable: {
+        "ADIVINHE-O-NÚMERO": AdivinheONumero,
+        "ADIÇÃO": Adicao,
+        "MULTIPLICAÇÃO": Multiplicacao,
+        "DIVISÃO": Divisao,
+        "ARITMÉTICA": Aritmetica,
+        "OPERAÇÃO": Operacao,
+        "SIGA-ME": SigaMe,
+        "MEMÓRIA-TONS": MemoriaTons,
+        "NÚMERO-DO-MEIO": NumeroDoMeio,
+        "SUBTRAÇÃO": Subtracao,
+        "LIVRO": Livro,
+    },
     lowBeep: function() {
         Som.playNote(Som.low_beep);
     },
