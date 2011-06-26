@@ -471,9 +471,53 @@ MemoriaTons = {
 NumeroDoMeio = {
     reset: function() {
 		PB.clearDisplay();
-		Som.playSong(Songs.GameSelected);
+		Som.playSong(Songs.GameSelected, function() {
+			NumeroDoMeio.advanceQuestion();
+		});
 	},
-    oneLoopIteration: function() {},
+	advanceQuestion: function() {
+		PB.clearDisplay();
+		NumeroDoMeio.firstDigit = Math.round(Math.random() * 50);
+		NumeroDoMeio.secondDigit = NumeroDoMeio.firstDigit + Math.round(Math.random() * 48) + 1;
+		NumeroDoMeio.answer = Math.round((NumeroDoMeio.firstDigit + NumeroDoMeio.secondDigit) / 2);
+		NumeroDoMeio.tries = 0;
+		PB.showNumberAtDigit(NumeroDoMeio.firstDigit, 2);
+		PB.showNumberAtDigit(NumeroDoMeio.secondDigit, 6);
+		console.log(NumeroDoMeio.firstDigit + " - " + NumeroDoMeio.answer + " - " + NumeroDoMeio.secondDigit);
+	},
+	showCorrectAnswer: function(c) {
+		PB.clearDisplay();
+		Som.playSong(Songs.Fail, function() {
+			PB.setSpecialDigit("-");
+			PB.setSpecialDigit2("-");
+			PB.showNumberAtDigit(NumeroDoMeio.firstDigit, 2);
+			PB.showNumberAtDigit(NumeroDoMeio.secondDigit, 6);
+			PB.showNumberAtDigit(NumeroDoMeio.answer, 4);
+			PB.delay(20, function() {
+				PB.clearDisplay();
+				PB.delay(3, c);
+			});
+		});
+	},
+    oneLoopIteration: function() {
+		if (!Prompt.done) {
+			PB.prompt(4, 2);
+		} else if (Prompt.getInput() != NumeroDoMeio.answer) {
+			NumeroDoMeio.tries++;
+			if (NumeroDoMeio.tries < 3) {
+				Som.playSong(Songs.Wrong);
+				return;
+			}
+			NumeroDoMeio.showCorrectAnswer(NumeroDoMeio.advanceQuestion);
+		} else {
+			Som.playSong(Songs.Correct, function() {
+				PB.clearDisplay();
+				PB.delay(3, function() {
+					NumeroDoMeio.advanceQuestion();
+				});
+			});
+		}
+	},
     buttonPress: function() {},
     buttonRelease: function() {},
 };
