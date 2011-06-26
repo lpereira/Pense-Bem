@@ -5,8 +5,8 @@ Songs = {
 	GameSelected: "CgC",
 	Correct: "gCC",
 	Wrong: "ec",
-	GameOver: "egec",
-	SigaMeCorrect: "ceeecCCC",//TODO: verify this
+	Fail: "egec",
+	Winner: "gggeCCC",
 	HighBeep: "C",
 	LowBeep: "c"
 }
@@ -26,7 +26,6 @@ Som = {
 			Som.isPlayingSong = false;
 			Som.playQueue = [];
 			Som.songFinishedCallback();
-			Som.songFinishedCallback = function() {};
 		} else {
 			Som.playNote(Som.playQueue[Som.currentNote]);
 			Som.currentNote++;
@@ -201,15 +200,22 @@ Som = {
 
 //------------------------------------------------------------------------------
 Aritmetica = {
+    firstRun: true,
     reset: function(possibleOperations) {
-		Aritmetica.possibleOperations = possibleOperations || "+-/*";
-		Aritmetica.points = 0;
-		Aritmetica.showResultFlag = false;
-		Aritmetica.showOperatorFlag = true;
-		Som.playSong(Songs.GameSelected, function() {
-			Aritmetica.advanceQuestion();
-		});
-	},
+		  Aritmetica.possibleOperations = possibleOperations || "+-/*";
+		  Aritmetica.points = 0;
+      Aritmetica.currentQuestion = 0;
+      Aritmetica.numQuestions = 10;
+		  Aritmetica.showResultFlag = false;
+		  Aritmetica.showOperatorFlag = true;
+
+      if (Aritmetica.firstRun){
+        Aritmetica.firstRun = false;
+		    Som.playSong(Songs.GameSelected, function(){Aritmetica.advanceQuestion();});
+      } else {
+        Aritmetica.advanceQuestion();
+      }
+  	},
     oneLoopIteration: function() {
 		if (!Prompt.done) {
 			PB.prompt();
@@ -218,17 +224,28 @@ Aritmetica = {
 			if (answer != Aritmetica.answer) {
 				Aritmetica.tries++;
 				if (Aritmetica.tries >= 3) {
-					Som.playSong(Songs.GameOver, function() {
+					Som.playSong(Songs.Fail, function() {
 						Aritmetica.showCorrectAnswer();
 						Aritmetica.advanceQuestion();
+            Aritmetica.currentQuestion++;
 					});
 				} else {
 					Som.playSong(Songs.Wrong);
 				}
 			} else {
+        Aritmetica.currentQuestion++;
+
 				Som.playSong(Songs.Correct, function() {
 					Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
-					Aritmetica.advanceQuestion();
+          if (Aritmetica.currentQuestion < Aritmetica.numQuestions){
+		  			Aritmetica.advanceQuestion();
+          } else {
+            //TODO: pequena pausa
+            //TODO: blink score
+            PB.clearDisplay();
+            PB.setDisplay("     "+Aritmetica.points); //fix me! (aparece por um instante e logo some...)
+            Som.playSong(Songs.Winner, Aritmetica.reset); // TODO: play it faster!
+          }
 				});
 			}
 		}
@@ -351,7 +368,7 @@ Operacao = {
 			if (b != Aritmetica.operation) {
 				Aritmetica.tries++;
 				if (Aritmetica.tries >= 3) {
-					Som.playSong(Songs.GameOver);
+					Som.playSong(Songs.Fail);
 					Aritmetica.showCorrectAnswer();
 					Aritmetica.advanceQuestion();
 				} else {
@@ -397,7 +414,7 @@ SigaMe = {
 			if (SigaMe.guessIndex < SigaMe.sequence.length) {
 				if (b == SigaMe.sequence[SigaMe.guessIndex]) {
 					if (SigaMe.sequence.length == 15) {
-						Som.playSong(Songs.SigaMeCorrect, function() {
+						Som.playSong(Songs.Winner, function() {
 							SigaMe.reset();
 						});
 						return;
