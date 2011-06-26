@@ -278,7 +278,7 @@ Aritmetica = {
 		};
 		Aritmetica.answer = operatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
 		if (Aritmetica.showResultFlag) {
-			PB.debug(Aritmetica.operation);
+			console.log(Aritmetica.operation);
 			PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.secondDigit + Aritmetica.answer);
 		} else {
 			PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.secondDigit);
@@ -489,7 +489,7 @@ Livro = {
 				PB.prompt();
 			} else {
 				var book = parseInt(Prompt.getInput());
-				PB.debug("Selected book: " + book);
+				console.log("Selected book: " + book);
 				if (book > 0 && book < 999) {
 					Livro.book = book;
 					Livro.question = 0;
@@ -508,7 +508,7 @@ Livro = {
 		}
 	},
     showCorrectAnswer: function() {
-        PB.debug("The correct answer was: " + Livro.getCorrectAnswer());
+        console.log("The correct answer was: " + Livro.getCorrectAnswer());
     },
 	advanceQuestion: function() {
 		if (Livro.question >= 0) {
@@ -795,10 +795,7 @@ PB = {
 		PB.setSegmentById("igual", false);
 		PB.setSegmentById("igual2", false);
 	},
-    debug: function(t) {
-		document.getElementById("debug").textContent = t;
-	},
-    pointsByNumberOfTries: function(t) {
+  pointsByNumberOfTries: function(t) {
 		switch (t) {
 			case 0: return 10;
 			case 1: return 6;
