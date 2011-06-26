@@ -471,6 +471,7 @@ MemoriaTons = {
 NumeroDoMeio = {
     reset: function() {
 		PB.clearDisplay();
+		NumeroDoMeio.points = 0;
 		Som.playSong(Songs.GameSelected, function() {
 			NumeroDoMeio.advanceQuestion();
 		});
@@ -511,6 +512,7 @@ NumeroDoMeio = {
 			NumeroDoMeio.showAnswer(Songs.Fail);
 		} else {
 			NumeroDoMeio.showAnswer(Songs.Correct);
+			NumeroDoMeio.points += PB.pointsByNumberOfTries(NumeroDoMeio.tries);
 		}
 	},
     buttonPress: function() {},
