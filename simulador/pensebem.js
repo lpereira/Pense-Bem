@@ -365,7 +365,7 @@ Operacao = {
 			}
 			break;
 		default:
-			PB.beep();
+			PB.HighBeep();
 		}
 	},
     buttonRelease: function() {},
