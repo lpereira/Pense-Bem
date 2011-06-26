@@ -613,9 +613,8 @@ Livro = {
 //------------------------------------------------------------------------------
 Welcome = {
 	reset: function() {
-		//TODO: PB.blinkDisplay("       ", "*");
 		PB.clearDisplay();
-		PB.setSpecialDigit("*");
+		PB.blinkSpecialDigit("*");
 		Som.playSong(Songs.Welcome);
 	},
     oneLoopIteration: function() {},
@@ -645,7 +644,7 @@ Prompt = {
 	maxDigitSize: 3,
 	initialDigit: 7,
 	reset: function() {
-		//TODO: PB.blinkDigit(7, "-", " ");
+		PB.blinkDigit(7, "-");
 		Prompt.done = false;
 		Prompt.input = "   ";
 		PB.clearDisplay(Prompt.initialDigit - Prompt.maxDigitSize + 1, Prompt.initialDigit);
@@ -712,6 +711,21 @@ PB = {
 	},
   oneLoopIteration: function() {
     ++PB.ticks;
+
+    if (PB.ticks%10<3){
+      for (var d=1; d<=PB.blinkTable.length; d++){
+        if (PB.blinkTable[d-1]) PB.setDigit(d, " ", true);
+      }
+      if (PB.blinkTable[7]) PB.setSpecialDigit(" ", true);
+      if (PB.blinkTable[8]) PB.setSpecialDigit(" ", true);
+    } else {
+      for (var d=1; d<=PB.blinkTable.length; d++){
+        if (PB.blinkTable[d-1]) PB.setDigit(d, PB.displayContents[d-1], true);
+      }
+      if (PB.blinkTable[7]) PB.setSpecialDigit(PB.displayContents[7], true);
+      if (PB.blinkTable[8]) PB.setSpecialDigit(PB.displayContents[8], true);
+    }
+
     for (var delay in PB.delayTable) {
 		  if (PB.ticks >= delay) {
 			  PB.delayTable[delay]();
@@ -840,13 +854,41 @@ PB = {
 
 		PB.setSpecialDigit(" ");
 		PB.setSpecialDigit2(" ");
+    PB.disableBlink();
 	},
+  blinkTable: [false, false, false, false, false, false, false, false, false],
+  disableBlink: function(){
+    PB.blinkTable = [false, false, false, false, false, false, false, false, false];
+	},
+  blinkAll: function(){
+    PB.blinkTable = [true, true, true, true, true, true, true, true, true];
+	},
+	blinkDigit: function(which, c){
+    if (c) PB.setDigit(which, c);
+    PB.blinkTable[which-1]=true;    
+  },
+	blinkSpecialDigit: function(c){
+    if (c) PB.setSpecialDigit(c);
+    PB.blinkTable[7]=true;    
+  },
+	blinkSpecialDigit2: function(c){
+    if (c) PB.setSpecialDigit2(c);
+    PB.blinkTable[8]=true;
+  },
+	stopBlinking: function(which){
+    PB.blinkTable[which-1]=false;    
+  },
 	setDisplay: function(c) {
 		for (var i = 1; i <= 7; ++i) {
 			PB.setDigit(i, c[i - 1]);
 		}
 	},
-    setDigit: function(i, c) {
+  displayContents: ["?","?","?","?","?","?","?","?","?"],
+  setDigit: function(i, c, tmp) {
+    if (tmp === undefined){
+      PB.displayContents[i-1]=c;
+    }
+
 		var state = PB.FontTable[c];
 		if (state === undefined) {
 			state = PB.FontTable[' '];
@@ -867,7 +909,11 @@ PB = {
 			PB.showNumberAtDigit(Math.floor(n / 10), d - 1);
 		}
 	},
-    setSpecialDigit: function(c) {
+  setSpecialDigit: function(c, tmp) {
+    if (tmp === undefined){
+      PB.displayContents[7]=c;
+    }
+
 		if (c in PB.FontTable) {
 			PB.setDigit(3, c);
 		}
@@ -881,7 +927,11 @@ PB = {
 			PB.setSegment("8", "abcdefgh"[segment - 1], state[1][segment - 1]);
 		}
     },
-    setSpecialDigit2: function(c) {
+  setSpecialDigit2: function(c, tmp) {
+    if (tmp === undefined){
+      PB.displayContents[7]=c;
+    }
+
 		if (c == "=") {
 			PB.setSegmentById("igual", true);
 			PB.setSegmentById("igual2", true);
