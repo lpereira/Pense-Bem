@@ -431,7 +431,7 @@ MemoriaTons = {
 		};
 		var note = buttonToNoteTable[b];
 		if (note === undefined) {
-			PB.lowBeep();
+			PB.LowBeep();
 			return;
 		}
 		Som.playQueue.push(note);
@@ -532,7 +532,7 @@ Livro = {
                 }
                 break;
             default:
-                PB.lowBeep();
+                PB.LowBeep();
             }
             break;
         }
@@ -552,7 +552,7 @@ Welcome = {
     buttonPress: function(b) {
 		  const newActivity = PB.buttonToTable[b];
 		  if (newActivity === undefined) {
-        PB.lowBeep();
+        PB.LowBeep();
 			  return;
 		  }
 		  PB.setActivity(newActivity);
@@ -595,7 +595,7 @@ Prompt = {
 			return;
 		}
 		if (b in ["0","1","2","3","4","5","6","7","8","9"]) {
-			PB.lowBeep();
+			PB.LowBeep();
 			Prompt.input = Prompt.input[1] + Prompt.input[2] + b;
 		} else {
 			//blink and HighBeep
@@ -691,7 +691,7 @@ PB = {
         "SUBTRAÇÃO": Subtracao,
         "LIVRO": Livro,
     },
-    lowBeep: function() {
+    LowBeep: function() {
         Som.playNote(Som.LowBeep);
     },
     HighBeep: function() {
