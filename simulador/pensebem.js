@@ -10,7 +10,7 @@ Som = {
 	HighBeep: "C",
 	LowBeep: "c",
 	SampleRate: 8192,
-	TickInterval: 10,
+	TickInterval: 20,
 	currentNote: 0,
 	isPlayingSong: false,
 	songFinishedCallback: function() {},
