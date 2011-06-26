@@ -11,13 +11,13 @@ Som = {
 	TickInterval: 10,
 	currentNote: 0,
     playAndClearQueue: function() {
-		if (Som.currentNote > Som.playQueue.length) {
-			Som.currentNote=0;
-			Som.playQueue = [];
-		} else {
+		if (Som.currentNote < Som.playQueue.length) {
 			Som.playNote(Som.playQueue[Som.currentNote]);
 			window.setTimeout("Som.playAndClearQueue()", 200);
 			Som.currentNote++;
+		} else {
+			Som.currentNote=0;
+			Som.playQueue = [];
 		}
 	},
 	playSong: function(song) {
@@ -369,7 +369,6 @@ SigaMe = {
 	playSequence: function() {
 		for (var i=0; i<SigaMe.sequence.length; i++) {
 			Som.playNote("cdefgabCDE"[SigaMe.sequence[i]]);
-			pausa(200);
 			PB.clearDisplay();
 			PB.setDigit(7, SigaMe.sequence[i]);
 		}
@@ -588,7 +587,7 @@ Prompt = {
 			Prompt.input = Prompt.input[1] + Prompt.input[2] + b;
 		} else {
 			//blink and HighBeep
-			PB.highBeep();
+			PB.HighBeep();
 		}
 	},
 	buttonRelease: function(b) {}
@@ -651,7 +650,7 @@ PB = {
         if (PB.activity) {
             console.log("atividade atual: "+PB.getActivity()+" | botao: "+b);
             if ((PB.activity!=Welcome) && (b in PB.buttonToTable)) {
-                PB.highBeep();
+                PB.HighBeep();
                 return;
             }
             console.log("repassando o buttonpress para a atividade atual");            
@@ -681,10 +680,10 @@ PB = {
         "LIVRO": Livro,
     },
     lowBeep: function() {
-        Som.playNote(Som.low_beep);
+        Som.playNote(Som.LowBeep);
     },
-    highBeep: function() {
-        Som.playNote(Som.high_beep);
+    HighBeep: function() {
+        Som.playNote(Som.HighBeep);
     },
     SpecialFontTable: {
 		" ": [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
