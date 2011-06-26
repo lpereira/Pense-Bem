@@ -1,3 +1,5 @@
+pulseaudio_bug = navigator.userAgent.indexOf("Linux")>0;
+
 Som = {
 	WelcomeSong: "egage",
 	GameSelectedSong: "CgC",
@@ -118,13 +120,20 @@ Som = {
         }
 
         audio.setAttribute("src", Som.encode8BitAudio(samples));
-        audio.addEventListener("ended", function() {
-			Som.toneFinishedPlaying();
-		}, false);
+
+        if (!pulseaudio_bug){
+          audio.addEventListener("ended", function() {
+			      Som.toneFinishedPlaying();
+		      }, false);
+        }
+
         audio.autoplay = false;
         return function() {
           audio.load();
           audio.play();
+          if (pulseaudio_bug){
+            window.setTimeout("Som.toneFinishedPlaying()",300);
+          }
         };
     },
 	  NoteToToneTable: null,
