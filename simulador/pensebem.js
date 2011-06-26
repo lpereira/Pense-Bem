@@ -582,10 +582,12 @@ Standby = {
 
 //------------------------------------------------------------------------------
 Prompt = {
+	maxDigitSize: 3,
+	initialDigit: 7,
 	reset: function() {
 		//TODO: PB.blinkDigit(7, "-", " ");
 		Prompt.done = false;
-		Prompt.input= "   ";
+		Prompt.input = "   ";
 	},
 	getInput: function() {
 		const value = Prompt.input;
@@ -593,10 +595,9 @@ Prompt = {
 		return value;
 	},
 	ready: false,
-	oneLoopIteration: function() {
-		PB.setDigit(5, Prompt.input[0]);
-		PB.setDigit(6, Prompt.input[1]);
-		PB.setDigit(7, Prompt.input[2]);
+	oneLoopIteration: function() {},
+	redrawPrompt: function() {
+		PB.showNumberAtDigit(parseInt(Prompt.input), Prompt.initialDigit);
 	},
 	buttonPress: function(b) {
 		if (b == "ENTER") {
@@ -605,8 +606,13 @@ Prompt = {
 			return;
 		}
 		if (b in ["0","1","2","3","4","5","6","7","8","9"]) {
-			PB.LowBeep();
-			Prompt.input = Prompt.input[1] + Prompt.input[2] + b;
+			PB.lowBeep();
+			switch (Prompt.maxDigitSize) {
+			case 1: Prompt.input = b; break;
+			case 2: Prompt.input = Prompt.input[1] + b; break;
+			default: Prompt.input = Prompt.input[1] + Prompt.input[2] + b; break;
+			}
+			Prompt.redrawPrompt();
 		} else {
 			//blink and HighBeep
 			PB.HighBeep();
@@ -650,7 +656,9 @@ PB = {
     PB.activity = m;
     PB.reset();
   },
-	prompt: function() {
+	prompt: function(initialDigit, maxDigitSize) {
+		Prompt.initialDigit = initialDigit || 7;
+		Prompt.maxDigitSize = maxDigitSize || 3;
 		PB.previousActivity = PB.activity;
 		PB.setActivity(Prompt);
 	},
