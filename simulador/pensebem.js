@@ -260,11 +260,7 @@ Aritmetica = {
 		Aritmetica.tries = 0;
 		Aritmetica.operation = Aritmetica.possibleOperations[Math.round(Math.random() * (Aritmetica.possibleOperations.length - 1))];
 
-		//TODO: verificar se é possivel aparecerem numeros menores que 10
-		Aritmetica.firstDigit=0;
-		while (Aritmetica.firstDigit<10) {
-			Aritmetica.firstDigit = Math.round(Math.random() * 99);
-		}
+		Aritmetica.firstDigit = Math.round(Math.random() * 99);
 		Aritmetica.secondDigit = Math.round(Math.random() * 9);
 		if (Aritmetica.operation == "/") {
 			if (Aritmetica.secondDigit == 0) {
