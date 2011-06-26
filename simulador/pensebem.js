@@ -605,6 +605,11 @@ Prompt = {
 		//TODO: PB.blinkDigit(7, "-", " ");
 		Prompt.done = false;
 		Prompt.input = "   ";
+		PB.clearDisplay(Prompt.initialDigit - Prompt.maxDigitSize + 1, Prompt.initialDigit);
+		if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
+			PB.setSpecialDigit(" ");
+			PB.setSpecialDigit2(" ");
+		}
 	},
 	getInput: function() {
 		const value = Prompt.input;
@@ -624,6 +629,10 @@ Prompt = {
 		}
 		if (b in ["0","1","2","3","4","5","6","7","8","9"]) {
 			PB.lowBeep();
+			if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
+				PB.setSpecialDigit("-");
+				PB.setSpecialDigit2("-");
+			}
 			switch (Prompt.maxDigitSize) {
 			case 1: Prompt.input = b; break;
 			case 2: Prompt.input = Prompt.input[1] + b; break;
@@ -770,8 +779,14 @@ PB = {
     setSegment: function(i, seg, state) {
         PB.setSegmentById("d" + i + "_" + seg, state);
     },
-	clearDisplay: function() {
-		PB.setDisplay("");
+	clearDisplay: function(begin, end) {
+		begin = begin || 1;
+		end = end || 7;
+
+		for (var i = begin; i <= end; ++i) {
+			PB.setDigit(i, ' ');
+		}
+
 		PB.setSpecialDigit(" ");
 		PB.setSpecialDigit2(" ");
 	},
