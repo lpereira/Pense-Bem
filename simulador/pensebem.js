@@ -242,11 +242,13 @@ Aritmetica = {
           if (Aritmetica.currentQuestion < Aritmetica.numQuestions){
 		  			Aritmetica.advanceQuestion();
           } else {
-            //TODO: pequena pausa
-            //TODO: blink score
-            PB.clearDisplay();
-            PB.setDisplay("     "+Aritmetica.points); //fix me! (aparece por um instante e logo some...)
-            Som.playSong(Songs.Winner, Aritmetica.reset); // TODO: play it faster!
+            PB.delay(10, function(){//pequena pausa de 1 segundo. TODO: medir qual é o tempo correto
+              PB.clearDisplay();
+              PB.showNumberAtDigit(Aritmetica.points, 7);
+              PB.blinkAll();
+              Som.playSong(Songs.Winner); // TODO: play it faster!
+              PB.delay(50, Aritmetica.reset); //this means 50 ticks, which is 5 seconds TODO: check correct timing
+            });
           }
 				});
 			}
