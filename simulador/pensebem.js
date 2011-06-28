@@ -378,9 +378,10 @@ Operacao = {
 					Som.playSong(Songs.Wrong);
 				}
 			} else {
-				Som.playSong(Som.CorrectSong);
-				Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
-				Aritmetica.advanceQuestion();
+				Som.playSong(Songs.Correct, function(){
+				  Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
+				  Aritmetica.advanceQuestion();
+        });
 			}
 			break;
 		default:
