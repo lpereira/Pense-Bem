@@ -269,7 +269,7 @@ Aritmetica = {
 				PB.setSpecialDigit(Aritmetica.operation);
 			}
 		} else {
-			PB.setSpecialDigit("#");
+			PB.blinkSpecialDigit("#");
 		}
 	},
     buttonPress: function(b) {},
@@ -356,9 +356,9 @@ Divisao = {
 Operacao = {
     reset: function() {
 		PB.clearDisplay();
-		Aritmetica.showOperatorFlag = false;
-		Aritmetica.showResultFlag = true;
 		Aritmetica.reset();
+    Aritmetica.showOperatorFlag = false;
+		Aritmetica.showResultFlag = true;		
 	},
     oneLoopIteration: function() {},
     buttonPress: function(b) {
