@@ -295,17 +295,17 @@ Aritmetica = {
 			"*": function(a, b) { return a * b; }
 		};
 		Aritmetica.answer = operatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
+
+    PB.showNumberAtDigit(Aritmetica.firstDigit, 2);
+    PB.showNumberAtDigit(Aritmetica.secondDigit, 4);
 		if (Aritmetica.showResultFlag) {
-			console.log(Aritmetica.operation);
-			PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.secondDigit + Aritmetica.answer);
-		} else {
-			PB.setDisplay(Aritmetica.firstDigit + " " + Aritmetica.secondDigit);
+        PB.showNumberAtDigit(Aritmetica.answer, 7);
 		}
 
 		Aritmetica.showOperator();
-
 		PB.setSpecialDigit2("=");
-    }
+
+  }
 };
 
 //------------------------------------------------------------------------------
