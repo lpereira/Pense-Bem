@@ -285,8 +285,7 @@ Aritmetica = {
 		Aritmetica.secondDigit = Math.round(Math.random() * 9);
 		if (Aritmetica.operation == "/") {
 			if (Aritmetica.secondDigit == 0) {
-				Aritmetica.secondDigit = 1;
-				//TODO: fix-me: Isso faz divisões por 1 serem mais provaveis que as demais.
+				Aritmetica.secondDigit = 1 + Math.round(Math.random() * 8);
 			}
 			Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
 		}
