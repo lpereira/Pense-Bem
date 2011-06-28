@@ -713,17 +713,17 @@ PB = {
     ++PB.ticks;
 
     if (PB.ticks%10<3){
-      for (var d=1; d<=PB.blinkTable.length; d++){
-        if (PB.blinkTable[d-1]) PB.setDigit(d, " ", true);
+      for (var d=0; d<7; d++){
+        if (PB.blinkTable[d]) PB.setDigit(d+1, " ", true);
       }
       if (PB.blinkTable[7]) PB.setSpecialDigit(" ", true);
-      if (PB.blinkTable[8]) PB.setSpecialDigit(" ", true);
+      if (PB.blinkTable[8]) PB.setSpecialDigit2(" ", true);
     } else {
-      for (var d=1; d<=PB.blinkTable.length; d++){
-        if (PB.blinkTable[d-1]) PB.setDigit(d, PB.displayContents[d-1], true);
+      for (var d=0; d<7; d++){
+        if (PB.blinkTable[d]) PB.setDigit(d+1, PB.displayContents[d], true);
       }
       if (PB.blinkTable[7]) PB.setSpecialDigit(PB.displayContents[7], true);
-      if (PB.blinkTable[8]) PB.setSpecialDigit(PB.displayContents[8], true);
+      if (PB.blinkTable[8]) PB.setSpecialDigit2(PB.displayContents[8], true);
     }
 
     for (var delay in PB.delayTable) {
@@ -929,7 +929,7 @@ PB = {
     },
   setSpecialDigit2: function(c, tmp) {
     if (tmp === undefined){
-      PB.displayContents[7]=c;
+      PB.displayContents[8]=c;
     }
 
 		if (c == "=") {
