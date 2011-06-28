@@ -222,23 +222,26 @@ Aritmetica = {
 		if (!Prompt.done) {
 			PB.prompt();
 		} else {
-			var answer = parseInt(Prompt.getInput());
-			if (answer != Aritmetica.answer) {
-				Aritmetica.tries++;
-				if (Aritmetica.tries >= 3) {
-					Som.playSong(Songs.Fail, function() {
-						Aritmetica.showCorrectAnswer();
-						Aritmetica.advanceQuestion();
-            Aritmetica.currentQuestion++;
-					});
-				} else {
-					Som.playSong(Songs.Wrong);
-				}
-			} else {
-        Aritmetica.correct();
-			}
+			Aritmetica.answerQuestion(parseInt(Prompt.getInput()) == Aritmetica.answer);
 		}
 	},
+  answerQuestion: function(correct){
+    if (correct){
+      Aritmetica.correct();
+    } else {
+      Aritmetica.incorrect();
+    };
+  },
+  incorrect: function(){
+		Aritmetica.tries++;
+		if (Aritmetica.tries >= 3) {
+			Som.playSong(Songs.Fail);
+			Aritmetica.showCorrectAnswer();
+			Aritmetica.advanceQuestion();
+		} else {
+			Som.playSong(Songs.Wrong);
+		}
+  },
   correct: function(){
     Aritmetica.currentQuestion++;
 
@@ -371,18 +374,7 @@ Operacao = {
 		case "-":
 		case "*":
 		case "/":
-			if (b != Aritmetica.operation) {
-				Aritmetica.tries++;
-				if (Aritmetica.tries >= 3) {
-					Som.playSong(Songs.Fail);
-					Aritmetica.showCorrectAnswer();
-					Aritmetica.advanceQuestion();
-				} else {
-					Som.playSong(Songs.Wrong);
-				}
-			} else {
-				Aritmetica.correct();
-			}
+      Aritmetica.answerQuestion(b == Aritmetica.operation);
 			break;
 		default:
 			PB.highBeep();
