@@ -561,9 +561,9 @@ Livro = {
 			}
 		break;
 		case Livro.StateQuestioning:
-			//TODO: show question number ("  1") and
-			// blink "_ _ _ _" waiting for A B C or D
-			// (implement a special prompt for that)
+      PB.showNumberAtDigit(Livro.question, 3);
+      for (var i=4;i<=7; i++)
+        PB.blinkDigit(i, "_");
 		}
 	},
     showCorrectAnswer: function() {
@@ -575,7 +575,6 @@ Livro = {
 		}
 		Livro.tries = 0;
 		Livro.question++;
-		PB.setDisplay("      " + Livro.question);
 	},
     getCorrectAnswer: function() {
         const answerPattern = "CDDBAADCBDAADCBB";
