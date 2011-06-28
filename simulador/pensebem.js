@@ -280,21 +280,25 @@ Aritmetica = {
 			PB.blinkSpecialDigit("#");
 		}
 	},
-    buttonPress: function(b) {},
-    buttonRelease: function(b) {},
-    advanceQuestion: function() {
+  buttonPress: function(b) {},
+  buttonRelease: function(b) {},
+  advanceQuestion: function() {
 		PB.clearDisplay();
 		Aritmetica.tries = 0;
-		Aritmetica.operation = Aritmetica.possibleOperations[Math.round(Math.random() * (Aritmetica.possibleOperations.length - 1))];
 
-		Aritmetica.firstDigit = Math.round(Math.random() * 99);
-		Aritmetica.secondDigit = Math.round(Math.random() * 9);
-		if (Aritmetica.operation == "/") {
-			if (Aritmetica.secondDigit == 0) {
-				Aritmetica.secondDigit = 1 + Math.round(Math.random() * 8);
-			}
-			Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
-		}
+    var forbiddenCombination=true;
+    while (forbiddenCombination){
+  		Aritmetica.operation = Aritmetica.possibleOperations[Math.round(Math.random() * (Aritmetica.possibleOperations.length - 1))];
+		  Aritmetica.firstDigit = Math.round(Math.random() * 99);
+		  Aritmetica.secondDigit = Math.round(Math.random() * 9);
+
+  		forbiddenCombination = ((Aritmetica.operation == "/") && (Aritmetica.secondDigit == 0)) ||
+                             ((Aritmetica.operation in ["-", "+"]) && (Aritmetica.secondDigit == 0)) ||
+                             ((Aritmetica.operation in ["/", "*"]) && (Aritmetica.secondDigit == 1));
+    }
+
+		Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
+
 		const operatorFunctionTable = {
 			"+": function(a, b) { return a + b; },
 			"-": function(a, b) { return a - b; },
