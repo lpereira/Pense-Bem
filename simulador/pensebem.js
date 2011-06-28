@@ -470,66 +470,88 @@ MemoriaTons = {
 };
 
 //------------------------------------------------------------------------------
-NumeroDoMeio = {
+AdivinheONumero = {
+    doMeio:false,
+    maxtries:10,
     reset: function() {
 		PB.clearDisplay();
-		NumeroDoMeio.points = 0;
+		AdivinheONumero.points = 0;
 		Som.playSong(Songs.GameSelected, function() {
-			NumeroDoMeio.advanceQuestion();
+			AdivinheONumero.advanceQuestion();
 		});
 	},
 	advanceQuestion: function() {
 		PB.clearDisplay();
-		NumeroDoMeio.firstDigit = Math.round(Math.random() * 50);
-		NumeroDoMeio.secondDigit = NumeroDoMeio.firstDigit + Math.round(Math.random() * 47) + 2;
-		NumeroDoMeio.answer = Math.round((NumeroDoMeio.firstDigit + NumeroDoMeio.secondDigit) / 2);
-		NumeroDoMeio.tries = 0;
-		PB.showNumberAtDigit(NumeroDoMeio.firstDigit, 2);
-		PB.showNumberAtDigit(NumeroDoMeio.secondDigit, 6);
-		console.log(NumeroDoMeio.firstDigit + " - " + NumeroDoMeio.answer + " - " + NumeroDoMeio.secondDigit);
+		AdivinheONumero.firstDigit = Math.round(Math.random() * 50);
+		AdivinheONumero.secondDigit = AdivinheONumero.firstDigit + Math.round(Math.random() * 47) + 2;
+
+    if (AdivinheONumero.doMeio)
+  		AdivinheONumero.answer = Math.round((AdivinheONumero.firstDigit + AdivinheONumero.secondDigit) / 2);
+    else
+  		AdivinheONumero.answer = AdivinheONumero.firstDigit + Math.round(Math.random() * (AdivinheONumero.secondDigit - AdivinheONumero.firstDigit));
+
+		AdivinheONumero.tries = 0;
+		PB.showNumberAtDigit(AdivinheONumero.firstDigit, 2);
+		PB.showNumberAtDigit(AdivinheONumero.secondDigit, 6);
+		console.log(AdivinheONumero.firstDigit + " - " + AdivinheONumero.answer + " - " + AdivinheONumero.secondDigit);
 	},
 	showAnswer: function(s) {
 		PB.clearDisplay();
 		Som.playSong(s, function() {
 			PB.setSpecialDigit("~");
 			PB.setSpecialDigit2("-");
-			PB.showNumberAtDigit(NumeroDoMeio.firstDigit, 2);
-			PB.showNumberAtDigit(NumeroDoMeio.secondDigit, 6);
-			PB.showNumberAtDigit(NumeroDoMeio.answer, 4);
+			PB.showNumberAtDigit(AdivinheONumero.firstDigit, 2);
+			PB.showNumberAtDigit(AdivinheONumero.secondDigit, 6);
+			PB.showNumberAtDigit(AdivinheONumero.answer, 4);
 			PB.delay(20, function() {
 				PB.clearDisplay();
-				PB.delay(3, NumeroDoMeio.advanceQuestion);
+				PB.delay(3, AdivinheONumero.advanceQuestion);
 			});
 		});
 	},
     oneLoopIteration: function() {
 		if (!Prompt.done) {
 			PB.prompt(4, 2);
-		} else if (Prompt.getInput() != NumeroDoMeio.answer) {
-			NumeroDoMeio.tries++;
-			if (NumeroDoMeio.tries < 3) {
-				Som.playSong(Songs.Wrong);
-				return;
-			}
-			NumeroDoMeio.showAnswer(Songs.Fail);
 		} else {
-			NumeroDoMeio.showAnswer(Songs.Correct);
-			NumeroDoMeio.points += PB.pointsByNumberOfTries(NumeroDoMeio.tries);
-		}
+      var guess = Prompt.getInput();
+      if (guess != AdivinheONumero.answer) {
+        if (!AdivinheONumero.doMeio){
+          if (guess < AdivinheONumero.answer)
+            AdivinheONumero.firstDigit = guess;
+          else
+            AdivinheONumero.secondDigit = guess;
+
+		      PB.showNumberAtDigit(AdivinheONumero.firstDigit, 2);
+		      PB.showNumberAtDigit(AdivinheONumero.secondDigit, 6);
+		      console.log(AdivinheONumero.firstDigit + " - " + AdivinheONumero.answer + " - " + AdivinheONumero.secondDigit);
+        }
+
+			  AdivinheONumero.tries++;
+			  if (AdivinheONumero.tries < AdivinheONumero.maxtries) {
+				  Som.playSong(Songs.Wrong);
+				  return;
+			  }
+			  AdivinheONumero.showAnswer(Songs.Fail);
+		  } else {
+			  AdivinheONumero.showAnswer(Songs.Correct);
+			  AdivinheONumero.points += PB.pointsByNumberOfTries(AdivinheONumero.tries);
+		  }
+    }
 	},
     buttonPress: function() {},
     buttonRelease: function() {},
 };
 
 //------------------------------------------------------------------------------
-AdivinheONumero = {
+NumeroDoMeio = {
     reset: function() {
-		PB.clearDisplay();
-		Som.playSong(Songs.GameSelected);
-	},
-    oneLoopIteration: function() {},
-    buttonPress: function() {},
-    buttonRelease: function() {},
+      AdivinheONumero.doMeio=true;
+      AdivinheONumero.maxtries=3;
+		  AdivinheONumero.reset();
+    },
+    oneLoopIteration: AdivinheONumero.oneLoopIteration,
+    buttonPress: AdivinheONumero.buttonPress,
+    buttonRelease: AdivinheONumero.buttonRelease
 };
 
 //------------------------------------------------------------------------------
