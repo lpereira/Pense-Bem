@@ -721,6 +721,9 @@ PB = {
     setInterval('PB.oneLoopIteration()', 100);
   },
   reset: function() {
+	PB.delayTable = {};
+	PB.enableKeyboard();
+	PB.ticks = 0;
     if (PB.activity) {
       PB.activity.reset();
     }
