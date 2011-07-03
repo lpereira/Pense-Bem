@@ -680,7 +680,7 @@ Prompt = {
 	ready: false,
 	oneLoopIteration: function() {},
 	redrawPrompt: function() {
-		PB.showNumberAtDigit(parseInt(Prompt.input), Prompt.initialDigit);
+		PB.showNumberAtDigit(Prompt.input, Prompt.initialDigit);
 	},
 	buttonPress: function(b) {
 		if (b == "ENTER") {
@@ -920,14 +920,27 @@ PB = {
 		}
 	},
 	showNumberAtDigit: function(n, d) {
-		if (n < 10) {
-			PB.setDigit(d, n);
-		} else if (n < 100) {
-			PB.setDigit(d, n % 10);
-			PB.setDigit(d - 1, ~~(n / 10) % 10);
+		if (typeof(n) == "string") {
+			if (n.length == 1) {
+				PB.setDigit(d, n[0]);
+			} else if (n.length == 2) {
+				PB.setDigit(d, n[1]);
+				PB.setDigit(d - 1, n[0]);
+			} else {
+				PB.setDigit(d, n[2]);
+				PB.setDigit(d - 1, n[1]);
+				PB.setDigit(d - 2, n[0]);
+			}
 		} else {
-			PB.setDigit(d, n % 10);
-			PB.showNumberAtDigit(~~(n / 10), d - 1);
+			if (n < 10) {
+				PB.setDigit(d, n);
+			} else if (n < 100) {
+				PB.setDigit(d, n % 10);
+				PB.setDigit(d - 1, ~~(n / 10) % 10);
+			} else {
+				PB.setDigit(d, n % 10);
+				PB.showNumberAtDigit(~~(n / 10), d - 1);
+			}			
 		}
 	},
   setSpecialDigit: function(c, tmp) {
