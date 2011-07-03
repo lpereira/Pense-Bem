@@ -641,8 +641,9 @@ Livro = {
 Welcome = {
 	reset: function() {
 		PB.clearDisplay();
-		PB.blinkSpecialDigit("*");
-		Som.playSong(Songs.Welcome);
+		Som.playSong(Songs.Welcome, function() {
+			PB.blinkSpecialDigit("*");
+		});
 	},
     oneLoopIteration: function() {},
     buttonPress: function(b) {
