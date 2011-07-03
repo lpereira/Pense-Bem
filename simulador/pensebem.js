@@ -222,7 +222,7 @@ Aritmetica = {
 		if (!Prompt.done) {
 			PB.prompt();
 		} else {
-			Aritmetica.answerQuestion(parseInt(Prompt.getInput()) == Aritmetica.answer);
+			Aritmetica.answerQuestion(parseInt(Prompt.getInput(), 10) == Aritmetica.answer);
 		}
 	},
   answerQuestion: function(correct){
@@ -652,6 +652,7 @@ Welcome = {
 Standby = {
 	reset: function() {
 		PB.clearDisplay();
+		PB.disableKeyboard();
 	},
 	oneLoopIteration: function() {},
 	buttonPress: function(b) {},
