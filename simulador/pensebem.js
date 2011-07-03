@@ -231,13 +231,20 @@ Aritmetica = {
   incorrect: function(){
 		Aritmetica.tries++;
 		if (Aritmetica.tries >= 3) {
-			Som.playSong(Songs.Fail);
-			Aritmetica.showCorrectAnswer();
-			Aritmetica.advanceQuestion();
+			Som.playSong(Songs.Fail, function() {
+				PB.clearDisplay();
+				Aritmetica.showCorrectAnswer();
+				PB.blinkAll();
+				PB.delay(30, function() {
+					PB.disableBlink();
+					Aritmetica.advanceQuestion();
+				})
+			});
 		} else {
 			PB.delay(2, function() {
+				PB.clearDisplay();
 				Som.playSong(Songs.Wrong, function() {
-					Aritmetica.redrawScreen();
+					PB.delay(4, Aritmetica.redrawScreen);
 				})
 			});
 		}
@@ -262,14 +269,15 @@ Aritmetica = {
   },
     showCorrectAnswer: function() {
         //PB.blinkDisplayAFewTimesBeforeResuming(Aritmetica.answer);
-        if (Aritmetica.showOperator) {
-			PB.setDisplay(Aritmetica.answer);
+        Aritmetica.redrawScreen();
+        if (Aritmetica.showOperatorFlag) {
+			PB.showNumberAtDigit(Aritmetica.answer, 7);
 		} else {
-			Aritmetica.showOperator();
+			Aritmetica.showOperator(true);
 		}
     },
-    showOperator: function() {
-		if (Aritmetica.showOperatorFlag) {
+    showOperator: function(force) {
+		if (force || Aritmetica.showOperatorFlag) {
 			switch(Aritmetica.operation) {
 			case "*": PB.setSpecialDigit("x"); break;
 			case "/": PB.setSpecialDigit("%"); break;
