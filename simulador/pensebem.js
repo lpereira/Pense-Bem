@@ -663,7 +663,6 @@ Prompt = {
 	maxDigitSize: 3,
 	initialDigit: 7,
 	reset: function() {
-		PB.blinkDigit(7, "-");
 		Prompt.done = false;
 		Prompt.input = "   ";
 		PB.clearDisplay(Prompt.initialDigit - Prompt.maxDigitSize + 1, Prompt.initialDigit);
@@ -671,6 +670,7 @@ Prompt = {
 			PB.setSpecialDigit(" ");
 			PB.setSpecialDigit2(" ");
 		}
+		PB.blinkDigit(Prompt.initialDigit, "-");
 	},
 	getInput: function() {
 		const value = Prompt.input;
@@ -690,6 +690,7 @@ Prompt = {
 		}
 		if (b in ["0","1","2","3","4","5","6","7","8","9"]) {
 			PB.lowBeep();
+			PB.disableBlink();
 			if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
 				PB.setSpecialDigit("~");
 				PB.setSpecialDigit2("-");
