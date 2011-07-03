@@ -226,7 +226,7 @@ Aritmetica = {
       Aritmetica.correct();
     } else {
       Aritmetica.incorrect();
-    };
+    }
   },
   incorrect: function(){
 		Aritmetica.tries++;
@@ -235,7 +235,11 @@ Aritmetica = {
 			Aritmetica.showCorrectAnswer();
 			Aritmetica.advanceQuestion();
 		} else {
-			Som.playSong(Songs.Wrong);
+			PB.delay(2, function() {
+				Som.playSong(Songs.Wrong, function() {
+					Aritmetica.redrawScreen();
+				})
+			});
 		}
   },
   correct: function(){
@@ -284,6 +288,15 @@ Aritmetica = {
 		"/": function(a, b) { return a / b; },
 		"*": function(a, b) { return a * b; }
   },
+  redrawScreen: function() {
+		PB.showNumberAtDigit(Aritmetica.firstDigit, 2);
+		PB.showNumberAtDigit(Aritmetica.secondDigit, 4);
+		if (Aritmetica.showResultFlag) {
+			PB.showNumberAtDigit(Aritmetica.answer, 7);
+		}
+		Aritmetica.showOperator();
+		PB.setSpecialDigit2("=");
+  },
 	advanceQuestion: function() {
 		PB.clearDisplay();
 		Aritmetica.tries = 0;
@@ -301,14 +314,7 @@ Aritmetica = {
 
 		Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
 		Aritmetica.answer = Aritmetica.OperatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
-
-		PB.showNumberAtDigit(Aritmetica.firstDigit, 2);
-		PB.showNumberAtDigit(Aritmetica.secondDigit, 4);
-		if (Aritmetica.showResultFlag) {
-			PB.showNumberAtDigit(Aritmetica.answer, 7);
-		}
-		Aritmetica.showOperator();
-		PB.setSpecialDigit2("=");
+		Aritmetica.redrawScreen();
 	}
 };
 
@@ -361,7 +367,7 @@ Operacao = {
     reset: function() {
 		PB.clearDisplay();
 		Aritmetica.reset();
-    Aritmetica.showOperatorFlag = false;
+        Aritmetica.showOperatorFlag = false;
 		Aritmetica.showResultFlag = true;		
 	},
     oneLoopIteration: function() {},
@@ -371,7 +377,16 @@ Operacao = {
 		case "-":
 		case "*":
 		case "/":
-      Aritmetica.answerQuestion(b == Aritmetica.operation);
+			PB.setSpecialDigit({
+				"+": "+",
+				"-": "-",
+				"*": "x",
+				"/": "%"
+			}[b]);
+			PB.stopBlinking(8);
+			PB.delay(2, function() {
+		      Aritmetica.answerQuestion(b == Aritmetica.operation);
+			});
 			break;
 		default:
 			PB.highBeep();
