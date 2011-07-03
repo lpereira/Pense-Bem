@@ -202,22 +202,18 @@ Som = {
 
 //------------------------------------------------------------------------------
 Aritmetica = {
-    firstRun: true,
     reset: function(possibleOperations) {
 		  Aritmetica.possibleOperations = possibleOperations || "+-/*";
 		  Aritmetica.points = 0;
-      Aritmetica.currentQuestion = 0;
-      Aritmetica.numQuestions = 10;
+          Aritmetica.currentQuestion = 0;
+          Aritmetica.numQuestions = 10;
 		  Aritmetica.showResultFlag = false;
 		  Aritmetica.showOperatorFlag = true;
-
-      if (Aritmetica.firstRun){
-        Aritmetica.firstRun = false;
-		    Som.playSong(Songs.GameSelected, function(){Aritmetica.advanceQuestion();});
-      } else {
-        Aritmetica.advanceQuestion();
-      }
-  	},
+		  Som.playSong(Songs.GameSelected, Aritmetica.advanceQuestion);
+    },
+    newGame: function() {
+          Aritmetica.advanceQuestion();
+    },
     oneLoopIteration: function() {
 		if (!Prompt.done) {
 			PB.prompt();
@@ -243,22 +239,22 @@ Aritmetica = {
 		}
   },
   correct: function(){
-    Aritmetica.currentQuestion++;
+	Aritmetica.currentQuestion++;
 
-		Som.playSong(Songs.Correct, function() {
-			Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
-      if (Aritmetica.currentQuestion < Aritmetica.numQuestions){
-  			Aritmetica.advanceQuestion();
-      } else {
-        PB.delay(10, function(){//pequena pausa de 1 segundo. TODO: medir qual é o tempo correto
-          PB.clearDisplay();
-          PB.showNumberAtDigit(Aritmetica.points, 7);
-          PB.blinkAll();
-          Som.playSong(Songs.Winner); // TODO: play it faster!
-          PB.delay(50, Aritmetica.reset); //this means 50 ticks, which is 5 seconds TODO: check correct timing
-        });
-      }
-		});
+	Som.playSong(Songs.Correct, function() {
+		Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
+		if (Aritmetica.currentQuestion < Aritmetica.numQuestions){
+			Aritmetica.advanceQuestion();
+		} else {
+			PB.delay(10, function(){//pequena pausa de 1 segundo. TODO: medir qual é o tempo correto
+				PB.clearDisplay();
+				PB.showNumberAtDigit(Aritmetica.points, 7);
+				PB.blinkAll();
+				Som.playSong(Songs.Winner); // TODO: play it faster!
+				PB.delay(50, Aritmetica.newGame); //this means 50 ticks, which is 5 seconds TODO: check correct timing
+			});
+		}
+	});
   },
     showCorrectAnswer: function() {
         //PB.blinkDisplayAFewTimesBeforeResuming(Aritmetica.answer);
