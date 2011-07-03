@@ -278,41 +278,38 @@ Aritmetica = {
 	},
   buttonPress: function(b) {},
   buttonRelease: function(b) {},
-  advanceQuestion: function() {
+  OperatorFunctionTable: {
+		"+": function(a, b) { return a + b; },
+		"-": function(a, b) { return a - b; },
+		"/": function(a, b) { return a / b; },
+		"*": function(a, b) { return a * b; }
+  },
+	advanceQuestion: function() {
 		PB.clearDisplay();
 		Aritmetica.tries = 0;
 
-    var forbiddenCombination=true;
-    while (forbiddenCombination){
-  		Aritmetica.operation = Aritmetica.possibleOperations[Math.round(Math.random() * (Aritmetica.possibleOperations.length - 1))];
-		  Aritmetica.firstDigit = Math.round(Math.random() * 99);
-		  Aritmetica.secondDigit = Math.round(Math.random() * 9);
+		var forbiddenCombination=true;
+		while (forbiddenCombination){
+			Aritmetica.operation = Aritmetica.possibleOperations[Math.round(Math.random() * (Aritmetica.possibleOperations.length - 1))];
+			Aritmetica.firstDigit = Math.round(Math.random() * 99);
+			Aritmetica.secondDigit = Math.round(Math.random() * 9);
 
-  		forbiddenCombination = ((Aritmetica.operation == "/") && (Aritmetica.secondDigit == 0)) ||
-                             ((Aritmetica.operation in ["-", "+"]) && (Aritmetica.secondDigit == 0)) ||
-                             ((Aritmetica.operation in ["/", "*"]) && (Aritmetica.secondDigit == 1));
-    }
-
-		Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
-
-		const operatorFunctionTable = {
-			"+": function(a, b) { return a + b; },
-			"-": function(a, b) { return a - b; },
-			"/": function(a, b) { return a / b; },
-			"*": function(a, b) { return a * b; }
-		};
-		Aritmetica.answer = operatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
-
-    PB.showNumberAtDigit(Aritmetica.firstDigit, 2);
-    PB.showNumberAtDigit(Aritmetica.secondDigit, 4);
-		if (Aritmetica.showResultFlag) {
-        PB.showNumberAtDigit(Aritmetica.answer, 7);
+			forbiddenCombination = ((Aritmetica.operation == "/") && (Aritmetica.secondDigit == 0)) ||
+				((Aritmetica.operation in ["-", "+"]) && (Aritmetica.secondDigit == 0)) ||
+				((Aritmetica.operation in ["/", "*"]) && (Aritmetica.secondDigit == 1));
 		}
 
+		Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
+		Aritmetica.answer = Aritmetica.OperatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
+
+		PB.showNumberAtDigit(Aritmetica.firstDigit, 2);
+		PB.showNumberAtDigit(Aritmetica.secondDigit, 4);
+		if (Aritmetica.showResultFlag) {
+			PB.showNumberAtDigit(Aritmetica.answer, 7);
+		}
 		Aritmetica.showOperator();
 		PB.setSpecialDigit2("=");
-
-  }
+	}
 };
 
 //------------------------------------------------------------------------------
