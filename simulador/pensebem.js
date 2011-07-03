@@ -717,6 +717,7 @@ PB = {
   ticks: 0,
   delayTable: {},
   keyboardEnabled: true,
+  displayOnPhase: true,
   init: function() {
     PB.setActivity(Standby);
     PB.reset();
@@ -737,17 +738,23 @@ PB = {
     ++PB.ticks;
 
     if (PB.ticks%10<3){
-      for (var d=0; d<7; d++){
-        if (PB.blinkTable[d]) PB.setDigit(d+1, " ", true);
-      }
-      if (PB.blinkTable[7]) PB.setSpecialDigit(" ", true);
-      if (PB.blinkTable[8]) PB.setSpecialDigit2(" ", true);
+	  if (!PB.displayOnPhase) {
+	      for (var d=0; d<7; d++){
+	        if (PB.blinkTable[d]) PB.setDigit(d+1, " ", true);
+	      }
+	      if (PB.blinkTable[7]) PB.setSpecialDigit(" ", true);
+	      if (PB.blinkTable[8]) PB.setSpecialDigit2(" ", true);
+		  PB.displayOnPhase = true;
+	   }
     } else {
-      for (var d=0; d<7; d++){
-        if (PB.blinkTable[d]) PB.setDigit(d+1, PB.displayContents[d], true);
+	  if (PB.displayOnPhase) {
+	      for (var d=0; d<7; d++){
+	        if (PB.blinkTable[d]) PB.setDigit(d+1, PB.displayContents[d], true);
+	      }
+	      if (PB.blinkTable[7]) PB.setSpecialDigit(PB.displayContents[7], true);
+	      if (PB.blinkTable[8]) PB.setSpecialDigit2(PB.displayContents[8], true);
+	      PB.displayOnPhase = false;
       }
-      if (PB.blinkTable[7]) PB.setSpecialDigit(PB.displayContents[7], true);
-      if (PB.blinkTable[8]) PB.setSpecialDigit2(PB.displayContents[8], true);
     }
 
     for (var delay in PB.delayTable) {
