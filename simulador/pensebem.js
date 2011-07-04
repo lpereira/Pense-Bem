@@ -1,4 +1,4 @@
-pulseaudio_bug = navigator.userAgent.indexOf("Linux")>0;
+pulseAudioBug = navigator.userAgent.indexOf("Linux") > 0;
 
 Songs = {
 	Welcome: "egage",
@@ -125,7 +125,7 @@ Som = {
 
         audio.setAttribute("src", Som.encode8BitAudio(samples));
 
-        if (!pulseaudio_bug){
+        if (!pulseAudioBug){
           audio.addEventListener("ended", function() {
 			      Som.toneFinishedPlaying();
 		      }, false);
@@ -135,7 +135,7 @@ Som = {
         return function() {
           audio.load();
           audio.play();
-          if (pulseaudio_bug){
+          if (pulseAudioBug){
             window.setTimeout("Som.toneFinishedPlaying()",300);
           }
         };
