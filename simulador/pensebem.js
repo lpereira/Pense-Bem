@@ -754,24 +754,28 @@ PB = {
   oneLoopIteration: function() {
     ++PB.ticks;
 
-    if (PB.ticks%10<3){
-	  if (!PB.displayOnPhase) {
-	      for (var d=0; d<7; d++){
-	        if (PB.blinkTable[d]) PB.setDigit(d+1, " ", true);
-	      }
-	      if (PB.blinkTable[7]) PB.setSpecialDigit(" ", true);
-	      if (PB.blinkTable[8]) PB.setSpecialDigit2(" ", true);
-		  PB.displayOnPhase = true;
-	   }
+    if (PB.ticks % 10 < 3) {
+        if (!PB.displayOnPhase) {
+            for (var d = 0; d < 7; d++)
+                if (PB.blinkTable & (1 << d))
+                    PB.setDigit(d + 1, " ", true);
+            if (PB.blinkTable & 1 << 7)
+                PB.setSpecialDigit(" ", true);
+            if (PB.blinkTable & 1 << 8)
+                PB.setSpecialDigit2(" ", true);
+            PB.displayOnPhase = true;
+        }
     } else {
-	  if (PB.displayOnPhase) {
-	      for (var d=0; d<7; d++){
-	        if (PB.blinkTable[d]) PB.setDigit(d+1, PB.displayContents[d], true);
-	      }
-	      if (PB.blinkTable[7]) PB.setSpecialDigit(PB.displayContents[7], true);
-	      if (PB.blinkTable[8]) PB.setSpecialDigit2(PB.displayContents[8], true);
-	      PB.displayOnPhase = false;
-      }
+        if (PB.displayOnPhase) {
+            for (var d = 0; d < 7; d++)
+                if (PB.blinkTable & (1 << d))
+                    PB.setDigit(d + 1, PB.displayContents[d], true);
+            if (PB.blinkTable & 1 << 7)
+                PB.setSpecialDigit(PB.displayContents[7], true);
+            if (PB.blinkTable & 1 << 8)
+                PB.setSpecialDigit2(PB.displayContents[8], true);
+            PB.displayOnPhase = false;
+        }
     }
 
     for (var delay in PB.delayTable) {
@@ -904,28 +908,25 @@ PB = {
 		PB.setSpecialDigit2(" ");
     PB.disableBlink();
 	},
-  blinkTable: [false, false, false, false, false, false, false, false, false],
-  disableBlink: function(){
-    PB.blinkTable = [false, false, false, false, false, false, false, false, false];
-	},
-  blinkAll: function(){
-    PB.blinkTable = [true, true, true, true, true, true, true, true, true];
-	},
-	blinkDigit: function(which, c){
-    if (c) PB.setDigit(which, c);
-    PB.blinkTable[which-1]=true;    
+  blinkTable: 0,
+  disableBlink: function(){ PB.blinkTable = 0; },
+  blinkAll: function(){ PB.blinkTable = -1; },
+  blinkDigit: function(which, c) {
+    if (c)
+       PB.setDigit(which, c);
+    PB.blinkTable |= 1<<(which - 1);
   },
-	blinkSpecialDigit: function(c){
-    if (c) PB.setSpecialDigit(c);
-    PB.blinkTable[7]=true;    
+  blinkSpecialDigit: function(c) {
+    if (c)
+       PB.setSpecialDigit(c);
+    PB.blinkTable |= 1<<7;
   },
-	blinkSpecialDigit2: function(c){
-    if (c) PB.setSpecialDigit2(c);
-    PB.blinkTable[8]=true;
+  blinkSpecialDigit2: function(c) {
+    if (c)
+       PB.setSpecialDigit2(c);
+    PB.blinkTable |= 1<<8;
   },
-	stopBlinking: function(which){
-    PB.blinkTable[which-1]=false;    
-  },
+  stopBlinking: function(which) { PB.blinkTable &= ~(1<<(which - 1)); },
 	setDisplay: function(c) {
 		for (var i = 1; i <= 7; ++i) {
 			PB.setDigit(i, c[i - 1]);
