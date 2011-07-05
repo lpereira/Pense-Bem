@@ -9,3 +9,28 @@
   - It looks like it gets a random question from
     each page, being 5 questions per page
 - Book #015 starts on question 121 (as expected)
+
+
+The reasons books 017, 018, and 019 were rejected are the following:
+
+ BBS
+ | |
+ | +--- Section (1 ~ 6)
+ +----- Book number (01~99)
+
+Section		Question
+1		1 - 30
+2		31 - 60
+3		61 - 90
+4		91 - 120
+5		121 - 150
+6		30 random questions from sections 1-5
+
+There are four possible songs when an activity ends, and the song played
+depends on the points one got:
+
+Range		Variation
+76 - 100	1
+51 - 75		2
+26 - 50		3
+0 - 25		4
