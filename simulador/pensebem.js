@@ -204,15 +204,15 @@ Som = {
 Aritmetica = {
     reset: function(possibleOperations) {
         Aritmetica.possibleOperations = possibleOperations || "+-/*";
+        Aritmetica.showResultFlag = false;
+        Aritmetica.showOperatorFlag = true;
+        Aritmetica.numQuestions = 10;
         PB.clearDisplay();
         Som.playSong(Songs.GameSelected, Aritmetica.newGame);
     },
     newGame: function() {
         Aritmetica.points = 0;
         Aritmetica.currentQuestion = 0;
-        Aritmetica.numQuestions = 10;
-        Aritmetica.showResultFlag = false;
-        Aritmetica.showOperatorFlag = true;
         Aritmetica.advanceQuestion();
     },
     oneLoopIteration: function() {
@@ -245,7 +245,8 @@ Aritmetica = {
             Som.playSong(Songs.Wrong, function() {
                 PB.delay(2, function() {
                     Aritmetica.redrawScreen();
-                    PB.prompt(7, 3);
+                    if (Aritmetica.showOperatorFlag)
+                        PB.prompt(7, 3);
                 });
             });
         }
@@ -322,7 +323,8 @@ Aritmetica = {
         Aritmetica.answer = Aritmetica.OperatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
         Aritmetica.redrawScreen();
 
-        PB.prompt(7, 3);
+        if (Aritmetica.showOperatorFlag)
+            PB.prompt(7, 3);
     }
 };
 
