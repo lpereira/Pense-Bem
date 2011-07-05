@@ -340,8 +340,7 @@ Adicao = {
 //------------------------------------------------------------------------------
 Subtracao = {
     reset: function() {
-		PB.clearDisplay();
-		Aritmetica.reset("-");
+        Aritmetica.reset("-");
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress,
@@ -351,8 +350,7 @@ Subtracao = {
 //------------------------------------------------------------------------------
 Multiplicacao = {
     reset: function() {
-		PB.clearDisplay();
-		Aritmetica.reset("*");
+        Aritmetica.reset("*");
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress,
@@ -362,8 +360,7 @@ Multiplicacao = {
 //------------------------------------------------------------------------------
 Divisao = {
     reset: function() {
-		PB.clearDisplay();
-		Aritmetica.reset("/");
+        Aritmetica.reset("/");
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress,
@@ -373,8 +370,7 @@ Divisao = {
 //------------------------------------------------------------------------------
 Operacao = {
     reset: function() {
-		PB.clearDisplay();
-		Aritmetica.reset();
+        Aritmetica.reset();
         Aritmetica.showOperatorFlag = false;
 		Aritmetica.showResultFlag = true;		
 	},
