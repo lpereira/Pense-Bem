@@ -203,134 +203,134 @@ Som = {
 //------------------------------------------------------------------------------
 Aritmetica = {
     reset: function(possibleOperations) {
-		  Aritmetica.possibleOperations = possibleOperations || "+-/*";
-		  Aritmetica.points = 0;
-          Aritmetica.currentQuestion = 0;
-          Aritmetica.numQuestions = 10;
-		  Aritmetica.showResultFlag = false;
-		  Aritmetica.showOperatorFlag = true;
-		  Som.playSong(Songs.GameSelected, Aritmetica.advanceQuestion);
+        Aritmetica.possibleOperations = possibleOperations || "+-/*";
+        PB.clearDisplay();
+        Som.playSong(Songs.GameSelected, Aritmetica.newGame);
     },
     newGame: function() {
-          Aritmetica.advanceQuestion();
+        Aritmetica.points = 0;
+        Aritmetica.currentQuestion = 0;
+        Aritmetica.numQuestions = 10;
+        Aritmetica.showResultFlag = false;
+        Aritmetica.showOperatorFlag = true;
+        Aritmetica.advanceQuestion();
     },
     oneLoopIteration: function() {
-		if (!Prompt.done) {
-			PB.prompt();
-		} else {
-			Aritmetica.answerQuestion(parseInt(Prompt.getInput(), 10) == Aritmetica.answer);
-		}
-	},
-  answerQuestion: function(correct){
-    if (correct){
-      Aritmetica.correct();
-    } else {
-      Aritmetica.incorrect();
-    }
-  },
-  incorrect: function(){
-		Aritmetica.tries++;
-		if (Aritmetica.tries >= 3) {
-			Som.playSong(Songs.Fail, function() {
-				PB.clearDisplay();
-				Aritmetica.showCorrectAnswer();
-				PB.blinkAll();
-				PB.delay(30, function() {
-					PB.disableBlink();
-					Aritmetica.advanceQuestion();
-				})
-			});
-		} else {
-			PB.delay(2, function() {
-				PB.clearDisplay();
-				Som.playSong(Songs.Wrong, function() {
-					PB.delay(4, Aritmetica.redrawScreen);
-				})
-			});
-		}
-  },
-  correct: function(){
-	Aritmetica.currentQuestion++;
-
-	Som.playSong(Songs.Correct, function() {
-		Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
-		if (Aritmetica.currentQuestion < Aritmetica.numQuestions){
-			Aritmetica.advanceQuestion();
-		} else {
-			PB.delay(10, function(){//pequena pausa de 1 segundo. TODO: medir qual é o tempo correto
-				PB.clearDisplay();
-				PB.showNumberAtDigit(Aritmetica.points, 7);
-				PB.blinkAll();
-				Som.playSong(Songs.Winner); // TODO: play it faster!
-				PB.delay(50, Aritmetica.newGame); //this means 50 ticks, which is 5 seconds TODO: check correct timing
-			});
-		}
-	});
-  },
+        if (Prompt.done) {
+            Aritmetica.answerQuestion(parseInt(Prompt.getInput(), 10) == Aritmetica.answer);
+        }
+    },
+    answerQuestion: function(correct) {
+        if (correct) {
+            Aritmetica.correct();
+        } else {
+            Aritmetica.incorrect();
+        }
+    },
+    flashResultsAndAdvanceQuestion: function(ticks) {
+        Aritmetica.showCorrectAnswer();
+        PB.blinkAll();
+        PB.delay(ticks || 30, function() {
+            PB.clearDisplay();
+            PB.delay(4, Aritmetica.advanceQuestion);
+        });
+    },
+    incorrect: function() {
+        Aritmetica.tries++;
+        if (Aritmetica.tries >= 3) {
+            PB.clearDisplay();
+            Som.playSong(Songs.Fail, Aritmetica.flashResultsAndAdvanceQuestion);
+        } else {
+            PB.clearDisplay();
+            Som.playSong(Songs.Wrong, function() {
+                PB.delay(2, function() {
+                    Aritmetica.redrawScreen();
+                    PB.prompt(7, 3);
+                });
+            });
+        }
+    },
+    correct: function() {
+        Aritmetica.currentQuestion++;
+        PB.clearDisplay();
+        Som.playSong(Songs.Correct, function() {
+            Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
+            if (Aritmetica.currentQuestion < Aritmetica.numQuestions) {
+                Aritmetica.flashResultsAndAdvanceQuestion(10);
+            } else {
+                PB.delay(10, function() {
+                    PB.showNumberAtDigit(Aritmetica.points, 7);
+                    PB.blinkAll();
+                    Som.playSong(Songs.Winner, function() {
+                        PB.delay(30, Aritmetica.newGame);
+                    });
+                });
+            }
+        });
+    },
     showCorrectAnswer: function() {
-        //PB.blinkDisplayAFewTimesBeforeResuming(Aritmetica.answer);
         Aritmetica.redrawScreen();
         if (Aritmetica.showOperatorFlag) {
-			PB.showNumberAtDigit(Aritmetica.answer, 7);
-		} else {
-			Aritmetica.showOperator(true);
-		}
+            PB.showNumberAtDigit(Aritmetica.answer, 7);
+        } else {
+            Aritmetica.showOperator(true);
+        }
     },
     showOperator: function(force) {
-		if (force || Aritmetica.showOperatorFlag) {
-			switch(Aritmetica.operation) {
-			case "*": PB.setSpecialDigit("x"); break;
-			case "/": PB.setSpecialDigit("%"); break;
-			default:
-				PB.setSpecialDigit(Aritmetica.operation);
-			}
-		} else {
-			PB.blinkSpecialDigit("#");
-		}
-	},
-  buttonPress: function(b) {},
-  buttonRelease: function(b) {},
-  OperatorFunctionTable: {
-		"+": function(a, b) { return a + b; },
-		"-": function(a, b) { return a - b; },
-		"/": function(a, b) { return a / b; },
-		"*": function(a, b) { return a * b; }
-  },
-  redrawScreen: function() {
-		PB.showNumberAtDigit(Aritmetica.firstDigit, 2);
-		PB.showNumberAtDigit(Aritmetica.secondDigit, 4);
-		if (Aritmetica.showResultFlag) {
-			PB.showNumberAtDigit(Aritmetica.answer, 7);
-		}
-		Aritmetica.showOperator();
-		PB.setSpecialDigit2("=");
-  },
-	advanceQuestion: function() {
-		PB.clearDisplay();
-		Aritmetica.tries = 0;
+        if (force || Aritmetica.showOperatorFlag) {
+            PB.setSpecialDigit({
+                "*": "x",
+                "/": "%",
+                "+": "+",
+                "-": "-"
+            }[Aritmetica.operation]);
+        } else {
+            PB.blinkSpecialDigit("#");
+        }
+    },
+    buttonPress: function(b) { },
+    buttonRelease: function(b) { },
+    OperatorFunctionTable: {
+        "+": function(a, b) { return ~~(a + b); },
+        "-": function(a, b) { return ~~(a - b); },
+        "/": function(a, b) { return ~~(a / b); },
+        "*": function(a, b) { return ~~(a * b); }
+    },
+    redrawScreen: function() {
+        PB.clearDisplay();
+        PB.showNumberAtDigit(Aritmetica.firstDigit, 2);
+        PB.showNumberAtDigit(Aritmetica.secondDigit, 4);
+        if (Aritmetica.showResultFlag)
+            PB.showNumberAtDigit(Aritmetica.answer, 7);
+        Aritmetica.showOperator();
+        PB.setSpecialDigit2("=");
+    },
+    advanceQuestion: function() {
+        Aritmetica.tries = 0;
 
-		var forbiddenCombination=true;
-		while (forbiddenCombination){
-			Aritmetica.operation = Aritmetica.possibleOperations[Math.round(Math.random() * (Aritmetica.possibleOperations.length - 1))];
-			Aritmetica.firstDigit = Math.round(Math.random() * 99);
-			Aritmetica.secondDigit = Math.round(Math.random() * 9);
+        var forbiddenCombination = true;
+        while (forbiddenCombination) {
+            Aritmetica.operation = Aritmetica.possibleOperations[~~(Math.random() * (Aritmetica.possibleOperations.length - 1))];
+            Aritmetica.firstDigit = ~~(Math.random() * 99);
+            Aritmetica.secondDigit = ~~(Math.random() * 9);
+            forbiddenCombination = ((Aritmetica.operation == "/") && (Aritmetica.secondDigit == 0)) ||
+                ((Aritmetica.operation in ["-", "+"]) && (Aritmetica.secondDigit == 0)) ||
+                ((Aritmetica.operation in ["/", "*"]) && (Aritmetica.secondDigit == 1));
+        }
 
-			forbiddenCombination = ((Aritmetica.operation == "/") && (Aritmetica.secondDigit == 0)) ||
-				((Aritmetica.operation in ["-", "+"]) && (Aritmetica.secondDigit == 0)) ||
-				((Aritmetica.operation in ["/", "*"]) && (Aritmetica.secondDigit == 1));
-		}
+        if (Aritmetica.secondDigit)
+            Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
+        Aritmetica.answer = Aritmetica.OperatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
+        Aritmetica.redrawScreen();
 
-		Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
-		Aritmetica.answer = Aritmetica.OperatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
-		Aritmetica.redrawScreen();
-	}
+        PB.prompt(7, 3);
+    }
 };
 
 //------------------------------------------------------------------------------
 Adicao = {
     reset: function() {
-		PB.clearDisplay();
-		Aritmetica.reset("+");
+        Aritmetica.reset("+");
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress,
@@ -647,84 +647,84 @@ Livro = {
 
 //------------------------------------------------------------------------------
 Welcome = {
-	reset: function() {
-		PB.clearDisplay();
-		Som.playSong(Songs.Welcome, function() {
-			PB.blinkSpecialDigit("*");
-		});
-	},
+    reset: function() {
+        PB.clearDisplay();
+        Som.playSong(Songs.Welcome, function() {
+            PB.blinkSpecialDigit("*");
+        });
+    },
     oneLoopIteration: function() {},
     buttonPress: function(b) {
-		  const newActivity = PB.buttonToTable[b];
-		  if (newActivity === undefined) {
+          const newActivity = PB.buttonToTable[b];
+          if (newActivity === undefined) {
         PB.lowBeep();
-			  return;
-		  }
-		  PB.setActivity(newActivity);
+              return;
+          }
+          PB.setActivity(newActivity);
     },
     buttonRelease: function(b) {}
 };
 
 //------------------------------------------------------------------------------
 Standby = {
-	reset: function() {
-		PB.clearDisplay();
-		PB.disableKeyboard();
-	},
-	oneLoopIteration: function() {},
-	buttonPress: function(b) {},
-	buttonRelease: function(b) {}
+    reset: function() {
+        PB.clearDisplay();
+        PB.disableKeyboard();
+    },
+    oneLoopIteration: function() {},
+    buttonPress: function(b) {},
+    buttonRelease: function(b) {}
 };
 
 //------------------------------------------------------------------------------
 Prompt = {
-	maxDigitSize: 3,
-	initialDigit: 7,
-	reset: function() {
-		Prompt.done = false;
-		Prompt.input = "   ";
-		PB.clearDisplay(Prompt.initialDigit - Prompt.maxDigitSize + 1, Prompt.initialDigit);
-		if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
-			PB.setSpecialDigit(" ");
-			PB.setSpecialDigit2(" ");
-		}
-		PB.blinkDigit(Prompt.initialDigit, "-");
-	},
-	getInput: function() {
-		const value = Prompt.input;
-		Prompt.reset();
-		return value;
-	},
-	ready: false,
-	oneLoopIteration: function() {},
-	redrawPrompt: function() {
-		PB.showNumberAtDigit(Prompt.input, Prompt.initialDigit);
-	},
-	buttonPress: function(b) {
-		if (b == "ENTER") {
-			Prompt.done = true;
-			PB.activity = PB.previousActivity;
-			return;
-		}
-		if (b in ["0","1","2","3","4","5","6","7","8","9"]) {
-			PB.lowBeep();
-			PB.disableBlink();
-			if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
-				PB.setSpecialDigit("~");
-				PB.setSpecialDigit2("-");
-			}
-			switch (Prompt.maxDigitSize) {
-			case 1: Prompt.input = b; break;
-			case 2: Prompt.input = Prompt.input[1] + b; break;
-			default: Prompt.input = Prompt.input[1] + Prompt.input[2] + b; break;
-			}
-			Prompt.redrawPrompt();
-		} else {
-			//blink and HighBeep
-			PB.highBeep();
-		}
-	},
-	buttonRelease: function(b) {}
+    maxDigitSize: 3,
+    initialDigit: 7,
+    done: false,
+    reset: function() {
+        Prompt.done = false;
+        Prompt.input = "   ";
+        PB.clearDisplay(Prompt.initialDigit - Prompt.maxDigitSize + 1, Prompt.initialDigit);
+        if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
+            PB.setSpecialDigit(" ");
+            PB.setSpecialDigit2(" ");
+        }
+        PB.blinkDigit(Prompt.initialDigit, "-");
+    },
+    getInput: function() {
+        const value = Prompt.input;
+        Prompt.reset();
+        return value;
+    },
+    oneLoopIteration: function() {},
+    redrawPrompt: function() {
+        PB.showNumberAtDigit(Prompt.input, Prompt.initialDigit);
+    },
+    buttonPress: function(b) {
+        if (b == "ENTER") {
+            Prompt.done = true;
+            PB.activity = PB.previousActivity;
+            return;
+        }
+        if (b in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]) {
+            PB.lowBeep();
+            PB.disableBlink();
+            if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
+                PB.setSpecialDigit("~");
+                PB.setSpecialDigit2("-");
+            }
+            switch (Prompt.maxDigitSize) {
+            case 1: Prompt.input = b; break;
+            case 2: Prompt.input = Prompt.input[1] + b; break;
+            default: Prompt.input = Prompt.input[1] + Prompt.input[2] + b; break;
+            }
+            Prompt.redrawPrompt();
+        } else {
+            //blink and HighBeep
+            PB.highBeep();
+        }
+    },
+    buttonRelease: function(b) {}
 };
 
 //------------------------------------------------------------------------------
@@ -740,64 +740,68 @@ PB = {
     PB.reset();
     setInterval('PB.oneLoopIteration()', 100);
   },
-  reset: function() {
-	PB.delayTable = {};
-	PB.enableKeyboard();
-	PB.ticks = 0;
-    if (PB.activity) {
-      PB.activity.reset();
-    }
+  resetDefaultVariables: function() {
+      PB.delayTable = {};
+      PB.enableKeyboard();
+      PB.ticks = 0;
+      PB.disableBlink();
   },
-	delay: function(ticks, callback) {
-		PB.delayTable[PB.ticks + ticks] = callback;
-	},
+  reset: function() {
+      PB.resetDefaultVariables();
+      if (PB.activity)
+          PB.activity.reset();
+  },
+  delay: function(ticks, callback) {
+      PB.delayTable[PB.ticks + ticks] = callback;
+  },
   oneLoopIteration: function() {
-    ++PB.ticks;
+        ++PB.ticks;
 
-    if (PB.ticks % 10 < 3) {
-        if (!PB.displayOnPhase) {
-            for (var d = 0; d < 7; d++)
-                if (PB.blinkTable & (1 << d))
-                    PB.setDigit(d + 1, " ", true);
-            if (PB.blinkTable & 1 << 7)
-                PB.setSpecialDigit(" ", true);
-            if (PB.blinkTable & 1 << 8)
-                PB.setSpecialDigit2(" ", true);
-            PB.displayOnPhase = true;
+        if (PB.ticks % 10 < 3) {
+            if (!PB.displayOnPhase) {
+                for (var d = 0; d < 7; d++)
+                    if (PB.blinkTable & (1 << d))
+                        PB.setDigit(d + 1, " ", true);
+                if (PB.blinkTable & 1 << 7)
+                    PB.setSpecialDigit(" ", true);
+                if (PB.blinkTable & 1 << 8)
+                    PB.setSpecialDigit2(" ", true);
+                PB.displayOnPhase = true;
+            }
+        } else {
+            if (PB.displayOnPhase) {
+                for (var d = 0; d < 7; d++)
+                    if (PB.blinkTable & (1 << d))
+                        PB.setDigit(d + 1, PB.displayContents[d], true);
+                if (PB.blinkTable & 1 << 7)
+                    PB.setSpecialDigit(PB.displayContents[7], true);
+                if (PB.blinkTable & 1 << 8)
+                    PB.setSpecialDigit2(PB.displayContents[8], true);
+                PB.displayOnPhase = false;
+            }
         }
-    } else {
-        if (PB.displayOnPhase) {
-            for (var d = 0; d < 7; d++)
-                if (PB.blinkTable & (1 << d))
-                    PB.setDigit(d + 1, PB.displayContents[d], true);
-            if (PB.blinkTable & 1 << 7)
-                PB.setSpecialDigit(PB.displayContents[7], true);
-            if (PB.blinkTable & 1 << 8)
-                PB.setSpecialDigit2(PB.displayContents[8], true);
-            PB.displayOnPhase = false;
-        }
-    }
 
-    for (var delay in PB.delayTable) {
-		  if (PB.ticks >= delay) {
-			  PB.delayTable[delay]();
-			  delete PB.delayTable[delay];
-		  }
-	  }
-    if (PB.activity) {
-      PB.activity.oneLoopIteration();
-    }
+        for (var delay in PB.delayTable) {
+            if (PB.ticks >= delay) {
+                PB.delayTable[delay]();
+                delete PB.delayTable[delay];
+            }
+        }
+
+        if (PB.activity) {
+            PB.activity.oneLoopIteration();
+        }
   },
   setActivity: function(m) {
     PB.activity = m;
     PB.reset();
   },
-	prompt: function(initialDigit, maxDigitSize) {
-		Prompt.initialDigit = initialDigit || 7;
-		Prompt.maxDigitSize = maxDigitSize || 3;
-		PB.previousActivity = PB.activity;
-		PB.setActivity(Prompt);
-	},
+    prompt: function(initialDigit, maxDigitSize) {
+            Prompt.initialDigit = initialDigit || 7;
+            Prompt.maxDigitSize = maxDigitSize || 3;
+            PB.previousActivity = PB.activity;
+            PB.setActivity(Prompt);
+    },
   getActivity: function(){
     for (i in PB.buttonToTable){
       if (PB.activity==PB.buttonToTable[i]) return i;
@@ -896,18 +900,18 @@ PB = {
     setSegment: function(i, seg, state) {
         PB.setSegmentById("d" + i + "_" + seg, state);
     },
-	clearDisplay: function(begin, end) {
-		begin = begin || 1;
-		end = end || 7;
+    clearDisplay: function(begin, end) {
+        begin = begin || 1;
+        end = end || 7;
 
-		for (var i = begin; i <= end; ++i) {
-			PB.setDigit(i, ' ');
-		}
-
-		PB.setSpecialDigit(" ");
-		PB.setSpecialDigit2(" ");
-    PB.disableBlink();
-	},
+        for (var i = begin; i <= end; ++i) {
+            PB.setDigit(i, ' ');
+            if (i == 3)
+                PB.setSpecialDigit(" ");
+        }
+        PB.setSpecialDigit2(" ");
+        PB.disableBlink();
+    },
   blinkTable: 0,
   disableBlink: function(){ PB.blinkTable = 0; },
   blinkAll: function(){ PB.blinkTable = -1; },
