@@ -251,21 +251,10 @@ Aritmetica = {
         }
     },
     correct: function() {
-        Aritmetica.currentQuestion++;
         PB.clearDisplay();
         Som.playSong(Songs.Correct, function() {
             Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
-            if (Aritmetica.currentQuestion < Aritmetica.numQuestions) {
-                Aritmetica.flashResultsAndAdvanceQuestion(10);
-            } else {
-                PB.delay(10, function() {
-                    PB.showNumberAtDigit(Aritmetica.points, 7);
-                    PB.blinkAll();
-                    Som.playSong(Songs.Winner, function() {
-                        PB.delay(30, Aritmetica.newGame);
-                    });
-                });
-            }
+            Aritmetica.flashResultsAndAdvanceQuestion(10);
         });
     },
     showCorrectAnswer: function() {
@@ -306,6 +295,16 @@ Aritmetica = {
         PB.setSpecialDigit2("=");
     },
     advanceQuestion: function() {
+        if (++Aritmetica.currentQuestion >= Aritmetica.numQuestions) {
+            PB.delay(10, function() {
+                PB.showNumberAtDigit(Aritmetica.points, 7);
+                PB.blinkAll();
+                Som.playSong(Songs.Winner, function() {
+                    PB.delay(30, Aritmetica.newGame);
+                });
+            });
+            return;
+        }
         Aritmetica.tries = 0;
 
         var forbiddenCombination = true;
