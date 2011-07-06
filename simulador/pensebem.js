@@ -968,7 +968,8 @@ PB = {
         } else {
             PB.setDigit(d, n % 10);
             if (n < 100) {
-                PB.setDigit(d - 1, ~~ (n / 10) % 10);
+                if (n = ~~(n / 10) % 10)
+                    PB.setDigit(d - 1, n);
             } else {
                 PB.setDigit(d - 1, ~~ (n / 10) % 10);
                 PB.setDigit(d - 2, ~~ (n / 100) % 10);
