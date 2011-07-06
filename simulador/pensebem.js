@@ -757,7 +757,7 @@ PB = {
     init: function() {
         PB.setActivity(Standby);
         PB.reset();
-        setInterval('PB.oneLoopIteration()', 100);
+        setInterval(PB.oneLoopIteration, 100);
     },
     resetDefaultVariables: function() {
         PB.delayTable = {};
@@ -775,26 +775,6 @@ PB = {
     oneLoopIteration: function() {
         ++PB.ticks;
 
-        if (PB.ticks % 10 < 3) {
-            if (!PB.displayOnPhase) {
-                for (var d = 0; d < 7; d++)
-                    if (PB.blinkTable & (1 << d))
-                        PB.setDigit(d + 1, " ", true);
-                if (PB.blinkTable & 1 << 7) PB.setSpecialDigit(" ", true);
-                if (PB.blinkTable & 1 << 8) PB.setSpecialDigit2(" ", true);
-                PB.displayOnPhase = true;
-            }
-        } else {
-            if (PB.displayOnPhase) {
-                for (var d = 0; d < 7; d++)
-                    if (PB.blinkTable & (1 << d))
-                        PB.setDigit(d + 1, PB.displayContents[d], true);
-                if (PB.blinkTable & 1 << 7) PB.setSpecialDigit(PB.displayContents[7], true);
-                if (PB.blinkTable & 1 << 8) PB.setSpecialDigit2(PB.displayContents[8], true);
-                PB.displayOnPhase = false;
-            }
-        }
-
         for (var delay in PB.delayTable) {
             if (PB.ticks >= delay) {
                 PB.delayTable[delay]();
@@ -802,9 +782,7 @@ PB = {
             }
         }
 
-        if (PB.activity) {
-            PB.activity.oneLoopIteration();
-        }
+        if (PB.activity) PB.activity.oneLoopIteration();
     },
     setActivity: function(m) {
         PB.activity = m;
@@ -917,26 +895,64 @@ PB = {
         PB.disableBlink();
     },
     blinkTable: 0,
+    blinkTimer: null,
+    blinkTimerCallback: function() {
+        if (!PB.blinkTable) return;
+        if (PB.ticks % 10 < 3) {
+            if (!PB.displayOnPhase) {
+                for (var d = 0; d < 7; d++)
+                    if (PB.blinkTable & (1 << d))
+                        PB.setDigit(d + 1, " ", true);
+                if (PB.blinkTable & 1 << 7) PB.setSpecialDigit(" ", true);
+                if (PB.blinkTable & 1 << 8) PB.setSpecialDigit2(" ", true);
+                PB.displayOnPhase = true;
+            }
+        } else {
+            if (PB.displayOnPhase) {
+                for (var d = 0; d < 7; d++)
+                    if (PB.blinkTable & (1 << d))
+                        PB.setDigit(d + 1, PB.displayContents[d], true);
+                if (PB.blinkTable & 1 << 7) PB.setSpecialDigit(PB.displayContents[7], true);
+                if (PB.blinkTable & 1 << 8) PB.setSpecialDigit2(PB.displayContents[8], true);
+                PB.displayOnPhase = false;
+            }
+        }
+    },
+    enableBlinkTimerIfNeeded: function() {
+        if (!PB.blinkTable) {
+            if (PB.blinkTimer)
+                PB.blinkTimer = clearInterval(PB.blinkTimer);
+            return;
+        }
+        if (!PB.blinkTimer)
+            PB.blinkTimer = setInterval(PB.blinkTimerCallback, 100);
+    },
     disableBlink: function() {
         PB.blinkTable = 0;
+        PB.enableBlinkTimerIfNeeded();
     },
     blinkAll: function() {
         PB.blinkTable = -1;
+        PB.enableBlinkTimerIfNeeded();
     },
     blinkDigit: function(which, c) {
         if (c) PB.setDigit(which, c);
         PB.blinkTable |= 1 << (which - 1);
+        PB.enableBlinkTimerIfNeeded();
     },
     blinkSpecialDigit: function(c) {
         if (c) PB.setSpecialDigit(c);
         PB.blinkTable |= 1 << 7;
+        PB.enableBlinkTimerIfNeeded();
     },
     blinkSpecialDigit2: function(c) {
         if (c) PB.setSpecialDigit2(c);
         PB.blinkTable |= 1 << 8;
+        PB.enableBlinkTimerIfNeeded();
     },
     stopBlinking: function(which) {
         PB.blinkTable &= ~ (1 << (which - 1));
+        PB.enableBlinkTimerIfNeeded();
     },
     setDisplay: function(c) {
         for (var i = 1; i <= 7; ++i) {
