@@ -488,18 +488,18 @@ MemoriaTons = {
 
 //------------------------------------------------------------------------------
 AdivinheONumero = {
-    middleNumber: false,
+    isMiddleNumber: false,
     maxTries: 10,
-    reset: function(middleNumber) {
+    reset: function(isMiddleNumber) {
         Display.clear();
         AdivinheONumero.points = 0;
-        AdivinheONumero.middleNumber = middleNumber || false;
+        AdivinheONumero.isMiddleNumber = isMiddleNumber || false;
         Som.playSong(Songs.GameSelected, AdivinheONumero.advanceQuestion);
     },
     advanceQuestion: function() {
         Display.clear();
 
-        if (AdivinheONumero.middleNumber) {
+        if (AdivinheONumero.isMiddleNumber) {
             AdivinheONumero.firstDigit = Math.round(Math.random() * 50);
             AdivinheONumero.secondDigit = AdivinheONumero.firstDigit + Math.round(Math.random() * 47) + 2;
             AdivinheONumero.answer = Math.round((AdivinheONumero.firstDigit + AdivinheONumero.secondDigit) / 2);
@@ -534,7 +534,7 @@ AdivinheONumero = {
         if (!Prompt.done) return;
         var guess = Prompt.getInput();
         if (guess != AdivinheONumero.answer) {
-            if (!AdivinheONumero.middleNumber) {
+            if (!AdivinheONumero.isMiddleNumber) {
                 if (guess < AdivinheONumero.answer) AdivinheONumero.firstDigit = guess;
                 else AdivinheONumero.secondDigit = guess;
 
