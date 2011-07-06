@@ -333,7 +333,6 @@ Aritmetica = {
         if (Aritmetica.secondDigit) Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
         Aritmetica.answer = Aritmetica.OperatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
         Aritmetica.redrawScreen();
-
         if (Aritmetica.showOperatorFlag) PB.prompt(7, 3);
     }
 };
@@ -911,12 +910,11 @@ PB = {
     clearDisplay: function(begin, end) {
         begin = begin || 1;
         end = end || 7;
-
-        for (var i = begin; i <= end; ++i) {
+        for (var i = begin; i <= end; ++i)
             PB.setDigit(i, ' ');
-            if (i == 3) PB.setSpecialDigit(" ");
-        }
-        PB.setSpecialDigit2(" ");
+        var range = end - begin;
+        if (range >= 3) PB.setSpecialDigit(' ');
+        if (range >= 5) PB.setSpecialDigit2(' ');
         PB.disableBlink();
     },
     blinkTable: 0,
