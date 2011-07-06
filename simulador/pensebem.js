@@ -647,6 +647,19 @@ Livro = {
 
 //------------------------------------------------------------------------------
 Welcome = {
+    ButtonToActivityTable: {
+        "ADIVINHE-O-NÚMERO": AdivinheONumero,
+        "ADIÇÃO": Adicao,
+        "MULTIPLICAÇÃO": Multiplicacao,
+        "DIVISÃO": Divisao,
+        "ARITMÉTICA": Aritmetica,
+        "OPERAÇÃO": Operacao,
+        "SIGA-ME": SigaMe,
+        "MEMÓRIA-TONS": MemoriaTons,
+        "NÚMERO-DO-MEIO": NumeroDoMeio,
+        "SUBTRAÇÃO": Subtracao,
+        "LIVRO": Livro
+    },
     reset: function() {
         Display.clear();
         Som.playSong(Songs.Welcome, function() {
@@ -655,7 +668,7 @@ Welcome = {
     },
     oneLoopIteration: function() {},
     buttonPress: function(b) {
-        const newActivity = PB.buttonToTable[b];
+        const newActivity = Welcome.ButtonToActivityTable[b];
         if (newActivity === undefined) {
             Som.lowBeep();
             return;
@@ -956,12 +969,12 @@ PB = {
         PB.setActivity(Prompt);
     },
     getActivity: function() {
-        for (var i in PB.buttonToTable) {
-            if (PB.activity == PB.buttonToTable[i]) return i;
+        for (var i in Welcome.ButtonToActivityTable) {
+            if (PB.activity == Welcome.ButtonToActivityTable[i]) return i;
         }
         if (PB.activity == Welcome) return "Welcome";
         if (PB.activity == Standby) return "Standby";
-        if (PB.activity == Prompt) return "Prompt)";
+        if (PB.activity == Prompt) return "Prompt";
 
         return "Invalid Activity";
     },
@@ -976,7 +989,7 @@ PB = {
         default:
             if (PB.keyboardEnabled && PB.activity) {
                 console.log("atividade atual: " + PB.getActivity() + " | botao: " + b);
-                if ((PB.activity != Welcome) && (b in PB.buttonToTable)) {
+                if ((PB.activity != Welcome) && (b in Welcome.ButtonToActivityTable)) {
                     Som.highBeep();
                     return;
                 }
@@ -990,19 +1003,6 @@ PB = {
     },
     disableKeyboard: function() {
         PB.keyboardEnabled = false;
-    },
-    buttonToTable: {
-        "ADIVINHE-O-NÚMERO": AdivinheONumero,
-        "ADIÇÃO": Adicao,
-        "MULTIPLICAÇÃO": Multiplicacao,
-        "DIVISÃO": Divisao,
-        "ARITMÉTICA": Aritmetica,
-        "OPERAÇÃO": Operacao,
-        "SIGA-ME": SigaMe,
-        "MEMÓRIA-TONS": MemoriaTons,
-        "NÚMERO-DO-MEIO": NumeroDoMeio,
-        "SUBTRAÇÃO": Subtracao,
-        "LIVRO": Livro
     },
     pointsByNumberOfTries: function(t) {
         switch (t) {
