@@ -391,7 +391,7 @@ Operacao = {
                 "*": "x",
                 "/": "%"
             }[b]);
-            PB.stopBlinking(8);
+            Display.stopBlinking(8);
             PB.delay(2, function() {
                 Aritmetica.answerQuestion(b == Aritmetica.operation);
             });
