@@ -212,7 +212,7 @@ Aritmetica = {
         Aritmetica.showResultFlag = false;
         Aritmetica.showOperatorFlag = true;
         Aritmetica.numQuestions = 10;
-        PB.clearDisplay();
+        Display.clear();
         Som.playSong(Songs.GameSelected, Aritmetica.newGame);
     },
     newGame: function() {
@@ -234,19 +234,19 @@ Aritmetica = {
     },
     flashResultsAndAdvanceQuestion: function(ticks) {
         Aritmetica.showCorrectAnswer();
-        PB.blinkAll();
+        Display.blinkAll();
         PB.delay(ticks || 30, function() {
-            PB.clearDisplay();
+            Display.clear();
             PB.delay(4, Aritmetica.advanceQuestion);
         });
     },
     incorrect: function() {
         Aritmetica.tries++;
         if (Aritmetica.tries >= 3) {
-            PB.clearDisplay();
+            Display.clear();
             Som.playSong(Songs.Fail, Aritmetica.flashResultsAndAdvanceQuestion);
         } else {
-            PB.clearDisplay();
+            Display.clear();
             Som.playSong(Songs.Wrong, function() {
                 PB.delay(2, function() {
                     Aritmetica.redrawScreen();
@@ -256,7 +256,7 @@ Aritmetica = {
         }
     },
     correct: function() {
-        PB.clearDisplay();
+        Display.clear();
         Som.playSong(Songs.Correct, function() {
             Aritmetica.points += PB.pointsByNumberOfTries(Aritmetica.tries);
             Aritmetica.flashResultsAndAdvanceQuestion(10);
@@ -265,21 +265,21 @@ Aritmetica = {
     showCorrectAnswer: function() {
         Aritmetica.redrawScreen();
         if (Aritmetica.showOperatorFlag) {
-            PB.showNumberAtDigit(Aritmetica.answer, 7);
+            Display.showNumberAtDigit(Aritmetica.answer, 7);
         } else {
             Aritmetica.showOperator(true);
         }
     },
     showOperator: function(force) {
         if (force || Aritmetica.showOperatorFlag) {
-            PB.setSpecialDigit({
+            Display.setSpecialDigit({
                 "*": "x",
                 "/": "%",
                 "+": "+",
                 "-": "-"
             }[Aritmetica.operation]);
         } else {
-            PB.blinkSpecialDigit("#");
+            Display.blinkSpecialDigit("#");
         }
     },
     buttonPress: function(b) {},
@@ -298,18 +298,18 @@ Aritmetica = {
         }
     },
     redrawScreen: function() {
-        PB.clearDisplay();
-        PB.showNumberAtDigit(Aritmetica.firstDigit, 2);
-        PB.showNumberAtDigit(Aritmetica.secondDigit, 4);
-        if (Aritmetica.showResultFlag) PB.showNumberAtDigit(Aritmetica.answer, 7);
+        Display.clear();
+        Display.showNumberAtDigit(Aritmetica.firstDigit, 2);
+        Display.showNumberAtDigit(Aritmetica.secondDigit, 4);
+        if (Aritmetica.showResultFlag) Display.showNumberAtDigit(Aritmetica.answer, 7);
         Aritmetica.showOperator();
-        PB.setSpecialDigit2("=");
+        Display.setSpecialDigit2("=");
     },
     advanceQuestion: function() {
         if (++Aritmetica.currentQuestion >= Aritmetica.numQuestions) {
             PB.delay(10, function() {
-                PB.showNumberAtDigit(Aritmetica.points, 7);
-                PB.blinkAll();
+                Display.showNumberAtDigit(Aritmetica.points, 7);
+                Display.blinkAll();
                 Som.playSong(Songs.Winner, function() {
                     PB.delay(30, Aritmetica.newGame);
                 });
@@ -385,7 +385,7 @@ Operacao = {
         case "-":
         case "*":
         case "/":
-            PB.setSpecialDigit({
+            Display.setSpecialDigit({
                 "+": "+",
                 "-": "-",
                 "*": "x",
@@ -405,7 +405,7 @@ Operacao = {
 //------------------------------------------------------------------------------
 SigaMe = {
     reset: function() {
-        PB.clearDisplay();
+        Display.clear();
         SigaMe.guessIndex = 0;
         SigaMe.sequence = [];
         Som.playSong(Songs.GameSelected, function() {
@@ -420,8 +420,8 @@ SigaMe = {
     playSequence: function() {
         for (var i = 0; i < SigaMe.sequence.length; i++) {
             Som.playNote("cdefgabCDE" [SigaMe.sequence[i]]);
-            PB.clearDisplay();
-            PB.setDigit(7, SigaMe.sequence[i]);
+            Display.clear();
+            Display.setDigit(7, SigaMe.sequence[i]);
         }
     },
     buttonPress: function(b) {
@@ -435,7 +435,7 @@ SigaMe = {
                         return;
                     }
                     Som.playNote(b);
-                    PB.setDigit(7, b);
+                    Display.setDigit(7, b);
                     SigaMe.guessIndex++;
                 } else {
                     Som.playSong(Songs.Wrong, function() {
@@ -456,7 +456,7 @@ SigaMe = {
 //------------------------------------------------------------------------------
 MemoriaTons = {
     reset: function() {
-        PB.clearDisplay();
+        Display.clear();
         Som.playSong(Songs.GameSelected);
     },
     oneLoopIteration: function() {},
@@ -491,13 +491,13 @@ AdivinheONumero = {
     middleNumber: false,
     maxTries: 10,
     reset: function(middleNumber) {
-        PB.clearDisplay();
+        Display.clear();
         AdivinheONumero.points = 0;
         AdivinheONumero.middleNumber = middleNumber || false;
         Som.playSong(Songs.GameSelected, AdivinheONumero.advanceQuestion);
     },
     advanceQuestion: function() {
-        PB.clearDisplay();
+        Display.clear();
 
         if (AdivinheONumero.middleNumber) {
             AdivinheONumero.firstDigit = Math.round(Math.random() * 50);
@@ -510,22 +510,22 @@ AdivinheONumero = {
         }
 
         AdivinheONumero.tries = 0;
-        PB.showNumberAtDigit(AdivinheONumero.firstDigit, 2);
-        PB.showNumberAtDigit(AdivinheONumero.secondDigit, 6);
+        Display.showNumberAtDigit(AdivinheONumero.firstDigit, 2);
+        Display.showNumberAtDigit(AdivinheONumero.secondDigit, 6);
         console.log(AdivinheONumero.firstDigit + " - " + AdivinheONumero.answer + " - " + AdivinheONumero.secondDigit);
 
         PB.prompt(4, 2);
     },
     showAnswer: function(s) {
-        PB.clearDisplay();
+        Display.clear();
         Som.playSong(s, function() {
-            PB.setSpecialDigit("~");
-            PB.setSpecialDigit2("-");
-            PB.showNumberAtDigit(AdivinheONumero.firstDigit, 2);
-            PB.showNumberAtDigit(AdivinheONumero.secondDigit, 6);
-            PB.showNumberAtDigit(AdivinheONumero.answer, 4);
+            Display.setSpecialDigit("~");
+            Display.setSpecialDigit2("-");
+            Display.showNumberAtDigit(AdivinheONumero.firstDigit, 2);
+            Display.showNumberAtDigit(AdivinheONumero.secondDigit, 6);
+            Display.showNumberAtDigit(AdivinheONumero.answer, 4);
             PB.delay(20, function() {
-                PB.clearDisplay();
+                Display.clear();
                 PB.delay(3, AdivinheONumero.advanceQuestion);
             });
         });
@@ -538,8 +538,8 @@ AdivinheONumero = {
                 if (guess < AdivinheONumero.answer) AdivinheONumero.firstDigit = guess;
                 else AdivinheONumero.secondDigit = guess;
 
-                PB.showNumberAtDigit(AdivinheONumero.firstDigit, 2);
-                PB.showNumberAtDigit(AdivinheONumero.secondDigit, 6);
+                Display.showNumberAtDigit(AdivinheONumero.firstDigit, 2);
+                Display.showNumberAtDigit(AdivinheONumero.secondDigit, 6);
                 console.log(AdivinheONumero.firstDigit + " - " + AdivinheONumero.answer + " - " + AdivinheONumero.secondDigit);
             }
 
@@ -581,7 +581,7 @@ Livro = {
         switch (Livro.state) {
         case Livro.StateChoosingBook:
             if (!Prompt.done) {
-                PB.clearDisplay(); //TODO: PB.blinkDisplay("      -");
+                Display.clear(); //TODO: Display.blinkDisplay("      -");
                 PB.prompt();
             } else {
                 var book = parseInt(Prompt.getInput());
@@ -598,9 +598,9 @@ Livro = {
             }
             break;
         case Livro.StateQuestioning:
-            PB.showNumberAtDigit(Livro.question, 3);
+            Display.showNumberAtDigit(Livro.question, 3);
             for (var i = 4; i <= 7; i++)
-            PB.blinkDigit(i, "_");
+            Display.blinkDigit(i, "_");
         }
     },
     showCorrectAnswer: function() {
@@ -648,9 +648,9 @@ Livro = {
 //------------------------------------------------------------------------------
 Welcome = {
     reset: function() {
-        PB.clearDisplay();
+        Display.clear();
         Som.playSong(Songs.Welcome, function() {
-            PB.blinkSpecialDigit("*");
+            Display.blinkSpecialDigit("*");
         });
     },
     oneLoopIteration: function() {},
@@ -667,7 +667,7 @@ Welcome = {
 //------------------------------------------------------------------------------
 Standby = {
     reset: function() {
-        PB.clearDisplay();
+        Display.clear();
         PB.disableKeyboard();
     },
     oneLoopIteration: function() {},
@@ -682,12 +682,12 @@ Prompt = {
     reset: function() {
         Prompt.done = false;
         Prompt.input = "   ";
-        PB.clearDisplay(Prompt.initialDigit - Prompt.maxDigitSize + 1, Prompt.initialDigit);
+        Display.clear(Prompt.initialDigit - Prompt.maxDigitSize + 1, Prompt.initialDigit);
         if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
-            PB.setSpecialDigit(" ");
-            PB.setSpecialDigit2(" ");
+            Display.setSpecialDigit(" ");
+            Display.setSpecialDigit2(" ");
         }
-        PB.blinkDigit(Prompt.initialDigit, "-");
+        Display.blinkDigit(Prompt.initialDigit, "-");
     },
     getInput: function() {
         const value = Prompt.input;
@@ -696,7 +696,7 @@ Prompt = {
     },
     oneLoopIteration: function() {},
     redrawPrompt: function() {
-        PB.showNumberAtDigit(Prompt.input, Prompt.initialDigit);
+        Display.showNumberAtDigit(Prompt.input, Prompt.initialDigit);
     },
     buttonPress: function(b) {
         if (b == "ENTER") {
@@ -706,10 +706,10 @@ Prompt = {
         }
         if (b in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]) {
             Som.lowBeep();
-            PB.disableBlink();
+            Display.disableBlink();
             if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
-                PB.setSpecialDigit("~");
-                PB.setSpecialDigit2("-");
+                Display.setSpecialDigit("~");
+                Display.setSpecialDigit2("-");
             }
             switch (Prompt.maxDigitSize) {
             case 1:
@@ -731,6 +731,183 @@ Prompt = {
 };
 
 //------------------------------------------------------------------------------
+Display = {
+    displayOnPhase: true,
+    blinkTable: 0,
+    blinkTimer: null,
+    contents: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+    SpecialFontTable: {
+        ' ': 0,
+        '#': 49279,
+        '%': 49216,
+        '+': 16420,
+        '*': 16447,
+        '-': 16384,
+        'x': 27,
+        '~': 128
+    },
+    FontTable: {
+        ' ': 0,
+        '*': 64,
+        '-': 64,
+        '0': 63,
+        '1': 3,
+        '2': 109,
+        '3': 103,
+        '4': 83,
+        '5': 118,
+        '6': 126,
+        '7': 35,
+        '8': 127,
+        '9': 119,
+        '_': 4
+    },
+    setSegmentById: function(id, state) {
+        var s = document.getElementById(id);
+        s.setAttribute('visibility', state ? 'hidden' : 'visible');
+    },
+    setSegment: function(i, seg, state) {
+        Display.setSegmentById("d" + i + "_" + seg, state);
+    },
+    clear: function(begin, end) {
+        begin = begin || 1;
+        end = end || 7;
+        for (var i = begin; i <= end; ++i)
+            Display.setDigit(i, ' ');
+        var range = end - begin;
+        if (range >= 3) Display.setSpecialDigit(' ');
+        if (range >= 5) Display.setSpecialDigit2(' ');
+        Display.disableBlink();
+    },
+    blinkTimerCallback: function() {
+        if (!Display.blinkTable) return;
+        if (PB.ticks % 10 < 3) {
+            if (!Display.onPhase) {
+                for (var d = 0; d < 7; d++)
+                    if (Display.blinkTable & (1 << d))
+                        Display.setDigit(d + 1, " ", true);
+                if (Display.blinkTable & 1 << 7) Display.setSpecialDigit(" ", true);
+                if (Display.blinkTable & 1 << 8) Display.setSpecialDigit2(" ", true);
+                Display.onPhase = true;
+            }
+        } else {
+            if (Display.onPhase) {
+                for (var d = 0; d < 7; d++)
+                    if (Display.blinkTable & (1 << d))
+                        Display.setDigit(d + 1, Display.contents[d], true);
+                if (Display.blinkTable & 1 << 7) Display.setSpecialDigit(Display.contents[7], true);
+                if (Display.blinkTable & 1 << 8) Display.setSpecialDigit2(Display.contents[8], true);
+                Display.onPhase = false;
+            }
+        }
+    },
+    enableBlinkTimerIfNeeded: function() {
+        if (!Display.blinkTable) {
+            if (Display.blinkTimer)
+                Display.blinkTimer = clearInterval(Display.blinkTimer);
+            return;
+        }
+        if (!Display.blinkTimer)
+            Display.blinkTimer = setInterval(Display.blinkTimerCallback, 100);
+    },
+    disableBlink: function() {
+        Display.blinkTable = 0;
+        Display.enableBlinkTimerIfNeeded();
+    },
+    blinkAll: function() {
+        Display.blinkTable = -1;
+        Display.enableBlinkTimerIfNeeded();
+    },
+    blinkDigit: function(which, c) {
+        if (c) Display.setDigit(which, c);
+        Display.blinkTable |= 1 << (which - 1);
+        Display.enableBlinkTimerIfNeeded();
+    },
+    blinkSpecialDigit: function(c) {
+        if (c) Display.setSpecialDigit(c);
+        Display.blinkTable |= 1 << 7;
+        Display.enableBlinkTimerIfNeeded();
+    },
+    blinkSpecialDigit2: function(c) {
+        if (c) Display.setSpecialDigit2(c);
+        Display.blinkTable |= 1 << 8;
+        Display.enableBlinkTimerIfNeeded();
+    },
+    stopBlinking: function(which) {
+        Display.blinkTable &= ~ (1 << (which - 1));
+        Display.enableBlinkTimerIfNeeded();
+    },
+    setDisplay: function(c) {
+        for (var i = 1; i <= 7; ++i) {
+            Display.setDigit(i, c[i - 1]);
+        }
+    },
+    setDigit: function(i, c, tmp) {
+        if (tmp === undefined) {
+            Display.contents[i - 1] = c;
+        }
+        var state = Display.FontTable[c] || Display.FontTable[' '];
+        for (var segment = 0; segment < 7; segment++)
+            Display.setSegment(i, "abcdefg"[segment], state & (1 << segment));
+    },
+    showNumberAtDigit: function(n, d) {
+        if (typeof (n) == "string") {
+            if (n.length == 1) {
+                Display.setDigit(d, n[0]);
+            } else if (n.length == 2) {
+                Display.setDigit(d, n[1]);
+                Display.setDigit(d - 1, n[0]);
+            } else {
+                Display.setDigit(d, n[2]);
+                Display.setDigit(d - 1, n[1]);
+                Display.setDigit(d - 2, n[0]);
+            }
+        } else {
+            Display.setDigit(d, n % 10);
+            if (n < 100) {
+                if (n = ~~(n / 10) % 10)
+                    Display.setDigit(d - 1, n);
+            } else {
+                Display.setDigit(d - 1, ~~ (n / 10) % 10);
+                Display.setDigit(d - 2, ~~ (n / 100) % 10);
+            }
+        }
+    },
+    setSpecialDigit: function(c, tmp) {
+        if (tmp === undefined) {
+            Display.contents[7] = c;
+        }
+        if (c in Display.FontTable)
+            Display.setDigit(3, c);
+        var state = Display.SpecialFontTable[c] || Display.SpecialFontTable[' '];
+        for (var segment = 0; segment < 8; segment++) {
+            Display.setSegment(8, "abcdefgh"[segment], state & (1 << segment));
+            Display.setSegment(3, "abcdefgh"[segment], (state >> 8) & (1 << segment));
+        }
+    },
+    setSpecialDigit2: function(c, tmp) {
+        if (tmp === undefined) {
+            Display.contents[8] = c;
+        }
+
+        if (c == "=") {
+            Display.setSegmentById("igual", true);
+            Display.setSegmentById("igual2", true);
+            return;
+        }
+
+        if (c == "-") {
+            Display.setSegmentById("igual", true);
+            Display.setSegmentById("igual2", false);
+            return;
+        }
+
+        Display.setSegmentById("igual", false);
+        Display.setSegmentById("igual2", false);
+    }
+};
+
+//------------------------------------------------------------------------------
 PB = {
     bugfix: false,
     /* we are simulating all the bugs from the original machine */
@@ -738,7 +915,6 @@ PB = {
     ticks: 0,
     delayTable: {},
     keyboardEnabled: true,
-    displayOnPhase: true,
     init: function() {
         PB.setActivity(Standby);
         PB.reset();
@@ -748,7 +924,7 @@ PB = {
         PB.delayTable = {};
         PB.enableKeyboard();
         PB.ticks = 0;
-        PB.disableBlink();
+        Display.disableBlink();
     },
     reset: function() {
         PB.resetDefaultVariables();
@@ -827,178 +1003,6 @@ PB = {
         "NÚMERO-DO-MEIO": NumeroDoMeio,
         "SUBTRAÇÃO": Subtracao,
         "LIVRO": Livro
-    },
-    SpecialFontTable: {
-        ' ': 0,
-        '#': 49279,
-        '%': 49216,
-        '+': 16420,
-        '*': 16447,
-        '-': 16384,
-        'x': 27,
-        '~': 128
-    },
-    FontTable: {
-        ' ': 0,
-        '*': 64,
-        '-': 64,
-        '0': 63,
-        '1': 3,
-        '2': 109,
-        '3': 103,
-        '4': 83,
-        '5': 118,
-        '6': 126,
-        '7': 35,
-        '8': 127,
-        '9': 119,
-        '_': 4
-    },
-    setSegmentById: function(id, state) {
-        var s = document.getElementById(id);
-        s.setAttribute('visibility', state ? 'hidden' : 'visible');
-    },
-    setSegment: function(i, seg, state) {
-        PB.setSegmentById("d" + i + "_" + seg, state);
-    },
-    clearDisplay: function(begin, end) {
-        begin = begin || 1;
-        end = end || 7;
-        for (var i = begin; i <= end; ++i)
-            PB.setDigit(i, ' ');
-        var range = end - begin;
-        if (range >= 3) PB.setSpecialDigit(' ');
-        if (range >= 5) PB.setSpecialDigit2(' ');
-        PB.disableBlink();
-    },
-    blinkTable: 0,
-    blinkTimer: null,
-    blinkTimerCallback: function() {
-        if (!PB.blinkTable) return;
-        if (PB.ticks % 10 < 3) {
-            if (!PB.displayOnPhase) {
-                for (var d = 0; d < 7; d++)
-                    if (PB.blinkTable & (1 << d))
-                        PB.setDigit(d + 1, " ", true);
-                if (PB.blinkTable & 1 << 7) PB.setSpecialDigit(" ", true);
-                if (PB.blinkTable & 1 << 8) PB.setSpecialDigit2(" ", true);
-                PB.displayOnPhase = true;
-            }
-        } else {
-            if (PB.displayOnPhase) {
-                for (var d = 0; d < 7; d++)
-                    if (PB.blinkTable & (1 << d))
-                        PB.setDigit(d + 1, PB.displayContents[d], true);
-                if (PB.blinkTable & 1 << 7) PB.setSpecialDigit(PB.displayContents[7], true);
-                if (PB.blinkTable & 1 << 8) PB.setSpecialDigit2(PB.displayContents[8], true);
-                PB.displayOnPhase = false;
-            }
-        }
-    },
-    enableBlinkTimerIfNeeded: function() {
-        if (!PB.blinkTable) {
-            if (PB.blinkTimer)
-                PB.blinkTimer = clearInterval(PB.blinkTimer);
-            return;
-        }
-        if (!PB.blinkTimer)
-            PB.blinkTimer = setInterval(PB.blinkTimerCallback, 100);
-    },
-    disableBlink: function() {
-        PB.blinkTable = 0;
-        PB.enableBlinkTimerIfNeeded();
-    },
-    blinkAll: function() {
-        PB.blinkTable = -1;
-        PB.enableBlinkTimerIfNeeded();
-    },
-    blinkDigit: function(which, c) {
-        if (c) PB.setDigit(which, c);
-        PB.blinkTable |= 1 << (which - 1);
-        PB.enableBlinkTimerIfNeeded();
-    },
-    blinkSpecialDigit: function(c) {
-        if (c) PB.setSpecialDigit(c);
-        PB.blinkTable |= 1 << 7;
-        PB.enableBlinkTimerIfNeeded();
-    },
-    blinkSpecialDigit2: function(c) {
-        if (c) PB.setSpecialDigit2(c);
-        PB.blinkTable |= 1 << 8;
-        PB.enableBlinkTimerIfNeeded();
-    },
-    stopBlinking: function(which) {
-        PB.blinkTable &= ~ (1 << (which - 1));
-        PB.enableBlinkTimerIfNeeded();
-    },
-    setDisplay: function(c) {
-        for (var i = 1; i <= 7; ++i) {
-            PB.setDigit(i, c[i - 1]);
-        }
-    },
-    displayContents: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-    setDigit: function(i, c, tmp) {
-        if (tmp === undefined) {
-            PB.displayContents[i - 1] = c;
-        }
-        var state = PB.FontTable[c] || PB.FontTable[' '];
-        for (var segment = 0; segment < 7; segment++)
-            PB.setSegment(i, "abcdefg"[segment], state & (1 << segment));
-    },
-    showNumberAtDigit: function(n, d) {
-        if (typeof (n) == "string") {
-            if (n.length == 1) {
-                PB.setDigit(d, n[0]);
-            } else if (n.length == 2) {
-                PB.setDigit(d, n[1]);
-                PB.setDigit(d - 1, n[0]);
-            } else {
-                PB.setDigit(d, n[2]);
-                PB.setDigit(d - 1, n[1]);
-                PB.setDigit(d - 2, n[0]);
-            }
-        } else {
-            PB.setDigit(d, n % 10);
-            if (n < 100) {
-                if (n = ~~(n / 10) % 10)
-                    PB.setDigit(d - 1, n);
-            } else {
-                PB.setDigit(d - 1, ~~ (n / 10) % 10);
-                PB.setDigit(d - 2, ~~ (n / 100) % 10);
-            }
-        }
-    },
-    setSpecialDigit: function(c, tmp) {
-        if (tmp === undefined) {
-            PB.displayContents[7] = c;
-        }
-        if (c in PB.FontTable)
-            PB.setDigit(3, c);
-        var state = PB.SpecialFontTable[c] || PB.SpecialFontTable[' '];
-        for (var segment = 0; segment < 8; segment++) {
-            PB.setSegment(8, "abcdefgh"[segment], state & (1 << segment));
-            PB.setSegment(3, "abcdefgh"[segment], (state >> 8) & (1 << segment));
-        }
-    },
-    setSpecialDigit2: function(c, tmp) {
-        if (tmp === undefined) {
-            PB.displayContents[8] = c;
-        }
-
-        if (c == "=") {
-            PB.setSegmentById("igual", true);
-            PB.setSegmentById("igual2", true);
-            return;
-        }
-
-        if (c == "-") {
-            PB.setSegmentById("igual", true);
-            PB.setSegmentById("igual2", false);
-            return;
-        }
-
-        PB.setSegmentById("igual", false);
-        PB.setSegmentById("igual2", false);
     },
     pointsByNumberOfTries: function(t) {
         switch (t) {
