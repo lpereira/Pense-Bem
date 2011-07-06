@@ -793,7 +793,6 @@ Display = {
         Display.disableBlink();
     },
     blinkTimerCallback: function() {
-        if (!Display.blinkTable) return;
         if (PB.ticks % 10 < 3) {
             if (!Display.onPhase) {
                 for (var d = 0; d < 7; d++)
