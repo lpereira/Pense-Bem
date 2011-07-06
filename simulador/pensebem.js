@@ -16,6 +16,12 @@ Som = {
     TickInterval: 20,
     currentNote: 0,
     isPlayingSong: false,
+    lowBeep: function() {
+        Som.playNote(Songs.LowBeep);
+    },
+    highBeep: function() {
+        Som.playNote(Songs.HighBeep);
+    },
     songFinishedCallback: function() {},
     toneFinishedPlaying: function() {
         if (!Som.isPlayingSong) return;
@@ -398,7 +404,7 @@ Operacao = {
             });
             break;
         default:
-            PB.highBeep();
+            Som.highBeep();
         }
     },
     buttonRelease: function() {}
@@ -482,7 +488,7 @@ MemoriaTons = {
         };
         var note = buttonToNoteTable[b];
         if (note === undefined) {
-            PB.lowBeep();
+            Som.lowBeep();
             return;
         }
         Som.playQueue.push(note);
@@ -645,7 +651,7 @@ Livro = {
                 }
                 break;
             default:
-                PB.lowBeep();
+                Som.lowBeep();
             }
             break;
         }
@@ -665,7 +671,7 @@ Welcome = {
     buttonPress: function(b) {
         const newActivity = PB.buttonToTable[b];
         if (newActivity === undefined) {
-            PB.lowBeep();
+            Som.lowBeep();
             return;
         }
         PB.setActivity(newActivity);
@@ -715,7 +721,7 @@ Prompt = {
             return;
         }
         if (b in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]) {
-            PB.lowBeep();
+            Som.lowBeep();
             PB.disableBlink();
             if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
                 PB.setSpecialDigit("~");
@@ -735,7 +741,7 @@ Prompt = {
             Prompt.redrawPrompt();
         } else {
             //blink and HighBeep
-            PB.highBeep();
+            Som.highBeep();
         }
     },
     buttonRelease: function(b) {}
@@ -834,7 +840,7 @@ PB = {
             if (PB.keyboardEnabled && PB.activity) {
                 console.log("atividade atual: " + PB.getActivity() + " | botao: " + b);
                 if ((PB.activity != Welcome) && (b in PB.buttonToTable)) {
-                    PB.highBeep();
+                    Som.highBeep();
                     return;
                 }
                 console.log("repassando o buttonpress para a atividade atual");
@@ -868,12 +874,6 @@ PB = {
         "NÚMERO-DO-MEIO": NumeroDoMeio,
         "SUBTRAÇÃO": Subtracao,
         "LIVRO": Livro
-    },
-    lowBeep: function() {
-        Som.playNote(Songs.LowBeep);
-    },
-    highBeep: function() {
-        Som.playNote(Songs.HighBeep);
     },
     SpecialFontTable: {
         " ": [
