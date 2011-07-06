@@ -876,38 +876,14 @@ PB = {
         "LIVRO": Livro
     },
     SpecialFontTable: {
-        " ": [
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0]
-        ],
-        "+": [
-            [0, 0, 0, 0, 0, 0, 1, 0],
-            [0, 0, 1, 0, 0, 1, 0, 0]
-        ],
-        "-": [
-            [0, 0, 0, 0, 0, 0, 1, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0]
-        ],
-        "~": [
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 1]
-        ],
-        "*": [
-            [0, 0, 0, 0, 0, 0, 1, 0],
-            [1, 1, 1, 1, 1, 1, 0, 0]
-        ],
-        "x": [
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 1, 0, 1, 1, 0, 0, 0]
-        ],
-        "%": [
-            [0, 0, 0, 0, 0, 0, 1, 1],
-            [0, 0, 0, 0, 0, 0, 1, 0]
-        ],
-        "#": [
-            [0, 0, 0, 0, 0, 0, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 0]
-        ]
+        ' ': 0,
+        '#': 49279,
+        '%': 49216,
+        '+': 16420,
+        '*': 16447,
+        '-': 16384,
+        'x': 27,
+        '~': 128
     },
     FontTable: {
         ' ': 0,
@@ -1007,18 +983,12 @@ PB = {
         if (tmp === undefined) {
             PB.displayContents[7] = c;
         }
-
-        if (c in PB.FontTable) {
+        if (c in PB.FontTable)
             PB.setDigit(3, c);
-        }
-
-        var state = PB.SpecialFontTable[c];
-        if (state === undefined) {
-            state = PB.SpecialFontTable[' '];
-        }
-        for (var segment = 1; segment <= 8; segment++) {
-            PB.setSegment("3", "abcdefgh" [segment - 1], state[0][segment - 1]);
-            PB.setSegment("8", "abcdefgh" [segment - 1], state[1][segment - 1]);
+        var state = PB.SpecialFontTable[c] || PB.SpecialFontTable[' '];
+        for (var segment = 0; segment < 8; segment++) {
+            PB.setSegment(8, "abcdefgh"[segment], state & (1 << segment));
+            PB.setSegment(3, "abcdefgh"[segment], (state >> 8) & (1 << segment));
         }
     },
     setSpecialDigit2: function(c, tmp) {
