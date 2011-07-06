@@ -745,7 +745,7 @@ Prompt = {
 
 //------------------------------------------------------------------------------
 Display = {
-    displayOnPhase: true,
+    onPhase: true,
     blinkTable: 0,
     blinkTimer: null,
     contents: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
