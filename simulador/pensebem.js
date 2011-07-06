@@ -151,46 +151,46 @@ Som = {
         console.log("NOTE: " + n);
 
         //real note frequency values:
-        const FREQ_C4 = 261.63;
-        const FREQ_D4 = 293.66;
-        const FREQ_E4 = 329.63;
-        const FREQ_F4 = 349.23;
-        const FREQ_Fsust4 = 369.994;
-        const FREQ_G4 = 392.00;
-        const FREQ_A4 = 440.00;
-        const FREQ_B4 = 493.88;
-        const FREQ_C5 = 523.25;
-        const FREQ_Csust5 = 554.365;
-        const FREQ_D5 = 587.33;
-        const FREQ_E5 = 659.255;
+        const FreqC4 = 261.63;
+        const FreqD4 = 293.66;
+        const FreqE4 = 329.63;
+        const FreqF4 = 349.23;
+        const FreqF4Sharp = 369.994;
+        const FreqG4 = 392.00;
+        const FreqA4 = 440.00;
+        const FreqB4 = 493.88;
+        const FreqC5 = 523.25;
+        const FreqC5Sharp = 554.365;
+        const FreqD5 = 587.33;
+        const FreqE5 = 659.255;
 
         if (!Som.NoteToToneTable) {
             if (PB.bugfix == false) {
                 Som.NoteToToneTable = {
-                    "c": Som.newTone(FREQ_D4),
-                    "d": Som.newTone(FREQ_E4),
-                    "e": Som.newTone(FREQ_Fsust4),
-                    "f": Som.newTone(FREQ_G4),
-                    "g": Som.newTone(FREQ_A4),
-                    "a": Som.newTone(FREQ_B4),
-                    "b": Som.newTone(FREQ_Csust5),
-                    "C": Som.newTone(FREQ_D5),
-                    "D": Som.newTone(FREQ_E5),
+                    "c": Som.newTone(FreqD4),
+                    "d": Som.newTone(FreqE4),
+                    "e": Som.newTone(FreqF4Sharp),
+                    "f": Som.newTone(FreqG4),
+                    "g": Som.newTone(FreqA4),
+                    "a": Som.newTone(FreqB4),
+                    "b": Som.newTone(FreqC5Sharp),
+                    "C": Som.newTone(FreqD5),
+                    "D": Som.newTone(FreqE5),
                     "p": function() {
                         PB.delay(3, Som.toneFinishedPlaying);
                     }
                 }
             } else {
                 Som.NoteToToneTable = {
-                    "c": Som.newTone(FREQ_C4),
-                    "d": Som.newTone(FREQ_D4),
-                    "e": Som.newTone(FREQ_E4),
-                    "f": Som.newTone(FREQ_F4),
-                    "g": Som.newTone(FREQ_G4),
-                    "a": Som.newTone(FREQ_A4),
-                    "b": Som.newTone(FREQ_B4),
-                    "C": Som.newTone(FREQ_C5),
-                    "D": Som.newTone(FREQ_D5),
+                    "c": Som.newTone(FreqC4),
+                    "d": Som.newTone(FreqD4),
+                    "e": Som.newTone(FreqE4),
+                    "f": Som.newTone(FreqF4),
+                    "g": Som.newTone(FreqG4),
+                    "a": Som.newTone(FreqA4),
+                    "b": Som.newTone(FreqB4),
+                    "C": Som.newTone(FreqC5),
+                    "D": Som.newTone(FreqD5),
                     "p": function() {
                         PB.delay(3, Som.toneFinishedPlaying);
                     }
