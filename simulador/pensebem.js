@@ -910,26 +910,20 @@ PB = {
         ]
     },
     FontTable: {
-        "0": [1, 1, 1, 1, 1, 1, 0],
-        "1": [1, 1, 0, 0, 0, 0, 0],
-        "2": [1, 0, 1, 1, 0, 1, 1],
-        "3": [1, 1, 1, 0, 0, 1, 1],
-        "4": [1, 1, 0, 0, 1, 0, 1],
-        "5": [0, 1, 1, 0, 1, 1, 1],
-        "6": [0, 1, 1, 1, 1, 1, 1],
-        "7": [1, 1, 0, 0, 0, 1, 0],
-        "8": [1, 1, 1, 1, 1, 1, 1],
-        "9": [1, 1, 1, 0, 1, 1, 1],
-        "-": [0, 0, 0, 0, 0, 0, 1],
-        "_": [0, 0, 1, 0, 0, 0, 0],
-        " ": [0, 0, 0, 0, 0, 0, 0],
-        "a": [1, 1, 0, 1, 1, 1, 1],
-        "b": [0, 1, 1, 1, 1, 0, 0],
-        "c": [0, 0, 1, 1, 1, 1, 0],
-        "d": [0, 0, 0, 0, 0, 0, 0],
-        "e": [0, 0, 0, 0, 0, 0, 0],
-        "f": [0, 0, 0, 0, 0, 0, 0],
-        "*": [0, 0, 0, 0, 0, 0, 1]
+        ' ': 0,
+        '*': 64,
+        '-': 64,
+        '0': 63,
+        '1': 3,
+        '2': 109,
+        '3': 103,
+        '4': 83,
+        '5': 118,
+        '6': 126,
+        '7': 35,
+        '8': 127,
+        '9': 119,
+        '_': 4
     },
     setSegmentById: function(id, state) {
         var s = document.getElementById(id);
@@ -981,14 +975,9 @@ PB = {
         if (tmp === undefined) {
             PB.displayContents[i - 1] = c;
         }
-
-        var state = PB.FontTable[c];
-        if (state === undefined) {
-            state = PB.FontTable[' '];
-        }
-        for (var segment = 1; segment <= 7; segment++) {
-            PB.setSegment(i, "abcdefg" [segment - 1], state[segment - 1]);
-        }
+        var state = PB.FontTable[c] || PB.FontTable[' '];
+        for (var segment = 0; segment < 7; segment++)
+            PB.setSegment(i, "abcdefg"[segment], state & (1 << segment));
     },
     showNumberAtDigit: function(n, d) {
         if (typeof (n) == "string") {
