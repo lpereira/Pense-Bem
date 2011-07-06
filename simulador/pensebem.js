@@ -115,13 +115,13 @@ Som = {
         var audio = new Audio();
         const numberOfSamples = Math.ceil(Som.SampleRate * Som.TickInterval / 100);
         const dt = 1 / Som.SampleRate;
-        var samples = [];
+        var samples = new Float32Array(numberOfSamples);
         for (var i = 0; i < numberOfSamples; ++i) {
             const x = f * (i * dt);
             const y = x - Math.floor(x);
             const envelope = Math.min(1, 5 * (1 - i / numberOfSamples));
             //square wave
-            samples.push(envelope * !! (y >= 0.5));
+            samples[i] = envelope * !!(y >= 0.5);
             //sawtooth wave
             //samples.push(envelope * y);
             //sine wawe
