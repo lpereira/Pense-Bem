@@ -472,7 +472,7 @@ MemoriaTons = {
             Som.playAndClearQueue();
             return;
         }
-        const buttonToNoteTable = {
+        var note = {
             "0": "p",
             "1": "c",
             "2": "d",
@@ -483,8 +483,7 @@ MemoriaTons = {
             "7": "b",
             "8": "C",
             "9": "D"
-        };
-        var note = buttonToNoteTable[b];
+        }[b];
         if (note === undefined) {
             Som.lowBeep();
             return;
