@@ -1018,30 +1018,23 @@ PB = {
 };
 
 document.onkeydown = function(event) {
-    const EnterKey = 13
-    const PauseKey = 19
-    const EscKey = 27
-    const PKey = 80
-    const ZeroKey = 48;
-    const NineKey = 57;
-
-    if (event.which >= ZeroKey && event.which <= NineKey) {
-        PB.buttonPress(event.which - ZeroKey);
-    }
-
-    switch (event.which) {
-    case EnterKey:
-        PB.buttonPress("ENTER");
-        break;
-    case PKey:
-        /* fallthrough */
-    case PauseKey:
-        PB.buttonPress("PAUSE");
-        break;
-    case EscKey:
-        PB.buttonPress("DESL");
-        break;
-    }
+    const keyCode = {
+        13: "ENTER",
+        19: "PAUSE",
+        80: "PAUSE",
+        27: "DESL",
+        48: "0",
+        49: "1",
+        50: "2",
+        51: "3",
+        52: "4",
+        53: "5",
+        54: "6",
+        55: "7",
+        56: "8",
+        57: "9"
+    }[event.which];
+    if (keyCode) PB.buttonPress(keyCode);
 }
 
 //If we want to fix bugs found on the original machine
