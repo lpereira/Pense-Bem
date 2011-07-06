@@ -283,7 +283,6 @@ Aritmetica = {
         }
     },
     buttonPress: function(b) {},
-    buttonRelease: function(b) {},
     OperatorFunctionTable: {
         "+": function(a, b) {
             return ~~ (a + b);
@@ -342,8 +341,7 @@ Adicao = {
         Aritmetica.reset("+");
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
-    buttonPress: Aritmetica.buttonPress,
-    buttonRelease: Aritmetica.buttonRelease
+    buttonPress: Aritmetica.buttonPress
 };
 
 //------------------------------------------------------------------------------
@@ -352,8 +350,7 @@ Subtracao = {
         Aritmetica.reset("-");
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
-    buttonPress: Aritmetica.buttonPress,
-    buttonRelease: Aritmetica.buttonRelease
+    buttonPress: Aritmetica.buttonPress
 };
 
 //------------------------------------------------------------------------------
@@ -362,8 +359,7 @@ Multiplicacao = {
         Aritmetica.reset("*");
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
-    buttonPress: Aritmetica.buttonPress,
-    buttonRelease: Aritmetica.buttonRelease
+    buttonPress: Aritmetica.buttonPress
 };
 
 //------------------------------------------------------------------------------
@@ -372,8 +368,7 @@ Divisao = {
         Aritmetica.reset("/");
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
-    buttonPress: Aritmetica.buttonPress,
-    buttonRelease: Aritmetica.buttonRelease
+    buttonPress: Aritmetica.buttonPress
 };
 
 //------------------------------------------------------------------------------
@@ -404,8 +399,7 @@ Operacao = {
         default:
             Som.highBeep();
         }
-    },
-    buttonRelease: function() {}
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -456,8 +450,7 @@ SigaMe = {
                 SigaMe.guessIndex = 0;
             }
         }
-    },
-    buttonRelease: function() {}
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -490,8 +483,7 @@ MemoriaTons = {
         }
         Som.playQueue.push(note);
         Som.playNote(note);
-    },
-    buttonRelease: function(b) {}
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -564,8 +556,7 @@ AdivinheONumero = {
             AdivinheONumero.points += PB.pointsByNumberOfTries(AdivinheONumero.tries);
         }
     },
-    buttonPress: function() {},
-    buttonRelease: function() {}
+    buttonPress: function() {}
 };
 
 //------------------------------------------------------------------------------
@@ -575,8 +566,7 @@ NumeroDoMeio = {
         AdivinheONumero.reset(true);
     },
     oneLoopIteration: AdivinheONumero.oneLoopIteration,
-    buttonPress: AdivinheONumero.buttonPress,
-    buttonRelease: AdivinheONumero.buttonRelease
+    buttonPress: AdivinheONumero.buttonPress
 };
 
 //------------------------------------------------------------------------------
@@ -652,8 +642,7 @@ Livro = {
             }
             break;
         }
-    },
-    buttonRelease: function(b) {}
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -672,8 +661,7 @@ Welcome = {
             return;
         }
         PB.setActivity(newActivity);
-    },
-    buttonRelease: function(b) {}
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -683,8 +671,7 @@ Standby = {
         PB.disableKeyboard();
     },
     oneLoopIteration: function() {},
-    buttonPress: function(b) {},
-    buttonRelease: function(b) {}
+    buttonPress: function(b) {}
 };
 
 //------------------------------------------------------------------------------
@@ -740,8 +727,7 @@ Prompt = {
             //blink and HighBeep
             Som.highBeep();
         }
-    },
-    buttonRelease: function(b) {}
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -828,14 +814,6 @@ PB = {
     },
     disableKeyboard: function() {
         PB.keyboardEnabled = false;
-    },
-    buttonRelease: function(b) {
-        if (b == 'LIGA' || b == 'DESL') {
-            return;
-        }
-        if (PB.keyboardEnabled && PB.activity) {
-            PB.activity.buttonRelease(b);
-        }
     },
     buttonToTable: {
         "ADIVINHE-O-NÚMERO": AdivinheONumero,

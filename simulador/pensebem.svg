@@ -2752,7 +2752,7 @@
       <g
          id="g4245"
          onmousedown="PB.buttonPress(&quot;A&quot;);"
-         onmouseup="PB.buttonRelease(&quot;A&quot;);">
+         >
         <rect
            style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
            id="rect930"
@@ -2772,7 +2772,7 @@
          transform="translate(1.5904541,-289.28952)"
          id="g963"
          onmousedown="PB.buttonPress(&quot;B&quot;);"
-         onmouseup="PB.buttonRelease(&quot;B&quot;);">
+         >
         <rect
            transform="matrix(1,0,-0.25881905,0.96592583,0,0)"
            ry="6.8954391"
@@ -2792,7 +2792,7 @@
          transform="translate(0.79520416,-289.28952)"
          id="g959"
          onmousedown="PB.buttonPress(&quot;C&quot;);"
-         onmouseup="PB.buttonRelease(&quot;C&quot;);">
+         >
         <rect
            style="fill:#0000ff;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
            id="rect934"
@@ -2812,7 +2812,7 @@
          transform="translate(-1.5258789e-5,-289.28952)"
          id="g955"
          onmousedown="PB.buttonPress(&quot;D&quot;);"
-         onmouseup="PB.buttonRelease(&quot;D&quot;);">
+         >
         <rect
            transform="matrix(1,0,-0.25881905,0.96592583,0,0)"
            ry="6.8954391"
@@ -2971,7 +2971,7 @@
          id="g2634"
          transform="translate(1.9519056,0)"
          onmousedown="PB.buttonPress(&quot;LIGA&quot;)"
-         onmouseup="PB.buttonRelease(&quot;LIGA&quot;)">
+         >
         <rect
            style="fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
            id="rect2628"
