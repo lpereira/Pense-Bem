@@ -787,39 +787,35 @@ Display = {
         end = end || 7;
         for (var i = begin; i <= end; ++i)
             Display.setDigit(i, ' ');
-        var range = end - begin;
+        const range = end - begin;
         if (range >= 3) Display.setSpecialDigit(' ');
         if (range >= 5) Display.setSpecialDigit2(' ');
         Display.disableBlink();
     },
     blinkTimerCallback: function() {
         if (PB.ticks % 10 < 3) {
-            if (!Display.onPhase) {
-                for (var d = 0; d < 7; d++)
-                    if (Display.blinkTable & (1 << d))
-                        Display.setDigit(d + 1, " ", true);
-                if (Display.blinkTable & 1 << 7) Display.setSpecialDigit(" ", true);
-                if (Display.blinkTable & 1 << 8) Display.setSpecialDigit2(" ", true);
-                Display.onPhase = true;
-            }
+            if (Display.onPhase) return;
+            for (var d = 0; d < 7; d++)
+                if (Display.blinkTable & (1 << d))
+                    Display.setDigit(d + 1, " ", true);
+            if (Display.blinkTable & 1 << 7) Display.setSpecialDigit(" ", true);
+            if (Display.blinkTable & 1 << 8) Display.setSpecialDigit2(" ", true);
+            Display.onPhase = true;
         } else {
-            if (Display.onPhase) {
-                for (var d = 0; d < 7; d++)
-                    if (Display.blinkTable & (1 << d))
-                        Display.setDigit(d + 1, Display.contents[d], true);
-                if (Display.blinkTable & 1 << 7) Display.setSpecialDigit(Display.contents[7], true);
-                if (Display.blinkTable & 1 << 8) Display.setSpecialDigit2(Display.contents[8], true);
-                Display.onPhase = false;
-            }
+            if (!Display.onPhase) return;
+            for (var d = 0; d < 7; d++)
+                if (Display.blinkTable & (1 << d))
+                    Display.setDigit(d + 1, Display.contents[d], true);
+            if (Display.blinkTable & 1 << 7) Display.setSpecialDigit(Display.contents[7], true);
+            if (Display.blinkTable & 1 << 8) Display.setSpecialDigit2(Display.contents[8], true);
+            Display.onPhase = false;
         }
     },
     enableBlinkTimerIfNeeded: function() {
         if (!Display.blinkTable) {
             if (Display.blinkTimer)
                 Display.blinkTimer = clearInterval(Display.blinkTimer);
-            return;
-        }
-        if (!Display.blinkTimer)
+        } else if (!Display.blinkTimer)
             Display.blinkTimer = setInterval(Display.blinkTimerCallback, 100);
     },
     disableBlink: function() {
@@ -902,20 +898,8 @@ Display = {
             Display.contents[8] = c;
         }
 
-        if (c == "=") {
-            Display.setSegmentById("igual", true);
-            Display.setSegmentById("igual2", true);
-            return;
-        }
-
-        if (c == "-") {
-            Display.setSegmentById("igual", true);
-            Display.setSegmentById("igual2", false);
-            return;
-        }
-
-        Display.setSegmentById("igual", false);
-        Display.setSegmentById("igual2", false);
+        Display.setSegmentById("igual", {"=": true, "-": true}[c] || false);
+        Display.setSegmentById("igual2", {"=": true, "-": false}[c] || false);
     }
 };
 
