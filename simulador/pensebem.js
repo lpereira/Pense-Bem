@@ -494,6 +494,7 @@ AdivinheONumero = {
         Display.clear();
         AdivinheONumero.points = 0;
         AdivinheONumero.isMiddleNumber = isMiddleNumber || false;
+        AdivinheONumero.maxTries = isMiddleNumber ? 3 : 10;
         Som.playSong(Songs.GameSelected, AdivinheONumero.advanceQuestion);
     },
     advanceQuestion: function() {
