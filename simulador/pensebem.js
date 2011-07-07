@@ -792,29 +792,37 @@ Display = {
         if (range >= 5) Display.setSpecialDigit2(' ');
         Display.disableBlink();
     },
+    restoreFromStoredContents: function() {
+        if (!Display.onPhase) return;
+        for (var d = 0; d < 7; d++)
+            if (Display.blinkTable & (1 << d))
+                Display.setDigit(d + 1, Display.contents[d], true);
+        if (Display.blinkTable & 1 << 7) Display.setSpecialDigit(Display.contents[7], true);
+        if (Display.blinkTable & 1 << 8) Display.setSpecialDigit2(Display.contents[8], true);
+        Display.onPhase = false;
+    },
+    hideBlinkingSegments: function() {
+        if (Display.onPhase) return;
+        for (var d = 0; d < 7; d++)
+            if (Display.blinkTable & (1 << d))
+                Display.setDigit(d + 1, " ", true);
+        if (Display.blinkTable & 1 << 7) Display.setSpecialDigit(" ", true);
+        if (Display.blinkTable & 1 << 8) Display.setSpecialDigit2(" ", true);
+        Display.onPhase = true;
+    },
     blinkTimerCallback: function() {
         if (PB.ticks % 10 < 3) {
-            if (Display.onPhase) return;
-            for (var d = 0; d < 7; d++)
-                if (Display.blinkTable & (1 << d))
-                    Display.setDigit(d + 1, " ", true);
-            if (Display.blinkTable & 1 << 7) Display.setSpecialDigit(" ", true);
-            if (Display.blinkTable & 1 << 8) Display.setSpecialDigit2(" ", true);
-            Display.onPhase = true;
+            Display.hideBlinkingSegments();
         } else {
-            if (!Display.onPhase) return;
-            for (var d = 0; d < 7; d++)
-                if (Display.blinkTable & (1 << d))
-                    Display.setDigit(d + 1, Display.contents[d], true);
-            if (Display.blinkTable & 1 << 7) Display.setSpecialDigit(Display.contents[7], true);
-            if (Display.blinkTable & 1 << 8) Display.setSpecialDigit2(Display.contents[8], true);
-            Display.onPhase = false;
+            Display.restoreFromStoredContents();
         }
     },
     enableBlinkTimerIfNeeded: function() {
         if (!Display.blinkTable) {
-            if (Display.blinkTimer)
+            if (Display.blinkTimer) {
                 Display.blinkTimer = clearInterval(Display.blinkTimer);
+                Display.restoreFromStoredContents();
+            }
         } else if (!Display.blinkTimer)
             Display.blinkTimer = setInterval(Display.blinkTimerCallback, 100);
     },
