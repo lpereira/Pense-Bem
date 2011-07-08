@@ -577,46 +577,93 @@ Livro = {
     reset: function() {
         Som.playSong(Songs.GameSelected);
         Livro.state = Livro.StateChoosingBook;
+        PB.prompt();
     },
     oneLoopIteration: function() {
         switch (Livro.state) {
         case Livro.StateChoosingBook:
-            if (!Prompt.done) {
-                Display.clear(); //TODO: Display.blinkDisplay("      -");
-                PB.prompt();
-            } else {
-                var book = parseInt(Prompt.getInput());
-                console.log("Selected book: " + book);
-                if (book > 0 && book < 999) {
-                    Livro.book = book;
-                    Livro.question = 0;
-                    Livro.tries = 0;
-                    Livro.points = 0;
-                    Livro.state = Livro.StateQuestioning;
+            if (!Prompt.done) return;
+            const bookCode = Prompt.getInput();
+            const bookNumber = parseInt(bookCode.substring(0, 2), 10);
+            const sectionNumber = parseInt(bookCode.substring(2), 10);
 
-                    Livro.advanceQuestion();
-                }
+            if (sectionNumber < 1 || sectionNumber > 6 || bookCode < 1) {
+                Display.clear();
+                Som.playSong(Songs.Wrong, PB.prompt);
+                return;
             }
+
+            console.log("Selected book: " + bookNumber + "; section: " + sectionNumber);
+            Livro.bookNumber = bookNumber;
+            Livro.sectionNumber = sectionNumber;
+            Livro.isReviewMode = sectionNumber == 6;
+            if (!Livro.isReviewMode) {
+                Livro.maxQuestion = sectionNumber * 30;
+                Livro.currentQuestion = Livro.maxQuestion - 30;
+            } else {
+                Livro.maxQuestion = 150;
+                Livro.chooseRandomQuestion();
+            }
+            Livro.answeredQuestions = 0;
+
+            Livro.state = Livro.StateQuestioning;
+            Livro.advanceQuestion();
             break;
         case Livro.StateQuestioning:
-            Display.showNumberAtDigit(Livro.question, 3);
-            for (var i = 4; i <= 7; i++)
-            Display.blinkDigit(i, "_");
         }
     },
-    showCorrectAnswer: function() {
-        console.log("The correct answer was: " + Livro.getCorrectAnswer());
+    chooseRandomQuestion: function() {
+        Livro.currentQuestion = ~~(Math.random() * (Livro.maxQuestion - 1)) + 1;
+    },
+    highlightAnswer: function(answer, blink) {
+        Display.clear();
+        Display.showNumberAtDigit(Livro.currentQuestion, 3);
+        const digit = {"A": 4, "B": 5, "C": 6, "D": 7}[answer];
+        if (blink)
+            Display.blinkDigit(digit, "_");
+        else
+            Display.setDigit(digit, "_");
+    },
+    showCorrectAnswer: function(blink) {
+        Livro.highlightAnswer(Livro.getCorrectAnswer(), blink);
+    },
+    displayQuestionPrompt: function() {
+        console.log("Resposta correta: " + Livro.getCorrectAnswer());
+        Display.clear();
+        PB.delay(3, function() {
+            Display.showNumberAtDigit(Livro.currentQuestion, 3);
+            for (var i = 4; i <= 7; i++)
+                Display.setDigit(i, "_");
+        });
+        PB.enableKeyboard();
     },
     advanceQuestion: function() {
         if (Livro.question >= 0) {
             Livro.points += PB.pointsByNumberOfTries(Livro.tries);
         }
         Livro.tries = 0;
-        Livro.question++;
+        if (Livro.isReviewMode) {
+            Livro.chooseRandomQuestion();
+        } else {
+            ++Livro.currentQuestion;
+        }
+
+        if (Livro.answeredQuestions > 30) {
+            Display.clear();
+            Display.showNumberAtDigit(Livro.points, 7);
+            Display.blinkAll();
+            PB.disableKeyboard();
+            Som.playSong(Songs.Winner, function() {
+                Livro.state = Livro.StateChoosingBook;
+                PB.enableKeyboard();
+                PB.prompt();
+            });
+            return;
+        }
+        Livro.displayQuestionPrompt();
     },
     getCorrectAnswer: function() {
-        const answerPattern = "CDDBAADCBDAADCBB";
-        return answerPattern[(Livro.book + Livro.question) & 15];
+        return "CDDBAADCBDAADCBB"[(Livro.bookNumber + Livro.currentQuestion) & 15];
     },
     buttonPress: function(b) {
         switch (Livro.state) {
@@ -628,14 +675,33 @@ Livro = {
             case "B":
             case "C":
             case "D":
+                PB.disableKeyboard();
+
+                console.log("Respondendo: " + b);
                 if (Livro.getCorrectAnswer(b) == b) {
-                    Livro.advanceQuestion();
+                    ++Livro.answeredQuestions;
+                    console.log("Correto!");
+                    Livro.showCorrectAnswer(true);
+                    Som.playSong(Songs.Correct, function() {
+                        PB.delay(10, Livro.advanceQuestion);
+                    });
                     return;
                 }
-                Livro.tries++;
+                ++Livro.tries;
                 if (Livro.tries >= 3) {
-                    Livro.showCorrectAnswer();
-                    Livro.advanceQuestion();
+                    ++Livro.answeredQuestions;
+                    Livro.showCorrectAnswer(true);
+                    Som.playSong(Songs.Fail, function() {
+                        PB.delay(20, Livro.advanceQuestion);
+                    });
+                } else {
+                    Display.clear();
+                    PB.delay(3, function() {
+                        Livro.highlightAnswer(b, false);
+                        Som.playSong(Songs.Wrong, function() {
+                            PB.delay(10, Livro.displayQuestionPrompt);
+                        });
+                    });
                 }
                 break;
             default:
