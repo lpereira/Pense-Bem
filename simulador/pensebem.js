@@ -951,6 +951,7 @@ PB = {
         if (PB.activity) PB.activity.oneLoopIteration();
     },
     setActivity: function(m) {
+        Display.clear();
         PB.activity = m;
         PB.reset();
     },
