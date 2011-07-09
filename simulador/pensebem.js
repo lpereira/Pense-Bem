@@ -147,9 +147,6 @@ Som = {
     },
     NoteToToneTable: null,
     playNote: function(n) {
-
-        console.log("NOTE: " + n);
-
         //real note frequency values:
         const FreqC4 = 261.63;
         const FreqD4 = 293.66;
@@ -513,8 +510,6 @@ AdivinheONumero = {
         AdivinheONumero.tries = 0;
         Display.showNumberAtDigit(AdivinheONumero.firstDigit, 2);
         Display.showNumberAtDigit(AdivinheONumero.secondDigit, 6);
-        console.log(AdivinheONumero.firstDigit + " - " + AdivinheONumero.answer + " - " + AdivinheONumero.secondDigit);
-
         PB.prompt(4, 2);
     },
     showAnswer: function(s) {
@@ -541,7 +536,6 @@ AdivinheONumero = {
 
                 Display.showNumberAtDigit(AdivinheONumero.firstDigit, 2);
                 Display.showNumberAtDigit(AdivinheONumero.secondDigit, 6);
-                console.log(AdivinheONumero.firstDigit + " - " + AdivinheONumero.answer + " - " + AdivinheONumero.secondDigit);
             }
 
             AdivinheONumero.tries++;
@@ -593,7 +587,6 @@ Livro = {
                 return;
             }
 
-            console.log("Selected book: " + bookNumber + "; section: " + sectionNumber);
             Livro.bookNumber = bookNumber;
             Livro.sectionNumber = sectionNumber;
             Livro.isReviewMode = sectionNumber == 6;
@@ -628,7 +621,6 @@ Livro = {
         Livro.highlightAnswer(Livro.getCorrectAnswer(), blink);
     },
     displayQuestionPrompt: function() {
-        console.log("Resposta correta: " + Livro.getCorrectAnswer());
         Display.clear();
         PB.delay(3, function() {
             Display.showNumberAtDigit(Livro.currentQuestion, 3);
@@ -677,10 +669,8 @@ Livro = {
             case "D":
                 PB.disableKeyboard();
 
-                console.log("Respondendo: " + b);
                 if (Livro.getCorrectAnswer(b) == b) {
                     ++Livro.answeredQuestions;
-                    console.log("Correto!");
                     Livro.showCorrectAnswer(true);
                     Som.playSong(Songs.Correct, function() {
                         PB.delay(10, Livro.advanceQuestion);
@@ -1049,12 +1039,10 @@ PB = {
             return;
         default:
             if (PB.keyboardEnabled && PB.activity) {
-                console.log("atividade atual: " + PB.getActivity() + " | botao: " + b);
                 if ((PB.activity != Welcome) && (b in Welcome.ButtonToActivityTable)) {
                     Som.highBeep();
                     return;
                 }
-                console.log("repassando o buttonpress para a atividade atual");
                 PB.activity.buttonPress(b);
             }
         }
