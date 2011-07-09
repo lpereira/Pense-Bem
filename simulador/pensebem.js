@@ -769,12 +769,19 @@ Prompt = {
         Prompt.reset();
         return value;
     },
+    isEmpty: function() {
+        return Prompt.input == "   ";
+    },
     oneLoopIteration: function() {},
     redrawPrompt: function() {
         Display.showNumberAtDigit(Prompt.input, Prompt.initialDigit);
     },
     buttonPress: function(b) {
         if (b == "ENTER") {
+            if (Prompt.isEmpty()) {
+                Som.highBeep();
+                return;
+            }
             Prompt.done = true;
             PB.activity = PB.previousActivity;
             return;
