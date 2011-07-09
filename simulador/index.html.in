@@ -1,0 +1,204 @@
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html>
+<head>
+	<title>Pense Bem</title>
+	<style>
+	body {
+		background: darkslategray url('squidfingers.com.156.gif');
+	}
+	#svg2 {
+		width: 660px;
+		position: relative;
+		left: 50%;
+		margin-left: -330px;
+		vertical-align: middle;
+	}
+	#faq {
+		position: absolute;
+		top: 50px;
+		left: 50px;
+		right: 50px;
+		bottom: 50px;
+		padding: 20px;
+		overflow: auto;
+		background: lightgray;
+		display: none;
+	}
+	#faq h1, #faq h2, #faq h3 {
+		font-family: "Arial Rounded MT", helvetica;
+	}
+	#faq p, #faq small {
+		font-family: helvetica;
+	}
+	#menu {
+		padding: 10px;
+		background: white;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		font-size: 3em;
+	}
+	#menu a {
+		text-decoration: none;
+	}
+	#shadow {
+		display: none;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
+		background-color: rgba(20, 20, 20, 0.5);
+	}
+	#pb-container {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		margin: auto;
+		height: 60%;
+		width: 50%;
+	}
+	</style>
+	<script>
+	function toggleVisibility(id) {
+		var element = document.getElementById(id);
+		element.style.display = {"block": "none"}[element.style.display] || "block";
+		document.getElementById('shadow').style.display = element.style.display;
+	}
+	</script>
+</head>
+<body>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-24416159-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<div id="pb-container">
+#include "pensebem-min.svg"
+</div>
+
+<a href="http://github.com/lpereira/Pense-Bem"><img style="position: absolute; top: 0; right: 0; border: 0;" src="forkme.png" alt="Fork me on GitHub"></a>
+
+<div id="shadow"></div>
+
+<span id="menu">
+	<a href="#" onclick="toggleVisibility('faq')">?</a>
+</span>
+<div id="faq">
+<h2>O que é um Pense Bem?</h2>
+<p><a href="http://pt.wikipedia.org/wiki/Pense_Bem">Pense Bem</a> foi um
+brinquedo fabricado e comercializado no Brasil pela <a
+href="http://www.tectoy.com.br">Tectoy</a>, sob licença da <a
+href="http://www.vtechkids.com/vtechkids/">Video Technologies</a>.  Segundo
+os fabricantes nacionais, entretanto, o Pense Bem era mais que um brinquedo;
+quase um computador.</p>
+<p>Possuia dez atividades pré-programadas, para auxiliar no ensino de
+aritmética, desenvolvimento da memória e musical. Além disso, há a
+possibilidade de responder a questionários sobre diversos assuntos usando
+livros de atividade.</p>
+<p>Uma propaganda da época, disponível no <a
+href="http://www.youtube.com">YouTube</a>:</p> <p><center><iframe
+width="425" height="349" src="http://www.youtube.com/embed/xXkeI5c5BRw"
+frameborder="0" allowfullscreen></iframe></center></p> <p>Em termos de
+hardware, o Pense Bem não passa de um microcontrolador Z8, da Zilog.  Este
+microcontrolador possui um processador de 8 bits, frequência máxima de 8MHz,
+128 bytes de RAM e 2KiB de ROM.  Modesto para qualquer padrão, mas
+perfeitamente capaz de controlar o brinquedo, com um display de LEDs (com
+segmentos retangulares) e um pequeno buzzer piezoelétrico.</p>
+
+<h2>Qual a razão de simular um Pense Bem?</h2>
+<p>A idéia original era escrever um emulador, para entender como tais
+softwares funcionam. Entretanto, existem emuladores para basicamente
+qualquer computador e video-game de 8- e 16-bits. Queríamos fazer algo novo,
+e procurando algum ícone dos meados dos anos 90, acabamos lembrando do Pense
+Bem.</p>
+<p>A princípio, fizemos uma engenharia reversa no equipamento, tentando
+levantar pinagem do teclado, displays, buzzer. Esta etapa foi concluída com
+sucesso, afinal o brinquedo tem uma placa eletrônica extremamente simples.
+Porém, esbarramos no maior problema: obter a ROM original e escrever um
+emulador que a executasse em um hardware emulado.</p>
+<p>Existem técnicas para acessar o conteúdo de circuitos integrados, e estas
+envolvem substâncias tóxicas, cancerígenas e altamente corrosivas. Sem falar
+em caríssimos microscópios. Não temos acesso a estes equipamentos, mas ainda
+não descartamos a idéia de fazer um emulador.</p>
+<p>Pensamos, então, em escrever um emulador e desenvolver a ROM nós mesmos.
+Entretanto, esta teria que ser escrita em assembly de Z8, dadas as
+restrições do microcontrolador. É interessante fazer protótipos em uma
+linguagem de alto nível antes de partir para o assembly e este simulador é
+este protótipo. Boa parte da arquitetura dele foi feita pensando no
+reaproveitamento futuro como um firmware para um microcontrolador
+emulado.</p>
+<p>Obviamente, ainda temos a imensa curiosidade de ver o código original do
+brinquedo. Se alguém aí souber onde podemos conseguir ácido nítrico e um
+microscópio decente, entre em contato que podemos conversar. :)</p>
+
+<h2>Qual a tecnologia usada no simulador?</h2>
+<p>Usamos SVG para a interface, JavaScript para a lógica e HTML5 para o
+áudio.  O SVG foi desenhado no <a
+href="http://www.inkscape.org">Inkscape</a> usando como base fotografias do
+brinquedo original.  Todo o código fonte está disponível no <a
+href="http://github.com/lpereira/Pense-Bem">GitHub</a>.</p>
+<p>O SVG foi comprimido com o <a
+href="http://www.codedread.com/scour/">Scour</a>, o JavaScript foi
+minificado e compilado com o <a
+href="http://code.google.com/closure/">Closure</a>.  Demais ferramentas GNU,
+como make, o pré-processador C, sed, dentre outras, também foram usadas.</p>
+<p>Por enquanto apenas o <a
+href="http://www.mozilla.com/en-US/firefox/fx/">Firefox 4</a> (ou superior)
+é capaz de executar este simulador.  Estamos trabalhando para aumentar a
+compatibilidade com outros browsers, mas isto pode demorar algum tempo.  Se
+quiser ajudar nessa empreitada, a fita "<i>Fork me on Github!</i>" está no
+canto superior direito para isso.</p>
+
+<h2>Como funciona o negócio dos livros de atividade?</h2>
+<p>Dadas as especificações do microcontrolador, seria impossível guardar
+todas as respostas de todos os livros de atividades na memória do
+equipamento. Como são apenas testes, com quatro opções possíveis (A, B, C,
+ou D), usaram o bom e velho truque de um gerador de número
+pseudo-aleatório.</p>
+<p>Basicamente, soma-se o número do livro (apenas os dois primeiros dígitos;
+o terceiro dígito é a seção do livro) com o número da questão.  Calcula-se o
+resto da divisão por 16 e usa este resultado para indexar um vetor de padrão
+de respostas (com, obviamente, 16 escolhas).  Extremamente simples, mas tão
+elegante quanto o resto do brinquedo.</p>
+
+<h2>Não tenho mais os livros de atividade, podem disponibilizá-los para
+download?</h2>
+<p>Infelizmente tais livros ainda estão sob leis de direitos autorais. Por
+conta disso, não podemos disponibilizá-los.  É possível encontrar cópias
+usadas em sebos e sites de leilão.</p> <p>Entretanto, como o algoritmo é
+agora conhecido, é possível criar livros que possam ser compartilhados
+livremente.  Caso tenha interesse em ajudar nisto, entre em contato!</p>
+
+<h2>Qual a licença de distribuição deste simulador?</h2>
+<h3>A LICENÇA BEER-WARE (Revisão 42)</h3>
+<p><a href="mailto:leandro@tia.mat.br">Leandro Pereira</a> e <a
+href="mailto:juca@members.fsf.org">Felipe Sanches</a> escreveram este
+simulador.  Contanto que você mantenha esta nota, pode fazer o que bem
+entender com o simulador.  Se nos encontrarmos algum dia e você achar que
+este simulador vale alguma coisa, pode comprar uma cerveja para
+gente.</p>
+
+<h2>Agradecimentos</h2>
+<p>Agradecemos ao Eduardo Habkost pela engenharia reversa do algoritmo dos
+livros de atividade.</p>
+<p>O plano de fundo da página foi obtido do <a
+href="http://www.squidfingers.com/patterns/">Squidfingers</a> e está sob
+domínio público.</p>
+<small>Nenhum dos envolvidos neste trabalho tem alguma relação com a Tectoy
+ou com a Video Technologies.  É um trabalho independente, feito apenas como
+um tributo para um dos ícones do começo dos anos 90.  "Pense Bem" é marca
+registrada da Tectoy.  Todas as marcas registradas são propriedade de seus
+respectivos detentores.</small>
+</div>
+
+</body>
+</html>
