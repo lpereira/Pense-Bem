@@ -600,7 +600,9 @@ Livro = {
             Livro.answeredQuestions = 0;
 
             Livro.state = Livro.StateQuestioning;
-            Livro.advanceQuestion();
+
+            Display.clear();
+            Som.playSong(Songs.Correct, Livro.advanceQuestion);
             break;
         case Livro.StateQuestioning:
         }
