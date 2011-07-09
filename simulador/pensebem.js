@@ -1016,8 +1016,10 @@ PB = {
 
         if (PB.activity) PB.activity.oneLoopIteration();
     },
-    setActivity: function(m) {
-        Display.clear();
+    setActivity: function(m, keepScreenContents) {
+        if (!keepScreenContents)
+            Display.clear();
+        PB.resetDefaultVariables();
         PB.activity = m;
         PB.reset();
     },
@@ -1025,7 +1027,7 @@ PB = {
         Prompt.initialDigit = initialDigit || 7;
         Prompt.maxDigitSize = maxDigitSize || 3;
         PB.previousActivity = PB.activity;
-        PB.setActivity(Prompt);
+        PB.setActivity(Prompt, true);
     },
     getActivity: function() {
         for (var i in Welcome.ButtonToActivityTable) {
