@@ -68,6 +68,8 @@
 		document.getElementById('shadow').style.display = element.style.display;
 	}
 	</script>
+	<script src="pensebem-min.js" type="text/javascript">
+	</script>
 </head>
 <body>
 <script type="text/javascript">
@@ -151,11 +153,12 @@ href="http://www.codedread.com/scour/">Scour</a>, o JavaScript foi
 minificado e compilado com o <a
 href="http://code.google.com/closure/">Closure</a>.  Demais ferramentas GNU,
 como make, o pré-processador C, sed, dentre outras, também foram usadas.</p>
-<p>Por enquanto apenas o <a
+<p>Até onde pudemos testar, apenas o <a
 href="http://www.mozilla.com/en-US/firefox/fx/">Firefox 4</a> (ou superior)
-é capaz de executar este simulador.  Estamos trabalhando para aumentar a
+ou o <a href="http://www.google.com/chrome">Chrome 13</a> são capazes de
+executar este simulador.  Estamos trabalhando para aumentar a
 compatibilidade com outros browsers, mas isto pode demorar algum tempo.  Se
-quiser ajudar nessa empreitada, a fita "<i>Fork me on Github!</i>" está no
+quiser ajudar nessa empreitada, a fita "<i>Fork me on Github</i>" está no
 canto superior direito para isso.</p>
 
 <h2>Como funciona o negócio dos livros de atividade?</h2>

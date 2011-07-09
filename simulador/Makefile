@@ -5,7 +5,7 @@ pensebem-min.svg: pensebem.svg pensebem-realistic.svg deindent.py scour/scour.py
 	./deindent.py pensebem-min-tmp.svg > pensebem-min.svg
 	sed -i -e 's/PB\.buttonPress/window.PB_buttonPress/g' pensebem-min.svg
 	sed -i -e 's/PB\.init/window.PB_init/g' pensebem-min.svg
-	sed -i -e 's/pensebem\.js/pensebem-min.js/g' pensebem-min.svg
+	sed -i -e 's/<script[^>]*>//g' pensebem-min.svg
 	rm -f pensebem-min-tmp.svg 
 
 index.html: pensebem-min.svg index.html.in
