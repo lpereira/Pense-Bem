@@ -303,7 +303,7 @@ Aritmetica = {
         Display.setSpecialDigit2("=");
     },
     advanceQuestion: function() {
-        if (++Aritmetica.currentQuestion >= Aritmetica.numQuestions) {
+        if (Aritmetica.currentQuestion++ >= Aritmetica.numQuestions) {
             PB.delay(10, function() {
                 Display.showNumberAtDigit(Aritmetica.points, 7);
                 Display.blinkAll();
