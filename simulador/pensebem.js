@@ -1091,3 +1091,5 @@ document.onkeydown = function(event) {
 //If we want to fix bugs found on the original machine
 // then uncomment the following line:
 //PB.bugfix = true;
+window['PB_buttonPress'] = PB.buttonPress;
+window['PB_init'] = PB.init;
