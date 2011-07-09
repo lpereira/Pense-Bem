@@ -649,9 +649,11 @@ Livro = {
             Display.blinkAll();
             PB.disableKeyboard();
             Som.playSong(Songs.Winner, function() {
-                Livro.state = Livro.StateChoosingBook;
-                PB.enableKeyboard();
-                PB.prompt();
+                PB.delay(30, function() {
+                    Livro.state = Livro.StateChoosingBook;
+                    PB.enableKeyboard();
+                    PB.prompt();
+                });
             });
             return;
         }
