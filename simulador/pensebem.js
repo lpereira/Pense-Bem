@@ -598,6 +598,7 @@ Livro = {
                 Livro.chooseRandomQuestion();
             }
             Livro.answeredQuestions = 0;
+            Livro.points = 0;
 
             Livro.state = Livro.StateQuestioning;
 
@@ -642,7 +643,7 @@ Livro = {
             ++Livro.currentQuestion;
         }
 
-        if (Livro.answeredQuestions > 30) {
+        if (Livro.answeredQuestions >= 30) {
             Display.clear();
             Display.showNumberAtDigit(Livro.points, 7);
             Display.blinkAll();
