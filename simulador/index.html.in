@@ -139,8 +139,9 @@ este protótipo. Boa parte da arquitetura dele foi feita pensando no
 reaproveitamento futuro como um firmware para um microcontrolador
 emulado.</p>
 <p>Obviamente, ainda temos a imensa curiosidade de ver o código original do
-brinquedo. Se alguém aí souber onde podemos conseguir ácido nítrico e um
-microscópio decente, entre em contato que podemos conversar. :)</p>
+brinquedo.  Se souber onde podemos conseguir ácido nítrico e um laboratório
+de química com capela e microscópio decente, entre em contato que podemos
+conversar.  :)</p>
 
 <h2>Qual a tecnologia usada no simulador?</h2>
 <p>Usamos SVG para a interface, JavaScript para a lógica e HTML5 para o
