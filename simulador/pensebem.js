@@ -146,7 +146,7 @@ Som = {
             audio.load();
             audio.play();
             if (pulseAudioBug) {
-                window.setTimeout('Som.toneFinishedPlaying()', 300);
+                window.setTimeout(Som.toneFinishedPlaying, 300);
             }
         };
     },
