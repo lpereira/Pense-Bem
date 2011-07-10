@@ -406,45 +406,58 @@ SigaMe = {
         SigaMe.guessIndex = 0;
         SigaMe.sequence = [];
         Som.playSong(Songs.GameSelected, function() {
-            SigaMe.addRandomNote();
+            PB.delay(5, SigaMe.addRandomNote);
         });
     },
     addRandomNote: function() {
-        SigaMe.sequence.push(Math.round(Math.random() * 9));
+        SigaMe.sequence.push(~~(Math.random() * 9));
         SigaMe.playSequence();
     },
     oneLoopIteration: function() {},
     playSequence: function() {
-        for (var i = 0; i < SigaMe.sequence.length; i++) {
-            Som.playNote("cdefgabCDE" [SigaMe.sequence[i]]);
+        var sequenceIndex = 0;
+        function noteFinishedPlaying() {
+            if (++sequenceIndex >= SigaMe.sequence.length)
+                return;
             Display.clear();
-            Display.setDigit(7, SigaMe.sequence[i]);
+            PB.delay(2, function() {
+                Display.setDigit(7, SigaMe.sequence[sequenceIndex]);
+                Som.playSong("cdefgabCDE"[SigaMe.sequence[sequenceIndex]], noteFinishedPlaying);
+            });
         }
+        Display.clear();
+        Display.setDigit(7, SigaMe.sequence[0]);
+        Som.playSong("cdefgabCDE"[SigaMe.sequence[0]], noteFinishedPlaying);
     },
     buttonPress: function(b) {
         if (b in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]) {
-            if (SigaMe.guessIndex < SigaMe.sequence.length) {
-                if (b == SigaMe.sequence[SigaMe.guessIndex]) {
-                    if (SigaMe.sequence.length == 15) {
-                        Som.playSong(Songs.Winner, function() {
-                            SigaMe.reset();
-                        });
-                        return;
-                    }
-                    Som.playNote(b);
+            if (b == SigaMe.sequence[SigaMe.guessIndex]) {
+                Display.clear();
+                PB.disableKeyboard();
+                PB.delay(2, function() {
+                    Som.playNote("cdefgabCDE"[b]);
                     Display.setDigit(7, b);
-                    SigaMe.guessIndex++;
-                } else {
-                    Som.playSong(Songs.Wrong, function() {
-                        PB.delay(1, function() {
-                            SigaMe.playSequence();
+                    PB.delay(4, function() {
+                        if (SigaMe.sequence.length == 1) {
+                            SigaMe.addRandomNote();
+                        } else if (SigaMe.sequence.length == 15) {
+                            Som.playSong(Songs.Winner, SigaMe.reset);
+                        } else if (SigaMe.guessIndex < SigaMe.sequence.length - 1) {
+                            SigaMe.guessIndex++;
+                        } else {
                             SigaMe.guessIndex = 0;
-                        });
+                            SigaMe.addRandomNote();
+                        }
+                        PB.enableKeyboard();
                     });
-                }
+                });
             } else {
-                SigaMe.addRandomNote();
-                SigaMe.guessIndex = 0;
+                Som.playSong(Songs.Wrong, function() {
+                    PB.delay(10, function() {
+                        SigaMe.playSequence();
+                        SigaMe.guessIndex = 0;
+                    });
+                });
             }
         }
     }
