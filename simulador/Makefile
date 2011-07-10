@@ -15,7 +15,7 @@ index.html: pensebem-min.svg index.html.in Makefile
 	cp index.html html-output
 
 pensebem-min.js: pensebem.js Makefile
-	java -jar closure/compiler.jar --accept_const_keyword --compilation_level ADVANCED_OPTIMIZATIONS < pensebem.js > pensebem-min.js
+	java -jar closure/compiler.jar --accept_const_keyword --compilation_level WHITESPACE_ONLY < pensebem.js > pensebem-min.js
 	cp pensebem-min.js html-output
 
 clean:
