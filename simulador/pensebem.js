@@ -1063,16 +1063,6 @@ PB = {
         PB.previousActivity = PB.activity;
         PB.setActivity(Prompt, true);
     },
-    getActivity: function() {
-        for (var i in Welcome.ButtonToActivityTable) {
-            if (PB.activity == Welcome.ButtonToActivityTable[i]) return i;
-        }
-        if (PB.activity == Welcome) return "Welcome";
-        if (PB.activity == Standby) return "Standby";
-        if (PB.activity == Prompt) return "Prompt";
-
-        return "Invalid Activity";
-    },
     buttonPress: function(b) {
         switch (b) {
         case 'LIGA':
