@@ -198,11 +198,14 @@ livros de atividade.</p>
 <p>O plano de fundo da página foi obtido do <a
 href="http://www.squidfingers.com/patterns/">Squidfingers</a> e está sob
 domínio público.</p>
-<small>Nenhum dos envolvidos neste trabalho tem alguma relação com a Tectoy
+<p>Nenhum dos envolvidos neste trabalho tem alguma relação com a Tectoy
 ou com a Video Technologies.  É um trabalho independente, feito apenas como
 um tributo para um dos ícones do começo dos anos 90.  "Pense Bem" é marca
 registrada da Tectoy.  Todas as marcas registradas são propriedade de seus
-respectivos detentores.</small>
+respectivos detentores.</p>
+<p style="text-align:right"><small>Última atualização:
+#include "last-update.inc"
+</small></p>
 </div>
 
 </body>

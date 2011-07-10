@@ -9,7 +9,9 @@ pensebem-min.svg: pensebem.svg pensebem-realistic.svg deindent.py scour/scour.py
 	rm -f pensebem-min-tmp.svg 
 
 index.html: pensebem-min.svg index.html.in Makefile
+	echo "`git log -1|grep '^Date:'|cut -d: -f2-`" > last-update.inc
 	cpp index.html.in | grep -v '^#' | grep -v '^$$' > index.html
+	rm -f last-update.inc
 	cp index.html html-output
 
 pensebem-min.js: pensebem.js Makefile
