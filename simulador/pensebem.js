@@ -200,10 +200,8 @@ Som = {
             }
         }
         var tone = Som.NoteToToneTable[n];
-        if (tone === undefined) {
-            return;
-        }
-        tone();
+        if (tone)
+            tone();
     }
 };
 
