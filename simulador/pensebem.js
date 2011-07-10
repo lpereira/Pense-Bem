@@ -1,15 +1,15 @@
-pulseAudioBug = navigator.userAgent.indexOf("Linux") > 0;
+pulseAudioBug = navigator.userAgent.indexOf('Linux') > 0;
 
 Songs = {
-    Welcome: "egage",
-    GameSelected: "CgC",
-    Correct: "gCC",
-    Wrong: "ec",
-    Fail: "egec",
-    Winner: "gggeCCC",
-    HighBeep: "C",
-    LowBeep: "c"
-}
+    Welcome: 'egage',
+    GameSelected: 'CgC',
+    Correct: 'gCC',
+    Wrong: 'ec',
+    Fail: 'egec',
+    Winner: 'gggeCCC',
+    HighBeep: 'C',
+    LowBeep: 'c'
+};
 
 Som = {
     SampleRate: 8192,
@@ -58,17 +58,17 @@ Som = {
     encodeBase64: function(str) {
         var out, i, len;
         var c1, c2, c3;
-        const Base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        const Base64EncodeChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
         len = str.length;
         i = 0;
-        out = "";
+        out = '';
         while (i < len) {
             c1 = str.charCodeAt(i++) & 0xff;
             if (i == len) {
                 out += Base64EncodeChars[c1 >> 2];
                 out += Base64EncodeChars[(c1 & 0x3) << 4];
-                out += "==";
+                out += '==';
                 break;
             }
             c2 = str.charCodeAt(i++);
@@ -76,7 +76,7 @@ Som = {
                 out += Base64EncodeChars[c1 >> 2];
                 out += Base64EncodeChars[((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4)];
                 out += Base64EncodeChars[(c2 & 0xF) << 2];
-                out += "=";
+                out += '=';
                 break;
             }
             c3 = str.charCodeAt(i++);
@@ -93,11 +93,11 @@ Som = {
             i;
 
         // 8-bit mono WAVE header template
-        var header = "RIFF<##>WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00<##><##>\x01\x00\x08\x00data<##>";
+        var header = 'RIFF<##>WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00<##><##>\x01\x00\x08\x00data<##>';
 
         // Helper to insert a 32-bit little endian int.
         function insertLong(value) {
-            var bytes = "";
+            var bytes = '';
             for (var i = 0; i < 4; ++i) {
                 bytes += String.fromCharCode(value & 255);
                 value = Math.floor(value / 256);
@@ -133,10 +133,10 @@ Som = {
             //samples.push(envelope * (Math.sin(2*3.1415*x)/2.0 + 0.5));
         }
 
-        audio.setAttribute("src", Som.encode8BitAudio(samples));
+        audio.setAttribute('src', Som.encode8BitAudio(samples));
 
         if (!pulseAudioBug) {
-            audio.addEventListener("ended", function() {
+            audio.addEventListener('ended', function() {
                 Som.toneFinishedPlaying();
             }, false);
         }
@@ -146,7 +146,7 @@ Som = {
             audio.load();
             audio.play();
             if (pulseAudioBug) {
-                window.setTimeout("Som.toneFinishedPlaying()", 300);
+                window.setTimeout('Som.toneFinishedPlaying()', 300);
             }
         };
     },
@@ -169,34 +169,34 @@ Som = {
         if (!Som.NoteToToneTable) {
             if (PB.bugfix == false) {
                 Som.NoteToToneTable = {
-                    "c": Som.newTone(FreqD4),
-                    "d": Som.newTone(FreqE4),
-                    "e": Som.newTone(FreqF4Sharp),
-                    "f": Som.newTone(FreqG4),
-                    "g": Som.newTone(FreqA4),
-                    "a": Som.newTone(FreqB4),
-                    "b": Som.newTone(FreqC5Sharp),
-                    "C": Som.newTone(FreqD5),
-                    "D": Som.newTone(FreqE5),
-                    "p": function() {
+                    'c': Som.newTone(FreqD4),
+                    'd': Som.newTone(FreqE4),
+                    'e': Som.newTone(FreqF4Sharp),
+                    'f': Som.newTone(FreqG4),
+                    'g': Som.newTone(FreqA4),
+                    'a': Som.newTone(FreqB4),
+                    'b': Som.newTone(FreqC5Sharp),
+                    'C': Som.newTone(FreqD5),
+                    'D': Som.newTone(FreqE5),
+                    'p': function() {
                         PB.delay(3, Som.toneFinishedPlaying);
                     }
-                }
+                };
             } else {
                 Som.NoteToToneTable = {
-                    "c": Som.newTone(FreqC4),
-                    "d": Som.newTone(FreqD4),
-                    "e": Som.newTone(FreqE4),
-                    "f": Som.newTone(FreqF4),
-                    "g": Som.newTone(FreqG4),
-                    "a": Som.newTone(FreqA4),
-                    "b": Som.newTone(FreqB4),
-                    "C": Som.newTone(FreqC5),
-                    "D": Som.newTone(FreqD5),
-                    "p": function() {
+                    'c': Som.newTone(FreqC4),
+                    'd': Som.newTone(FreqD4),
+                    'e': Som.newTone(FreqE4),
+                    'f': Som.newTone(FreqF4),
+                    'g': Som.newTone(FreqG4),
+                    'a': Som.newTone(FreqA4),
+                    'b': Som.newTone(FreqB4),
+                    'C': Som.newTone(FreqC5),
+                    'D': Som.newTone(FreqD5),
+                    'p': function() {
                         PB.delay(3, Som.toneFinishedPlaying);
                     }
-                }
+                };
             }
         }
         var tone = Som.NoteToToneTable[n];
@@ -210,7 +210,7 @@ Som = {
 //------------------------------------------------------------------------------
 Aritmetica = {
     reset: function(possibleOperations) {
-        Aritmetica.possibleOperations = possibleOperations || "+-/*";
+        Aritmetica.possibleOperations = possibleOperations || '+-/*';
         Aritmetica.showResultFlag = false;
         Aritmetica.showOperatorFlag = true;
         Aritmetica.numQuestions = 10;
@@ -275,27 +275,27 @@ Aritmetica = {
     showOperator: function(force) {
         if (force || Aritmetica.showOperatorFlag) {
             Display.setSpecialDigit({
-                "*": "x",
-                "/": "%",
-                "+": "+",
-                "-": "-"
+                '*': 'x',
+                '/': '%',
+                '+': '+',
+                '-': '-'
             }[Aritmetica.operation]);
         } else {
-            Display.blinkSpecialDigit("#");
+            Display.blinkSpecialDigit('#');
         }
     },
     buttonPress: function(b) {},
     OperatorFunctionTable: {
-        "+": function(a, b) {
+        '+': function(a, b) {
             return ~~ (a + b);
         },
-        "-": function(a, b) {
+        '-': function(a, b) {
             return ~~ (a - b);
         },
-        "/": function(a, b) {
+        '/': function(a, b) {
             return ~~ (a / b);
         },
-        "*": function(a, b) {
+        '*': function(a, b) {
             return ~~ (a * b);
         }
     },
@@ -305,7 +305,7 @@ Aritmetica = {
         Display.showNumberAtDigit(Aritmetica.secondDigit, 4);
         if (Aritmetica.showResultFlag) Display.showNumberAtDigit(Aritmetica.answer, 7);
         Aritmetica.showOperator();
-        Display.setSpecialDigit2("=");
+        Display.setSpecialDigit2('=');
     },
     advanceQuestion: function() {
         if (Aritmetica.currentQuestion++ >= Aritmetica.numQuestions) {
@@ -325,9 +325,9 @@ Aritmetica = {
             Aritmetica.operation = Aritmetica.possibleOperations[~~ (Math.random() * (Aritmetica.possibleOperations.length - 1))];
             Aritmetica.firstDigit = ~~ (Math.random() * 99);
             Aritmetica.secondDigit = ~~ (Math.random() * 9);
-            forbiddenCombination = ((Aritmetica.operation == "/") && (Aritmetica.secondDigit == 0)) ||
-                                    ((Aritmetica.operation in ["-", "+"]) && (Aritmetica.secondDigit == 0)) ||
-                                    ((Aritmetica.operation in ["/", "*"]) && (Aritmetica.secondDigit == 1));
+            forbiddenCombination = ((Aritmetica.operation == '/') && (Aritmetica.secondDigit == 0)) ||
+                                    ((Aritmetica.operation in ['-', '+']) && (Aritmetica.secondDigit == 0)) ||
+                                    ((Aritmetica.operation in ['/', '*']) && (Aritmetica.secondDigit == 1));
         }
 
         if (Aritmetica.secondDigit) Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
@@ -340,7 +340,7 @@ Aritmetica = {
 //------------------------------------------------------------------------------
 Adicao = {
     reset: function() {
-        Aritmetica.reset("+");
+        Aritmetica.reset('+');
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress
@@ -349,7 +349,7 @@ Adicao = {
 //------------------------------------------------------------------------------
 Subtracao = {
     reset: function() {
-        Aritmetica.reset("-");
+        Aritmetica.reset('-');
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress
@@ -358,7 +358,7 @@ Subtracao = {
 //------------------------------------------------------------------------------
 Multiplicacao = {
     reset: function() {
-        Aritmetica.reset("*");
+        Aritmetica.reset('*');
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress
@@ -367,7 +367,7 @@ Multiplicacao = {
 //------------------------------------------------------------------------------
 Divisao = {
     reset: function() {
-        Aritmetica.reset("/");
+        Aritmetica.reset('/');
     },
     oneLoopIteration: Aritmetica.oneLoopIteration,
     buttonPress: Aritmetica.buttonPress
@@ -383,15 +383,15 @@ Operacao = {
     oneLoopIteration: function() {},
     buttonPress: function(b) {
         switch (b) {
-        case "+":
-        case "-":
-        case "*":
-        case "/":
+        case '+':
+        case '-':
+        case '*':
+        case '/':
             Display.setSpecialDigit({
-                "+": "+",
-                "-": "-",
-                "*": "x",
-                "/": "%"
+                '+': '+',
+                '-': '-',
+                '*': 'x',
+                '/': '%'
             }[b]);
             Display.stopBlinking(8);
             PB.delay(2, function() {
@@ -427,20 +427,20 @@ SigaMe = {
             Display.clear();
             PB.delay(2, function() {
                 Display.setDigit(7, SigaMe.sequence[sequenceIndex]);
-                Som.playSong("cdefgabCDE"[SigaMe.sequence[sequenceIndex]], noteFinishedPlaying);
+                Som.playSong('cdefgabCDE'[SigaMe.sequence[sequenceIndex]], noteFinishedPlaying);
             });
         }
         Display.clear();
         Display.setDigit(7, SigaMe.sequence[0]);
-        Som.playSong("cdefgabCDE"[SigaMe.sequence[0]], noteFinishedPlaying);
+        Som.playSong('cdefgabCDE'[SigaMe.sequence[0]], noteFinishedPlaying);
     },
     buttonPress: function(b) {
-        if (b in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]) {
+        if (b in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']) {
             if (b == SigaMe.sequence[SigaMe.guessIndex]) {
                 Display.clear();
                 PB.disableKeyboard();
                 PB.delay(2, function() {
-                    Som.playNote("cdefgabCDE"[b]);
+                    Som.playNote('cdefgabCDE'[b]);
                     Display.setDigit(7, b);
                     PB.delay(4, function() {
                         if (SigaMe.sequence.length == 1) {
@@ -478,7 +478,7 @@ MemoriaTons = {
         });
     },
     fakePrompt: function() {
-        Display.blinkDigit(7, "-");
+        Display.blinkDigit(7, '-');
     },
     oneLoopIteration: function() {},
     buttonPress: function(b) {
@@ -486,20 +486,20 @@ MemoriaTons = {
             MemoriaTons.pressedEnter = true;
             Som.playSoundQueue(false, function(noteCode, lastNote) {
                 Display.showNumberAtDigit({
-                    "p": 0, "c": 1, "d": 2,
-                    "e": 3, "f": 4, "g": 5,
-                    "a": 6, "b": 7, "C": 8,
-                    "D": 9
+                    'p': 0, 'c': 1, 'd': 2,
+                    'e': 3, 'f': 4, 'g': 5,
+                    'a': 6, 'b': 7, 'C': 8,
+                    'D': 9
                 }[noteCode], 7);
                 PB.delay(2, lastNote ? MemoriaTons.fakePrompt : Display.clear);
             });
             return;
         }
         var note = {
-            "0": "p", "1": "c", "2": "d",
-            "3": "e", "4": "f", "5": "g",
-            "6": "a", "7": "b", "8": "C",
-            "9": "D"
+            '0': 'p', '1': 'c', '2': 'd',
+            '3': 'e', '4': 'f', '5': 'g',
+            '6': 'a', '7': 'b', '8': 'C',
+            '9': 'D'
         }[b];
         if (note) {
             Display.clear();
@@ -547,8 +547,8 @@ AdivinheONumero = {
     showAnswer: function(s) {
         Display.clear();
         Som.playSong(s, function() {
-            Display.setSpecialDigit("~");
-            Display.setSpecialDigit2("-");
+            Display.setSpecialDigit('~');
+            Display.setSpecialDigit2('-');
             Display.showNumberAtDigit(AdivinheONumero.firstDigit, 2);
             Display.showNumberAtDigit(AdivinheONumero.secondDigit, 6);
             Display.showNumberAtDigit(AdivinheONumero.answer, 4);
@@ -646,11 +646,11 @@ Livro = {
     highlightAnswer: function(answer, blink) {
         Display.clear();
         Display.showNumberAtDigit(Livro.currentQuestion, 3);
-        const digit = {"A": 4, "B": 5, "C": 6, "D": 7}[answer];
+        const digit = {'A': 4, 'B': 5, 'C': 6, 'D': 7}[answer];
         if (blink)
-            Display.blinkDigit(digit, "_");
+            Display.blinkDigit(digit, '_');
         else
-            Display.setDigit(digit, "_");
+            Display.setDigit(digit, '_');
     },
     showCorrectAnswer: function(blink) {
         Livro.highlightAnswer(Livro.getCorrectAnswer(), blink);
@@ -660,7 +660,7 @@ Livro = {
         PB.delay(3, function() {
             Display.showNumberAtDigit(Livro.currentQuestion, 3);
             for (var i = 4; i <= 7; i++)
-                Display.setDigit(i, "_");
+                Display.setDigit(i, '_');
         });
         PB.enableKeyboard();
     },
@@ -692,7 +692,7 @@ Livro = {
         Livro.displayQuestionPrompt();
     },
     getCorrectAnswer: function() {
-        return "CDDBAADCBDAADCBB"[(Livro.bookNumber + Livro.currentQuestion) & 15];
+        return 'CDDBAADCBDAADCBB'[(Livro.bookNumber + Livro.currentQuestion) & 15];
     },
     buttonPress: function(b) {
         switch (Livro.state) {
@@ -700,10 +700,10 @@ Livro = {
             break;
         case Livro.StateQuestioning:
             switch (b) {
-            case "A":
-            case "B":
-            case "C":
-            case "D":
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
                 PB.disableKeyboard();
 
                 if (Livro.getCorrectAnswer(b) == b) {
@@ -737,27 +737,27 @@ Livro = {
             break;
         }
     }
-}
+};
 
 //------------------------------------------------------------------------------
 Welcome = {
     ButtonToActivityTable: {
-        "ADIVINHE-O-NÚMERO": AdivinheONumero,
-        "ADIÇÃO": Adicao,
-        "MULTIPLICAÇÃO": Multiplicacao,
-        "DIVISÃO": Divisao,
-        "ARITMÉTICA": Aritmetica,
-        "OPERAÇÃO": Operacao,
-        "SIGA-ME": SigaMe,
-        "MEMÓRIA-TONS": MemoriaTons,
-        "NÚMERO-DO-MEIO": NumeroDoMeio,
-        "SUBTRAÇÃO": Subtracao,
-        "LIVRO": Livro
+        'ADIVINHE-O-NÚMERO': AdivinheONumero,
+        'ADIÇÃO': Adicao,
+        'MULTIPLICAÇÃO': Multiplicacao,
+        'DIVISÃO': Divisao,
+        'ARITMÉTICA': Aritmetica,
+        'OPERAÇÃO': Operacao,
+        'SIGA-ME': SigaMe,
+        'MEMÓRIA-TONS': MemoriaTons,
+        'NÚMERO-DO-MEIO': NumeroDoMeio,
+        'SUBTRAÇÃO': Subtracao,
+        'LIVRO': Livro
     },
     reset: function() {
         Display.clear();
         Som.playSong(Songs.Welcome, function() {
-            Display.blinkSpecialDigit("*");
+            Display.blinkSpecialDigit('*');
         });
     },
     oneLoopIteration: function() {},
@@ -788,13 +788,13 @@ Prompt = {
     done: false,
     reset: function() {
         Prompt.done = false;
-        Prompt.input = "   ";
+        Prompt.input = '   ';
         Display.clear(Prompt.initialDigit - Prompt.maxDigitSize + 1, Prompt.initialDigit);
         if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
-            Display.setSpecialDigit(" ");
-            Display.setSpecialDigit2(" ");
+            Display.setSpecialDigit(' ');
+            Display.setSpecialDigit2(' ');
         }
-        Display.blinkDigit(Prompt.initialDigit, "-");
+        Display.blinkDigit(Prompt.initialDigit, '-');
     },
     getInput: function() {
         const value = Prompt.input;
@@ -802,14 +802,14 @@ Prompt = {
         return value;
     },
     isEmpty: function() {
-        return Prompt.input == "   ";
+        return Prompt.input == '   ';
     },
     oneLoopIteration: function() {},
     redrawPrompt: function() {
         Display.showNumberAtDigit(Prompt.input, Prompt.initialDigit);
     },
     buttonPress: function(b) {
-        if (b == "ENTER") {
+        if (b == 'ENTER') {
             if (Prompt.isEmpty()) {
                 Som.highBeep();
                 return;
@@ -818,12 +818,12 @@ Prompt = {
             PB.activity = PB.previousActivity;
             return;
         }
-        if (b in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]) {
+        if (b in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']) {
             Som.lowBeep();
             Display.disableBlink();
             if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
-                Display.setSpecialDigit("~");
-                Display.setSpecialDigit2("-");
+                Display.setSpecialDigit('~');
+                Display.setSpecialDigit2('-');
             }
             switch (Prompt.maxDigitSize) {
             case 1:
@@ -849,7 +849,7 @@ Display = {
     onPhase: true,
     blinkTable: 0,
     blinkTimer: null,
-    contents: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+    contents: ['?', '?', '?', '?', '?', '?', '?', '?', '?'],
     SpecialFontTable: {
         ' ': 0,
         '#': 49279,
@@ -881,7 +881,7 @@ Display = {
         s.setAttribute('visibility', state ? 'hidden' : 'visible');
     },
     setSegment: function(i, seg, state) {
-        Display.setSegmentById("d" + i + "_" + seg, state);
+        Display.setSegmentById('d' + i + '_' + seg, state);
     },
     clear: function(begin, end) {
         begin = begin || 1;
@@ -906,9 +906,9 @@ Display = {
         if (Display.onPhase) return;
         for (var d = 0; d < 7; d++)
             if (Display.blinkTable & (1 << d))
-                Display.setDigit(d + 1, " ", true);
-        if (Display.blinkTable & 1 << 7) Display.setSpecialDigit(" ", true);
-        if (Display.blinkTable & 1 << 8) Display.setSpecialDigit2(" ", true);
+                Display.setDigit(d + 1, ' ', true);
+        if (Display.blinkTable & 1 << 7) Display.setSpecialDigit(' ', true);
+        if (Display.blinkTable & 1 << 8) Display.setSpecialDigit2(' ', true);
         Display.onPhase = true;
     },
     blinkTimerCallback: function() {
@@ -965,10 +965,10 @@ Display = {
         }
         var state = Display.FontTable[c] || Display.FontTable[' '];
         for (var segment = 0; segment < 7; segment++)
-            Display.setSegment(i, "abcdefg"[segment], state & (1 << segment));
+            Display.setSegment(i, 'abcdefg'[segment], state & (1 << segment));
     },
     showNumberAtDigit: function(n, d) {
-        if (typeof (n) == "string") {
+        if (typeof (n) == 'string') {
             if (n.length == 1) {
                 Display.setDigit(d, n[0]);
             } else if (n.length == 2) {
@@ -998,8 +998,8 @@ Display = {
             Display.setDigit(3, c);
         var state = Display.SpecialFontTable[c] || Display.SpecialFontTable[' '];
         for (var segment = 0; segment < 8; segment++) {
-            Display.setSegment(8, "abcdefgh"[segment], state & (1 << segment));
-            Display.setSegment(3, "abcdefgh"[segment], (state >> 8) & (1 << segment));
+            Display.setSegment(8, 'abcdefgh'[segment], state & (1 << segment));
+            Display.setSegment(3, 'abcdefgh'[segment], (state >> 8) & (1 << segment));
         }
     },
     setSpecialDigit2: function(c, tmp) {
@@ -1007,8 +1007,8 @@ Display = {
             Display.contents[8] = c;
         }
 
-        Display.setSegmentById("igual", {"=": true, "-": true}[c] || false);
-        Display.setSegmentById("igual2", {"=": true, "-": false}[c] || false);
+        Display.setSegmentById('igual', {'=': true, '-': true}[c] || false);
+        Display.setSegmentById('igual2', {'=': true, '-': false}[c] || false);
     }
 };
 
@@ -1102,23 +1102,23 @@ PB = {
 
 document.onkeydown = function(event) {
     const keyCode = {
-        13: "ENTER",
-        19: "PAUSE",
-        80: "PAUSE",
-        27: "DESL",
-        48: "0",
-        49: "1",
-        50: "2",
-        51: "3",
-        52: "4",
-        53: "5",
-        54: "6",
-        55: "7",
-        56: "8",
-        57: "9"
+        13: 'ENTER',
+        19: 'PAUSE',
+        80: 'PAUSE',
+        27: 'DESL',
+        48: '0',
+        49: '1',
+        50: '2',
+        51: '3',
+        52: '4',
+        53: '5',
+        54: '6',
+        55: '7',
+        56: '8',
+        57: '9'
     }[event.which];
     if (keyCode) PB.buttonPress(keyCode);
-}
+};
 
 //If we want to fix bugs found on the original machine
 // then uncomment the following line:
