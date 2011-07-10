@@ -608,8 +608,8 @@ Livro = {
         case Livro.StateChoosingBook:
             if (!Prompt.done) return;
             const bookCode = Prompt.getInput();
-            const bookNumber = parseInt(bookCode.substring(0, 2), 10);
-            const sectionNumber = parseInt(bookCode.substring(2), 10);
+            const bookNumber = parseInt(bookCode.substring(0, 2));
+            const sectionNumber = parseInt(bookCode.substring(2));
 
             if (sectionNumber < 1 || sectionNumber > 6 || bookCode < 1) {
                 Display.clear();
