@@ -29,16 +29,21 @@ Som = {
         if (Som.currentNote >= Som.playQueue.length) {
             Som.currentNote = 0;
             Som.isPlayingSong = false;
-            Som.playQueue = [];
+            if (Som.shouldClearQueue)
+                Som.playQueue = [];
             Som.songFinishedCallback();
+            Som.songFinishedCallback = function() {};
             PB.enableKeyboard();
         } else {
             Som.playNote(Som.playQueue[Som.currentNote]);
+            Som.notePlayCallback(Som.playQueue[Som.currentNote], Som.currentNote >= Som.playQueue.length - 1);
             Som.currentNote++;
         }
     },
-    playAndClearQueue: function() {
+    playSoundQueue: function(shouldClearQueue, notePlayCallback) {
         Som.isPlayingSong = true;
+        Som.shouldClearQueue = shouldClearQueue || false;
+        Som.notePlayCallback = notePlayCallback || function() {};
         PB.disableKeyboard();
         Som.toneFinishedPlaying();
     },
@@ -48,7 +53,7 @@ Som = {
         for (var note in song) {
             Som.playQueue.push(song[note]);
         }
-        Som.playAndClearQueue();
+        Som.playSoundQueue(true);
     },
     encodeBase64: function(str) {
         var out, i, len;
@@ -467,32 +472,46 @@ SigaMe = {
 MemoriaTons = {
     reset: function() {
         Display.clear();
-        Som.playSong(Songs.GameSelected);
+        Som.playSong(Songs.GameSelected, function() {
+            MemoriaTons.pressedEnter = false;
+            MemoriaTons.fakePrompt();
+        });
+    },
+    fakePrompt: function() {
+        Display.blinkDigit(7, "-");
     },
     oneLoopIteration: function() {},
     buttonPress: function(b) {
         if (b == 'ENTER') {
-            Som.playAndClearQueue();
+            MemoriaTons.pressedEnter = true;
+            Som.playSoundQueue(false, function(noteCode, lastNote) {
+                Display.showNumberAtDigit({
+                    "p": 0, "c": 1, "d": 2,
+                    "e": 3, "f": 4, "g": 5,
+                    "a": 6, "b": 7, "C": 8,
+                    "D": 9
+                }[noteCode], 7);
+                PB.delay(2, lastNote ? MemoriaTons.fakePrompt : Display.clear);
+            });
             return;
         }
         var note = {
-            "0": "p",
-            "1": "c",
-            "2": "d",
-            "3": "e",
-            "4": "f",
-            "5": "g",
-            "6": "a",
-            "7": "b",
-            "8": "C",
+            "0": "p", "1": "c", "2": "d",
+            "3": "e", "4": "f", "5": "g",
+            "6": "a", "7": "b", "8": "C",
             "9": "D"
         }[b];
-        if (note === undefined) {
+        if (note) {
+            Display.clear();
+            if (MemoriaTons.pressedEnter == 1) {
+                MemoriaTons.pressedEnter = false;
+                Som.playQueue = [];
+            }
+            Som.playQueue.push(note);
+            Som.playNote(note);
+            Display.showNumberAtDigit(b, 7);
+        } else
             Som.lowBeep();
-            return;
-        }
-        Som.playQueue.push(note);
-        Som.playNote(note);
     }
 };
 
