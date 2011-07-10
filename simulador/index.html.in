@@ -110,7 +110,8 @@ livros de atividade.</p>
 href="http://www.youtube.com">YouTube</a>:</p> <p><center><iframe
 width="425" height="349" src="http://www.youtube.com/embed/xXkeI5c5BRw"
 frameborder="0" allowfullscreen></iframe></center></p> <p>Em termos de
-hardware, o Pense Bem não passa de um microcontrolador Z8, da Zilog.  Este
+hardware, o Pense Bem não passa de um microcontrolador <a
+href="http://en.wikipedia.org/wiki/Zilog_Z8">Z8</a>, da Zilog.  Este
 microcontrolador possui um processador de 8 bits, frequência máxima de 8MHz,
 128 bytes de RAM e 2KiB de ROM.  Modesto para qualquer padrão, mas
 perfeitamente capaz de controlar o brinquedo, com um display de LEDs (com
