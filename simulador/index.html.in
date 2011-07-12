@@ -156,9 +156,12 @@ minificado e compilado com o <a
 href="http://code.google.com/closure/">Closure</a>.  Demais ferramentas GNU,
 como make, o pré-processador C, sed, dentre outras, também foram usadas.</p>
 <p>Até onde pudemos testar, apenas o <a
-href="http://www.mozilla.com/en-US/firefox/fx/">Firefox 4</a> (ou superior)
-ou o <a href="http://www.google.com/chrome">Chrome 13</a> são capazes de
-executar este simulador.  Estamos trabalhando para aumentar a
+href="http://www.mozilla.com/en-US/firefox/fx/">Firefox 4</a> (ou superior),
+o <a href="http://www.google.com/chrome">Chrome 12</a> (ou superior), ou
+browsers baseados em <a
+href="http://trac.webkit.org/wiki/WebKitGTK">WebKitGTK</a> (como versões
+recentes do <a href="http://projects.gnome.org/epiphany/">Epiphany</a>) são
+capazes de executar este simulador.  Estamos trabalhando para aumentar a
 compatibilidade com outros browsers, mas isto pode demorar algum tempo.  Se
 quiser ajudar nessa empreitada, a fita "<i>Fork me on Github</i>" está no
 canto superior direito para isso.</p>
