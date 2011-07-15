@@ -2,65 +2,7 @@
 <html>
 <head>
 	<title>Pense Bem</title>
-	<style>
-	body {
-		background: darkslategray url('squidfingers.com.156.gif');
-	}
-	#svg2 {
-		width: 660px;
-		position: relative;
-		left: 50%;
-		margin-left: -330px;
-		vertical-align: middle;
-	}
-	#faq {
-		position: absolute;
-		top: 50px;
-		left: 50px;
-		right: 50px;
-		bottom: 50px;
-		padding: 20px;
-		overflow: auto;
-		background: lightgray;
-		display: none;
-	}
-	#faq h1, #faq h2, #faq h3 {
-		font-family: "Arial Rounded MT", helvetica;
-	}
-	#faq p, #faq small {
-		font-family: helvetica;
-	}
-	#menu {
-		padding: 10px;
-		background: white;
-		position: absolute;
-		bottom: 0;
-		right: 0;
-		font-size: 3em;
-	}
-	#menu a {
-		text-decoration: none;
-	}
-	#shadow {
-		display: none;
-		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		top: 0;
-		background-color: rgba(20, 20, 20, 0.5);
-	}
-	#pb-container {
-		position: absolute;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		margin: auto;
-		height: 60%;
-		width: 50%;
-	}
-	</style>
+	<link rel="stylesheet" type="text/css" media="screen, projection" href="pb.css">
 	<script>
 	function toggleVisibility(id) {
 		var element = document.getElementById(id);
