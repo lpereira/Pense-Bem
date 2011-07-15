@@ -167,7 +167,7 @@ Som = {
         const FreqE5 = 659.255;
 
         if (!Som.NoteToToneTable) {
-            if (PB.bugfix == false) {
+            if (!PB.bugfix) {
                 Som.NoteToToneTable = {
                     'c': Som.newTone(FreqD4),
                     'd': Som.newTone(FreqE4),
@@ -501,7 +501,7 @@ MemoriaTons = {
         }[b];
         if (note) {
             Display.clear();
-            if (MemoriaTons.pressedEnter == 1) {
+            if (MemoriaTons.pressedEnter) {
                 MemoriaTons.pressedEnter = false;
                 Som.playQueue = [];
             }
@@ -761,11 +761,10 @@ Welcome = {
     oneLoopIteration: function() {},
     buttonPress: function(b) {
         const newActivity = Welcome.ButtonToActivityTable[b];
-        if (newActivity === undefined) {
+        if (newActivity)
+            PB.setActivity(newActivity);
+        else
             Som.lowBeep();
-            return;
-        }
-        PB.setActivity(newActivity);
     }
 };
 
