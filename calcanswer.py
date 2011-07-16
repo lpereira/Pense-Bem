@@ -3,19 +3,26 @@
 import samples
 
 def answer(book,question):
+	#print 'book', book
+	#print 'question', question
+
 	pattern_list = ["cddbaadcbdaadcbb",
 		 "ccbdddbdababdaca",
 		 "ddcbdababdacaccb",
 		 "aabbcdcdddacaabc",
-		 "cXabadbbbcdcddda", # Position [1] is unknown. More info needed!
+		 "ccabadbbbcdcddda", # Position [1] is just a hint. More info needed!
 		 "aXcbadbadbbddccb", # Position [1] is unknown. More info needed!
 		 "aXdbadbbdcccbadb", # Position [1] is unknown. More info needed!
-		 "dXbbdabbdabdabcc", # Position [1] is unknown. More info needed!
-		 "bXdccddaacdbbddb", # Position [1] is unknown. More info needed!
-		 "cXcdcbbbdabdddcd"] # Position [1] is unknown. More info needed!
+		 "ddbbdabbdabdabcc", # Position [1] is just a hint. More info needed!
+		 "bddccddaacdbbddb", # Position [1] is just a hint. More info needed!
+		 "cbcdcbbbdabdddcd"] # Position [1] is just a hint. More info needed!
 
 	pattern_number = (question - 1) / 15 # For each 15 questions the pattern changes (1-15 != 16-30 != ...)
 	question = (question % 15) if (question % 15) > 0 else 15 # Need question numbers ranging from 1 to 15
+
+	#print 'pattern_number', pattern_number
+	#print 'new_question', question
+	#print 'calc_candidate', ((book+question)%16)
 
 	pattern = pattern_list[pattern_number]
 	candidate = pattern[(book+question)%16]
