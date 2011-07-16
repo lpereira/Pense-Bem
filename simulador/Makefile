@@ -3,8 +3,8 @@ all: pensebem-min.js pensebem-min.svg index.html
 pensebem-min.svg: pensebem.svg pensebem-realistic.svg deindent.py scour/scour.py Makefile
 	scour/scour.py -i pensebem-realistic.svg -o pensebem-min-tmp.svg --create-groups --enable-comment-stripping --remove-metadata --no-renderer-workaround --strip-xml-prolog
 	./deindent.py pensebem-min-tmp.svg > pensebem-min.svg
-	sed -i -e 's/PB\.buttonPress/window.PB_buttonPress/g' pensebem-min.svg
 	sed -i -e 's/PB\.init/window.PB_init/g' pensebem-min.svg
+	sed -i -e 's/PB\.buttonPress/window.PB_buttonPress/g' pensebem-min.svg
 	sed -i -e 's/<script[^>]*>//g' pensebem-min.svg
 	rm -f pensebem-min-tmp.svg 
 

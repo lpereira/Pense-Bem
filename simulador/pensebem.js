@@ -1,5 +1,8 @@
 pulseAudioBug = navigator.userAgent.indexOf('Linux') > 0;
 
+if (typeof Float32Array !== "function")
+    Float32Array = Array;
+
 Songs = {
     Welcome: 'egage',
     GameSelected: 'CgC',

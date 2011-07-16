@@ -1,33 +1,33 @@
-<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE HTML>
 <html>
 <head>
 	<title>Pense Bem</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link rel="stylesheet" type="text/css" media="screen, projection" href="pb.css">
-	<script>
+	<script src="svg/svg.js" type="text/javascript" data-path="svg"></script>
+	<script src="pensebem-min.js" type="text/javascript"></script>
+	<script type="text/javascript">
 	function toggleVisibility(id) {
 		var element = document.getElementById(id);
 		element.style.display = {"block": "none"}[element.style.display] || "block";
 		document.getElementById('shadow').style.display = element.style.display;
 	}
-	</script>
-	<script src="pensebem-min.js" type="text/javascript">
+	window.onsvgload = window.PB_init;
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-24416159-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
 	</script>
 </head>
 <body>
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-24416159-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-<div id="pb-container">
+<div id="pb-container"><script type="image/svg+xml">
 #include "pensebem-min.svg"
-</div>
+</script></div>
 
 <a href="http://github.com/lpereira/Pense-Bem"><img style="position: absolute; top: 0; right: 0; border: 0;" src="forkme.png" alt="Fork me on GitHub"></a>
 
@@ -95,18 +95,10 @@ href="http://github.com/lpereira/Pense-Bem">GitHub</a>.</p>
 <p>O SVG foi comprimido com o <a
 href="http://www.codedread.com/scour/">Scour</a>, o JavaScript foi
 minificado e compilado com o <a
-href="http://code.google.com/closure/">Closure</a>.  Demais ferramentas GNU,
+href="http://code.google.com/closure/">Closure</a>.  Compatibilidade com
+browsers antigos foi conseguida com ajuda do <a
+href="http://code.google.com/p/svgweb/">SVGWeb</a>.  Demais ferramentas GNU,
 como make, o pré-processador C, sed, dentre outras, também foram usadas.</p>
-<p>Até onde pudemos testar, apenas o <a
-href="http://www.mozilla.com/en-US/firefox/fx/">Firefox 4</a> (ou superior),
-o <a href="http://www.google.com/chrome">Chrome 12</a> (ou superior), ou
-browsers baseados em <a
-href="http://trac.webkit.org/wiki/WebKitGTK">WebKitGTK</a> (como versões
-recentes do <a href="http://projects.gnome.org/epiphany/">Epiphany</a>) são
-capazes de executar este simulador.  Estamos trabalhando para aumentar a
-compatibilidade com outros browsers, mas isto pode demorar algum tempo.  Se
-quiser ajudar nessa empreitada, a fita "<i>Fork me on Github</i>" está no
-canto superior direito para isso.</p>
 
 <h2>Como funciona o negócio dos livros de atividade?</h2>
 <p>Dadas as especificações do microcontrolador, seria impossível guardar

@@ -15,8 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48+devel r10420 custom"
-   sodipodi:docname="pensebem-realistic.svg"
-   onload="PB.init(evt)">
+   sodipodi:docname="pensebem-realistic.svg">
   <script
      xlink:href="pensebem.js"
      id="script4251" />
