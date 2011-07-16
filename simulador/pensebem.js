@@ -309,6 +309,32 @@ Aritmetica = {
         Display.setSpecialDigit2('=');
     },
     advanceQuestion: function() {
+        function isDivisionByZero() {
+            return Aritmetica.operation == '/' && Aritmetica.secondDigit == 0;
+        }
+        function isSumOrSubtractionWithZero() {
+            return (Aritmetica.operation == '+' || Aritmetica.operation == '-') && Aritmetica.secondDigit == 0;
+        }
+        function isDivisionOrMultiplication() {
+            return Aritmetica.operation == '*' || Aritmetica.operation == '/';
+        }
+        function isDivisionOrMultiplicationWithOne() {
+            return isDivisionOrMultiplication() && Aritmetica.secondDigit == 1;
+        }
+        function isZeroDividedOrMultipliedBySomething() {
+            return isDivisionOrMultiplication() && Aritmetica.firstDigit == 0;
+        }
+        function isDivisionOrSubtractionAndResultIsLessThanOne() {
+            return (Aritmetica.operation == '/' || Aritmetica.operation == '-') && Aritmetica.firstDigit < Aritmetica.secondDigit;
+        }
+        function isForbiddenCombination() {
+            return isDivisionByZero() ||
+                   isSumOrSubtractionWithZero() ||
+                   isDivisionOrMultiplicationWithOne() ||
+                   isDivisionOrSubtractionAndResultIsLessThanOne() ||
+                   (Aritmetica.showResultFlag && isZeroDividedOrMultipliedBySomething());
+        }
+
         if (Aritmetica.currentQuestion++ >= Aritmetica.numQuestions) {
             PB.delay(10, function() {
                 Display.showNumberAtDigit(Aritmetica.points, 7);
@@ -321,20 +347,18 @@ Aritmetica = {
         }
         Aritmetica.tries = 0;
 
-        var forbiddenCombination = true;
-        while (forbiddenCombination) {
+        do {
             Aritmetica.operation = Aritmetica.possibleOperations[~~ (Math.random() * (Aritmetica.possibleOperations.length - 1))];
             Aritmetica.firstDigit = ~~ (Math.random() * 99);
             Aritmetica.secondDigit = ~~ (Math.random() * 9);
-            forbiddenCombination = ((Aritmetica.operation == '/') && (Aritmetica.secondDigit == 0)) ||
-                                    ((Aritmetica.operation in ['-', '+']) && (Aritmetica.secondDigit == 0)) ||
-                                    ((Aritmetica.operation in ['/', '*']) && (Aritmetica.secondDigit == 1));
-        }
+        } while (isForbiddenCombination());
 
-        if (Aritmetica.secondDigit) Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
+        if (Aritmetica.secondDigit && isDivisionOrMultiplication())
+            Aritmetica.firstDigit -= Aritmetica.firstDigit % Aritmetica.secondDigit;
         Aritmetica.answer = Aritmetica.OperatorFunctionTable[Aritmetica.operation](Aritmetica.firstDigit, Aritmetica.secondDigit);
         Aritmetica.redrawScreen();
-        if (Aritmetica.showOperatorFlag) PB.prompt(7, 3);
+        if (Aritmetica.showOperatorFlag)
+            PB.prompt(7, 3);
     }
 };
 
