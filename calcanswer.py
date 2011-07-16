@@ -11,8 +11,8 @@ def answer(book,question):
 		 "ddcbdababdacaccb",
 		 "aabbcdcdddacaabc",
 		 "ccabadbbbcdcddda", # Position [1] is just a hint. More info needed!
-		 "aXcbadbadbbddccb", # Position [1] is unknown. More info needed!
-		 "aXdbadbbdcccbadb", # Position [1] is unknown. More info needed!
+		 "adcbadbadbbddccb", # Position [1] is just a hint. More info needed!
+		 "addbadbbdcccbadb", # Position [1] is just a hint. More info needed!
 		 "ddbbdabbdabdabcc", # Position [1] is just a hint. More info needed!
 		 "bddccddaacdbbddb", # Position [1] is just a hint. More info needed!
 		 "cbcdcbbbdabdddcd"] # Position [1] is just a hint. More info needed!
@@ -25,9 +25,8 @@ def answer(book,question):
 	#print 'calc_candidate', ((book+question)%16)
 
 	pattern = pattern_list[pattern_number]
-	candidate = pattern[(book+question)%16]
 
-	return candidate if candidate != "X" else None
+	return pattern[(book+question)%16]
 	
 correct = 0
 unknown = 0
