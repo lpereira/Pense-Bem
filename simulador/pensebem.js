@@ -567,7 +567,7 @@ AdivinheONumero = {
         AdivinheONumero.tries = 0;
         Display.showNumberAtDigit(AdivinheONumero.firstDigit, 2);
         Display.showNumberAtDigit(AdivinheONumero.secondDigit, 6);
-        PB.prompt(4, 2);
+        PB.prompt(4, 2, '*');
     },
     showAnswer: function(s) {
         Display.clear();
@@ -598,7 +598,7 @@ AdivinheONumero = {
             AdivinheONumero.tries++;
             if (AdivinheONumero.tries < AdivinheONumero.maxTries) {
                 Som.playSong(Songs.Wrong, function() {
-                    PB.prompt(4, 2);
+                    PB.prompt(4, 2, '*');
                 });
                 return;
             }
@@ -810,6 +810,7 @@ Prompt = {
     maxDigitSize: 3,
     initialDigit: 7,
     done: false,
+    promptCharacter: '-',
     reset: function() {
         Prompt.done = false;
         Prompt.input = '   ';
@@ -817,8 +818,9 @@ Prompt = {
         if (Prompt.initialDigit == 4 && Prompt.maxDigitSize == 2) {
             Display.setSpecialDigit(' ');
             Display.setSpecialDigit2(' ');
-        }
-        Display.blinkDigit(Prompt.initialDigit, '-');
+            Display.blinkSpecialDigit(Prompt.promptCharacter);
+        } else
+            Display.blinkDigit(Prompt.initialDigit, Prompt.promptCharacter);
     },
     getInput: function() {
         const value = Prompt.input;
@@ -1081,9 +1083,10 @@ PB = {
         PB.activity = m;
         PB.reset();
     },
-    prompt: function(initialDigit, maxDigitSize) {
+    prompt: function(initialDigit, maxDigitSize, promptCharacter) {
         Prompt.initialDigit = initialDigit || 7;
         Prompt.maxDigitSize = maxDigitSize || 3;
+        Prompt.promptCharacter = promptCharacter || '-';
         PB.previousActivity = PB.activity;
         PB.setActivity(Prompt, true);
     },
