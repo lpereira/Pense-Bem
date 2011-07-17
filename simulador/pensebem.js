@@ -52,10 +52,7 @@ Som = {
     },
     playSong: function(song, callback) {
         Som.songFinishedCallback = callback || function() {};
-        Som.playQueue = [];
-        for (var note in song) {
-            Som.playQueue.push(song[note]);
-        }
+        Som.playQueue = song;
         Som.playSoundQueue(true);
     },
     encodeBase64: function(str) {
@@ -92,8 +89,6 @@ Som = {
     },
     encode8BitAudio: function(data) {
         var n = data.length;
-        var integer = 0,
-            i;
 
         // 8-bit mono WAVE header template
         var header = 'RIFF<##>WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00<##><##>\x01\x00\x08\x00data<##>';
