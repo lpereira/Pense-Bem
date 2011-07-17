@@ -626,9 +626,10 @@ Livro = {
     StateChoosingBook: 0,
     StateQuestioning: 1,
     reset: function() {
-        Som.playSong(Songs.GameSelected);
-        Livro.state = Livro.StateChoosingBook;
-        PB.prompt();
+        Som.playSong(Songs.GameSelected, function() {
+            Livro.state = Livro.StateChoosingBook;
+            PB.prompt();
+        });
     },
     oneLoopIteration: function() {
         switch (Livro.state) {
