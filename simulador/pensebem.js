@@ -1046,6 +1046,11 @@ PB = {
         PB.setActivity(Standby);
         PB.reset();
         setInterval(PB.oneLoopIteration, 100);
+        PB.turnOnReminderTimer = setTimeout(PB.showReminder, 3000);
+    },
+    showReminder: function() {
+        document.getElementById('ligue-me-tip').setAttribute('display', 'true');
+        PB.turnOnReminderTimer = clearTimeout(PB.turnOnReminderTimer);
     },
     resetDefaultVariables: function() {
         PB.delayTable = {};
@@ -1073,6 +1078,9 @@ PB = {
         if (PB.activity) PB.activity.oneLoopIteration();
     },
     setActivity: function(m, keepScreenContents) {
+        if (PB.turnOnReminderTimer)
+            PB.turnOnReminderTimer = clearTimeout(PB.turnOnReminderTimer);
+        document.getElementById('ligue-me-tip').setAttribute('display', 'none');
         if (!keepScreenContents)
             Display.clear();
         PB.resetDefaultVariables();

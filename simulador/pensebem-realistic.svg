@@ -5249,4 +5249,29 @@
        id="rect10847"
        style="fill:url(#radialGradient10849);fill-opacity:1;stroke:none" />
   </g>
+  <g
+     inkscape:groupmode="layer"
+     id="ligue-me-tip"
+     inkscape:label="ligue"
+     style="display:none">
+    <g
+       id="g4732">
+      <path
+         inkscape:connector-curvature="0"
+         id="rect4719"
+         d="m 482.28125,164.96875 c -3.5943,0 -6.5,2.98782 -6.5,6.71875 l 0,29.25 c 0,3.73093 2.9057,6.71875 6.5,6.71875 l 73.90625,0 c 1.44286,1.04514 2.76523,2.04648 3.6875,2.96875 4.07508,4.07508 9.46459,15.52283 15.03125,14.03125 4.80125,-1.28649 4.69745,-10.82097 5.53125,-17 l 11.59375,0 c 3.5943,0 6.46875,-2.98782 6.46875,-6.71875 l 0,-29.25 c 0,-3.73093 -2.87445,-6.71875 -6.46875,-6.71875 l -109.75,0 z"
+         style="fill:#000000;fill-opacity:0.8" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4728"
+         y="194.97256"
+         x="492.86285"
+         style="font-size:29.39383888px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#fff;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="194.97256"
+           x="492.86285"
+           id="tspan4730"
+           sodipodi:role="line">Ligue!</tspan></text>
+    </g>
+  </g>
 </svg>
