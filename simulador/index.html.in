@@ -48,16 +48,30 @@ quase um computador.</p>
 aritmética, desenvolvimento da memória e musical. Além disso, há a
 possibilidade de responder a questionários sobre diversos assuntos usando
 livros de atividade.</p>
-<p>Uma propaganda da época, disponível no <a
-href="http://www.youtube.com">YouTube</a>:</p> <p><center><iframe
-width="425" height="349" src="http://www.youtube.com/embed/xXkeI5c5BRw"
-frameborder="0" allowfullscreen></iframe></center></p> <p>Em termos de
-hardware, o Pense Bem não passa de um microcontrolador <a
+<p>
+<center><table>
+	<tr>
+		<td align="center"><small>Uma propaganda da época:</small></td>
+		<td align="center"><small>Demonstração do brinquedo:</small></td>
+	</tr>
+	<tr>
+		<td><center><iframe width="425" height="349" src="http://www.youtube.com/embed/xXkeI5c5BRw" frameborder="0" allowfullscreen></iframe></center></td>
+		<td><center><iframe width="425" height="349" src="http://www.youtube.com/embed/JucA8TwJzBE" frameborder="0" allowfullscreen></iframe></center></td>
+	</tr>
+</table></center>
+</p>
+
+<h2>O que tem dentro do Pense Bem, afinal?</h2>
+<p>O projeto eletrônico do brinquedo é bem simples. O único componente ativo
+é um microcontrolador <a
 href="http://en.wikipedia.org/wiki/Zilog_Z8">Z8</a>, da Zilog.  Este
 microcontrolador possui um processador de 8 bits, frequência máxima de 8MHz,
 128 bytes de RAM e 2KiB de ROM.  Modesto para qualquer padrão, mas
 perfeitamente capaz de controlar o brinquedo, com um display de LEDs (com
 segmentos retangulares) e um pequeno buzzer piezoelétrico.</p>
+<p>Este blog mostra <a
+href="http://www.pakequis.com.br/2010/01/por-dentro-do-pense-bem-da-tectoy.html">bem
+as entranhas</a> do Pense Bem.</p>
 
 <h2>Qual a razão de simular um Pense Bem?</h2>
 <p>A idéia original era escrever um emulador, para entender como tais
