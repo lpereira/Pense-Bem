@@ -1,5 +1,12 @@
+<?php
+header('Content-Type: text/css');
+?>
 body {
-        background: darkslategray url('squidfingers.com.156.gif');
+<?php
+        $patterns = array('063.gif', '070.gif', '074.gif', '120.gif', 
+                          '148.gif', '156.gif', '157.gif')
+?>
+        background: darkslategray url('patterns/<?php echo $patterns[array_rand($patterns)]?>');
 }
 #svg2 {
         width: 660px;

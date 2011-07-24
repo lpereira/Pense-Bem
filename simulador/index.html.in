@@ -3,7 +3,7 @@
 <head>
 	<title>Pense Bem</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" media="screen, projection" href="pb.css">
+	<link rel="stylesheet" type="text/css" media="screen, projection" href="pb-css.php">
 	<script src="svg/svg.js" type="text/javascript" data-path="svg"></script>
 	<script src="pensebem-min.js" type="text/javascript"></script>
 	<script type="text/javascript">
