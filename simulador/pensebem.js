@@ -1133,22 +1133,53 @@ PB = {
 
 document.onkeydown = function(event) {
     const keyCode = {
-        13: 'ENTER',
-        19: 'PAUSE',
-        80: 'PAUSE',
-        27: 'DESL',
-        48: '0',
-        49: '1',
-        50: '2',
-        51: '3',
-        52: '4',
-        53: '5',
-        54: '6',
-        55: '7',
-        56: '8',
-        57: '9'
-    }[event.which];
-    if (keyCode) PB.buttonPress(keyCode);
+        'Enter': 'ENTER',
+        'P': 'PAUSE',
+        'p': 'PAUSE',
+        'Pause': 'PAUSE',
+        'Backspace': 'LIGA',
+        'Home': 'LIGA',
+        'End': 'DESL',
+        'Escape': 'DESL',
+        'l': 'LIVRO',
+        'L': 'LIVRO',
+        '0': '0',
+        '1': '1',
+        '2': '2',
+        '3': '3',
+        '4': '4',
+        '5': '5',
+        '6': '6',
+        '7': '7',
+        '8': '8',
+        '9': '9',
+        'F1': 'ADIÇÃO',
+        'F2': 'SUBTRAÇÃO',
+        'F3': 'MULTIPLICAÇÃO',
+        'F4': 'DIVISÃO',
+        'F5': 'ARITMÉTICA',
+        'F6': 'OPERAÇÃO',
+        'F7': 'SIGA-ME',
+        'F8': 'MEMÓRIA-TONS',
+        'F9': 'NÚMERO-DO-MEIO',
+        'F10': 'ADIVINHE-O-NÚMERO',
+        'A': 'A',
+        'B': 'B',
+        'C': 'C',
+        'D': 'D',
+        'a': 'A',
+        'b': 'B',
+        'c': 'C',
+        'd': 'D',
+        '+': '+',
+        '-': '-',
+        '*': '*',
+        '/': '/'
+    }[event.key];
+    if (keyCode) {
+        PB.buttonPress(keyCode);
+        event.preventDefault();
+    }
 };
 
 //If we want to fix bugs found on the original machine
