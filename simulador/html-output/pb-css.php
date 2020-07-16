@@ -7,13 +7,8 @@ body {
                           '148.gif', '156.gif', '157.gif')
 ?>
         background: darkslategray url('patterns/<?php echo $patterns[array_rand($patterns)]?>');
-}
-#svg2 {
-        width: 660px;
-        position: relative;
-        left: 50%;
-        margin-left: -330px;
-        vertical-align: middle;
+        margin: 0;
+        padding: 0;
 }
 #faq {
         position: absolute;
@@ -58,7 +53,7 @@ body {
         top: 0;
         bottom: 0;
         right: 0;
-        margin: auto;
-        height: 60%;
-        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 }
