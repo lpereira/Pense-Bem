@@ -9,7 +9,7 @@ def read():
 	# skip first line
 	l = f.readline()
 
-	for l in f.xreadlines():
+	for l in f.readlines():
 		l = l.rstrip()
 		if not l:
 			continue
@@ -34,7 +34,7 @@ def dict():
 		book = int(bs/10)
 
 		key = (book, q)
-		if m.has_key(key):
+		if key in m:
 			# if there are duplicate samples, they should match
 			assert m[key] == a
 		m[key] = a
@@ -47,6 +47,6 @@ if __name__ == '__main__':
 	for bs,q,a in read():
 		if book == int(bs/10):
 			if q == question:
-				print a
+				print(a)
 				sys.exit(0)
 	sys.exit(1)

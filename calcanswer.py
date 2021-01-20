@@ -3,10 +3,8 @@
 import samples
 
 def answer(book,question):
-	#print 'book', book
-	#print 'question', question
-
-	pattern_list = ["cddbaadcbdaadcbb",
+	pattern_list = [
+		 "cddbaadcbdaadcbb",
 		 "ccbdddbdababdaca",
 		 "ddcbdababdacaccb",
 		 "aabbcdcdddacaabc",
@@ -15,14 +13,10 @@ def answer(book,question):
 		 "addbadbbdcccbadb", # Position [1] is just a hint. More info needed!
 		 "ddbbdabbdabdabcc", # Position [1] is just a hint. More info needed!
 		 "bddccddaacdbbddb", # Position [1] is just a hint. More info needed!
-		 "cbcdcbbbdabdddcd"] # Position [1] is just a hint. More info needed!
-
-	pattern_number = (question - 1) / 15 # For each 15 questions the pattern changes (1-15 != 16-30 != ...)
+		 "cbcdcbbbdabdddcd"  # Position [1] is just a hint. More info needed!
+	]
+	pattern_number = int((question - 1) / 15) # For each 15 questions the pattern changes (1-15 != 16-30 != ...)
 	question = (question % 15) if (question % 15) > 0 else 15 # Need question numbers ranging from 1 to 15
-
-	#print 'pattern_number', pattern_number
-	#print 'new_question', question
-	#print 'calc_candidate', ((book+question)%16)
 
 	pattern = pattern_list[pattern_number]
 
@@ -33,18 +27,17 @@ unknown = 0
 errors = 0
 m = samples.dict()
 for b,q in m.keys():
-	print 'book', b
 	a = m[b,q]
 	expected = answer(b, q)
 	if expected:
 		if a == expected:
 			correct += 1
 		else:
-			print "ERROR: b%d, q%d. collected sample: %s. calculated answer: %s" % (b, q, a, expected)
+			print(f"ERROR: book {b}, question {q}: {a} should be {expected}.")
 			errors += 1
 	else:
 		unknown += 1
 
-print "Correct answers: %d. Unknown answers: %d" % (correct, unknown)
+print(f"Correct answers: {correct}. Unknown answers: {unknown}")
 if errors:
-	print "%d ERRORS. :(" % (errors)
+	print("%d ERRORS. :(" % (errors))
