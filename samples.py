@@ -30,14 +30,11 @@ def dict():
 	Use if you don't want to get duplicates.
 	"""
 	m = {}
-	for bs,q,a in read():
-		book = int(bs/10)
-
-		key = (book, q)
-		if key in m:
-			# if there are duplicate samples, they should match
-			assert m[key] == a
-		m[key] = a
+	samples = list(open('SAMPLES').read())
+	for book in range(99):
+		for q in range(150):
+			a = samples.pop(0)
+			m[(book+1, q+1)] = a
 	return m
 
 if __name__ == '__main__':
