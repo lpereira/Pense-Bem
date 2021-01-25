@@ -2,7 +2,13 @@
 
 import samples
 
-def answer(book, question):
+answers = []
+
+def precalc():
+	global answers
+	for b in range(99):
+		answers.append([])
+
 	pattern1 = list("dbaadcbdaadcbbc"
                         "bdddbdababdacac"
                         "cbdababdacaccbd"
@@ -34,7 +40,12 @@ def answer(book, question):
                         "12012031321213323020123321303210"
                         "013020120331")
 
-	for b in range(book-1):
+	for b in range(99):
+		if b == 0:
+			for q in range(150):
+				answers[0].append(pattern1[q])
+			continue
+
 		first = pattern1[0]
 		for q in range(150):
 			v = 0
@@ -48,27 +59,30 @@ def answer(book, question):
 
 			pattern1[q] = chr(ord('a') + (ord(prev) - ord('a') + int(v)) % 4)
 
-	return pattern1[question-1]
+		for q in range(150):
+			answers[b].append(pattern1[q])
 
+def answer(book, question):
+#	global answers
+	return answers[book-1][question-1]
+
+precalc()
 	
 import sys
 correct = 0
-unknown = 0
 errors = 0
 m = samples.dict()
 for b,q in m.keys():
 	expected = m[b,q]
 	calculated = answer(b, q)
-	if calculated:
-		if calculated == expected:
-			correct += 1
-		else:
-			print(f"ERROR: book {b}, question {q}: Miscalculated as {calculated}. Should be {expected}.")
-			sys.exit(-1)
-			errors += 1
-	else:
-		unknown += 1
 
-print(f"Correct answers: {correct}. Unknown answers: {unknown}")
+	if calculated == expected:
+		correct += 1
+	else:
+		print(f"ERROR: book {b}, question {q}: Miscalculated as {calculated}. Should be {expected}.")
+		sys.exit(-1)
+		errors += 1
+
+print(f"Correct answers: {correct} out of {99*150} [{100.0 * correct / (99*150):.01f}%].")
 if errors:
 	print("%d ERRORS. :(" % (errors))
