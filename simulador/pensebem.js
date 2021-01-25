@@ -620,11 +620,75 @@ NumeroDoMeio = {
 Livro = {
     StateChoosingBook: 0,
     StateQuestioning: 1,
+    answers: Array(),
     reset: function() {
         Som.playSong(Songs.GameSelected, function() {
             Livro.state = Livro.StateChoosingBook;
             PB.prompt();
         });
+    },
+    preCalc: function() {
+	for (var b in range(99)){
+		Livro.answers.append(Array());
+        }
+
+	var pattern1 = Array("dbaadcbdaadcbbc\
+                              bdddbdababdacac\
+                              cbdababdacaccbd\
+                              bbcdcdddacaabca\
+                              abadbbbcdcdddac\
+                              cbadbadbbddccba\
+                              dbadbbdcccbadba\
+                              bbdabbdabdabccd\
+                              dccddaacdbbddbb\
+                              cdcbbbdabdddcdc");
+
+	const pattern2 = Array("22221202301023123110332032313302\
+                                03022121320233203323333220221221\
+                                30303330010113102300312222030031\
+                                22201303322312111332102302332023\
+                                12033033201101201022100330112212\
+                                31101032132131211313212111330313\
+                                23120203032010023131303302312120\
+                                03233301131332001130130102322321\
+                                00101020113320201200223033300200\
+                                20332303233320232301303322112030\
+                                33000131223323032222211303211222\
+                                01022012130321201023122111120300\
+                                31213021320123211301301322230130\
+                                22030130333312012220221103001133\
+                                10031131131230212010110223103300\
+                                32322123132020333001212020032303\
+                                10302221221023033011310303012012\
+                                12012031321213323020123321303210\
+                                013020120331");
+
+	for (var b in range(99)){
+		if (b == 0){
+			for (var q in range(150))
+				Livro.answers[0].append(pattern1[q]);
+			continue;
+                }
+
+		var first = pattern1[0];
+		for (var q in range(150)){
+			var v = 0;
+			var prev;
+
+			if (q%30 == 14 || q == 149)
+				v = pattern2.pop(0);
+
+			if (q == 149)
+				prev = first;
+			else
+				prev = pattern1[q+1];
+
+			pattern1[q] = 'a' + (prev - 'a' + v) % 4;
+		}
+
+		for (var q in range(150))
+			Livro.answers[b].append(pattern1[q]);
+	}
     },
     oneLoopIteration: function() {
         switch (Livro.state) {
@@ -713,7 +777,7 @@ Livro = {
         Livro.displayQuestionPrompt();
     },
     getCorrectAnswer: function() {
-        return 'CDDBAADCBDAADCBB'[(Livro.bookNumber + Livro.currentQuestion) & 15];
+        return Livro.answers[Livro.bookNumber][Livro.currentQuestion];
     },
     buttonPress: function(b) {
         switch (Livro.state) {
