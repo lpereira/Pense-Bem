@@ -678,7 +678,8 @@ Livro = {
         switch (Livro.state) {
         case Livro.StateChoosingBook:
             if (!Prompt.done) return;
-            const bookCode = Prompt.getInput();
+            // The prompt pads short input with blanks: they are leading zeros.
+            const bookCode = Prompt.getInput().replace(/ /g, '0');
             const bookNumber = parseInt(bookCode.substring(0, 2));
             const sectionNumber = parseInt(bookCode.substring(2));
 
@@ -710,7 +711,7 @@ Livro = {
         }
     },
     chooseRandomQuestion: function() {
-        Livro.currentQuestion = ~~(Math.random() * (Livro.maxQuestion - 1)) + 1;
+        Livro.currentQuestion = ~~(Math.random() * Livro.maxQuestion) + 1;
     },
     highlightAnswer: function(answer, blink) {
         Display.clear();
@@ -726,6 +727,7 @@ Livro = {
     },
     displayQuestionPrompt: function() {
         Display.clear();
+        Livro.questionShownAt = PB.ticks + 3;
         PB.delay(3, function() {
             Display.showNumberAtDigit(Livro.currentQuestion, 3);
             for (var i = 4; i <= 7; i++)
@@ -775,8 +777,8 @@ Livro = {
             case 'C':
             case 'D':
                 // A song re-enables the keyboard when it ends, before the next
-                // question shows up: ignore answers until it does.
-                if (Livro.answering) return;
+                // question shows up: ignore answers until it is on screen.
+                if (Livro.answering || PB.ticks < Livro.questionShownAt) return;
                 Livro.answering = true;
                 PB.disableKeyboard();
 
