@@ -84,7 +84,9 @@ stdenvNoCC.mkDerivation {
   meta = {
     description = "Web simulator of the Tectoy Pense Bem educational toy";
     homepage = "https://github.com/lpereira/Pense-Bem";
-    license = lib.licenses.beerware;
+    # The simulator is Beerware; svg/svg.js (SVG Web) is Apache-2.0, see
+    # svg/COPYING.txt; the background patterns are public domain (FAQ).
+    license = with lib.licenses; [ beerware asl20 publicDomain ];
     platforms = lib.platforms.linux;
     mainProgram = "pensebem";
   };
