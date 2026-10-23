@@ -627,78 +627,63 @@ Livro = {
             PB.prompt();
         });
     },
+    // Answer keys of the 99 books (150 questions each) as strings of 'A'..'D',
+    // ported from calcanswer.py, which matches every answer in SAMPLES. Book 1
+    // is pattern1; each next book is the previous one rotated by one question,
+    // plus six digits of pattern2 as offsets (mod 4).
     preCalc: function() {
-	for (var b in range(99)){
-		Livro.answers.append(Array());
-        }
-
-	var pattern1 = Array("dbaadcbdaadcbbc\
-                              bdddbdababdacac\
-                              cbdababdacaccbd\
-                              bbcdcdddacaabca\
-                              abadbbbcdcdddac\
-                              cbadbadbbddccba\
-                              dbadbbdcccbadba\
-                              bbdabbdabdabccd\
-                              dccddaacdbbddbb\
-                              cdcbbbdabdddcdc");
-
-	const pattern2 = Array("22221202301023123110332032313302\
-                                03022121320233203323333220221221\
-                                30303330010113102300312222030031\
-                                22201303322312111332102302332023\
-                                12033033201101201022100330112212\
-                                31101032132131211313212111330313\
-                                23120203032010023131303302312120\
-                                03233301131332001130130102322321\
-                                00101020113320201200223033300200\
-                                20332303233320232301303322112030\
-                                33000131223323032222211303211222\
-                                01022012130321201023122111120300\
-                                31213021320123211301301322230130\
-                                22030130333312012220221103001133\
-                                10031131131230212010110223103300\
-                                32322123132020333001212020032303\
-                                10302221221023033011310303012012\
-                                12012031321213323020123321303210\
-                                013020120331");
-
-	for (var b in range(99)){
-		if (b == 0){
-			for (var q in range(150))
-				Livro.answers[0].append(pattern1[q]);
-			continue;
+        const pattern1 = ('dbaadcbdaadcbbc' +
+                          'bdddbdababdacac' +
+                          'cbdababdacaccbd' +
+                          'bbcdcdddacaabca' +
+                          'abadbbbcdcdddac' +
+                          'cbadbadbbddccba' +
+                          'dbadbbdcccbadba' +
+                          'bbdabbdabdabccd' +
+                          'dccddaacdbbddbb' +
+                          'cdcbbbdabdddcdc').split('');
+        const pattern2 = ('22221202301023123110332032313302' +
+                          '03022121320233203323333220221221' +
+                          '30303330010113102300312222030031' +
+                          '22201303322312111332102302332023' +
+                          '12033033201101201022100330112212' +
+                          '31101032132131211313212111330313' +
+                          '23120203032010023131303302312120' +
+                          '03233301131332001130130102322321' +
+                          '00101020113320201200223033300200' +
+                          '20332303233320232301303322112030' +
+                          '33000131223323032222211303211222' +
+                          '01022012130321201023122111120300' +
+                          '31213021320123211301301322230130' +
+                          '22030130333312012220221103001133' +
+                          '10031131131230212010110223103300' +
+                          '32322123132020333001212020032303' +
+                          '10302221221023033011310303012012' +
+                          '12012031321213323020123321303210' +
+                          '013020120331').split('');
+        const a = 'a'.charCodeAt(0);
+        for (var b = 0; b < 99; b++) {
+            if (b > 0) {
+                const first = pattern1[0];
+                for (var q = 0; q < 150; q++) {
+                    const v = (q % 30 == 14 || q == 149) ? parseInt(pattern2.shift(), 10) : 0;
+                    const prev = q == 149 ? first : pattern1[q + 1];
+                    pattern1[q] = String.fromCharCode(a + (prev.charCodeAt(0) - a + v) % 4);
                 }
-
-		var first = pattern1[0];
-		for (var q in range(150)){
-			var v = 0;
-			var prev;
-
-			if (q%30 == 14 || q == 149)
-				v = pattern2.pop(0);
-
-			if (q == 149)
-				prev = first;
-			else
-				prev = pattern1[q+1];
-
-			pattern1[q] = 'a' + (prev - 'a' + v) % 4;
-		}
-
-		for (var q in range(150))
-			Livro.answers[b].append(pattern1[q]);
-	}
+            }
+            Livro.answers.push(pattern1.join('').toUpperCase());
+        }
     },
     oneLoopIteration: function() {
         switch (Livro.state) {
         case Livro.StateChoosingBook:
             if (!Prompt.done) return;
-            const bookCode = Prompt.getInput();
+            // The prompt pads short input with blanks: they are leading zeros.
+            const bookCode = Prompt.getInput().replace(/ /g, '0');
             const bookNumber = parseInt(bookCode.substring(0, 2));
             const sectionNumber = parseInt(bookCode.substring(2));
 
-            if (sectionNumber < 1 || sectionNumber > 6 || bookCode < 1) {
+            if (bookNumber < 1 || sectionNumber < 1 || sectionNumber > 6) {
                 Display.clear();
                 Som.playSong(Songs.Wrong, PB.prompt);
                 return;
@@ -726,7 +711,7 @@ Livro = {
         }
     },
     chooseRandomQuestion: function() {
-        Livro.currentQuestion = ~~(Math.random() * (Livro.maxQuestion - 1)) + 1;
+        Livro.currentQuestion = ~~(Math.random() * Livro.maxQuestion) + 1;
     },
     highlightAnswer: function(answer, blink) {
         Display.clear();
@@ -742,15 +727,17 @@ Livro = {
     },
     displayQuestionPrompt: function() {
         Display.clear();
+        Livro.questionShownAt = PB.ticks + 3;
         PB.delay(3, function() {
             Display.showNumberAtDigit(Livro.currentQuestion, 3);
             for (var i = 4; i <= 7; i++)
                 Display.setDigit(i, '_');
         });
+        Livro.answering = false;
         PB.enableKeyboard();
     },
     advanceQuestion: function() {
-        if (Livro.question >= 0) {
+        if (Livro.answeredQuestions > 0) {
             Livro.points += PB.pointsByNumberOfTries(Livro.tries);
         }
         Livro.tries = 0;
@@ -777,7 +764,7 @@ Livro = {
         Livro.displayQuestionPrompt();
     },
     getCorrectAnswer: function() {
-        return Livro.answers[Livro.bookNumber][Livro.currentQuestion];
+        return Livro.answers[Livro.bookNumber - 1][Livro.currentQuestion - 1];
     },
     buttonPress: function(b) {
         switch (Livro.state) {
@@ -789,6 +776,10 @@ Livro = {
             case 'B':
             case 'C':
             case 'D':
+                // A song re-enables the keyboard when it ends, before the next
+                // question shows up: ignore answers until it is on screen.
+                if (Livro.answering || PB.ticks < Livro.questionShownAt) return;
+                Livro.answering = true;
                 PB.disableKeyboard();
 
                 if (Livro.getCorrectAnswer(b) == b) {
@@ -823,6 +814,7 @@ Livro = {
         }
     }
 };
+Livro.preCalc();
 
 //------------------------------------------------------------------------------
 Welcome = {
